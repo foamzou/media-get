@@ -1,2 +1,2 @@
-# audio-get
-Get the audio through the url
+# media-get
+Get the media through the url
