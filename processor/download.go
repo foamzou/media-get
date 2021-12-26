@@ -2,6 +2,7 @@ package processor
 
 import (
 	"fmt"
+	"os"
 	"path"
 
 	"github.com/foamzou/audio-get/ffmpeg"
@@ -21,6 +22,7 @@ func (p *Processor) download(mediaMeta *meta.MediaMeta, audios []*meta.Audio) er
 
 		fmt.Printf("start convert %d, download to : %s\n", i, tempOutputPath)
 		err = ffmpeg.ConvertToMp3(tempOutputPath, targetOutPath, adjustFileMeta(tempOutputPath, audio))
+		_ = os.Remove(tempOutputPath)
 		if err != nil {
 			fmt.Println(err)
 			return err

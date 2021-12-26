@@ -2,7 +2,6 @@ package processor
 
 import (
 	"github.com/foamzou/audio-get/args"
-	"github.com/foamzou/audio-get/processor/bilibili"
 )
 
 type Processor struct {
@@ -10,10 +9,8 @@ type Processor struct {
 }
 
 func (p *Processor) Process() (err error) {
-	b := bilibili.Core{
-		Opts: p.Opts,
-	}
-	mediaMeta, audios, err := b.FetchMetaAndResourceInfo()
+	processor := p.getProcessor()
+	mediaMeta, audios, err := processor.FetchMetaAndResourceInfo()
 	if err != nil {
 		return
 	}
