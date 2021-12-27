@@ -38,7 +38,7 @@ func (c *Core) fetchFromMV() (mediaMeta *meta.MediaMeta, audios []*meta.Audio, e
 		Artist: utils.RegexSingleMatchIgnoreError(html, `artistName=(.+?)&`,
 			utils.RegexSingleMatchIgnoreError(html, `data-author="(.+?)"`, ""),
 		),
-		Album: "网易MV",
+		Album: "网易Video",
 		Resource: &meta.Resource{
 			Url: videoUrl,
 			Headers: map[string]string{

@@ -18,6 +18,7 @@ func ConvertToMp3(inputFile, outputFile string, tag *MetaTag) error {
 	}
 
 	baseParams := []string{
+		"-y",
 		"-i", inputFile,
 		"-c:v", "copy",
 		"-strict", "experimental",
