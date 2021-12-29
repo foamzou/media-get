@@ -10,23 +10,21 @@ import (
 	"github.com/foamzou/audio-get/utils"
 )
 
-func (p *Processor) download(mediaMeta *meta.MediaMeta, audios []*meta.Audio) error {
-	for i, audio := range audios {
-		fmt.Printf("-----------------\n start fetch %d, url: %s\n", i, audio.Resource.Url)
-		tempOutputPath, targetOutPath := p.getOutputPaths(mediaMeta.Title)
+func (p *Processor) download(mediaMeta *meta.MediaMeta) error {
+	fmt.Printf("-----------------\n start fetch url: %s\n", mediaMeta.Audio.Url)
+	tempOutputPath, targetOutPath := p.getOutputPaths(mediaMeta.Title)
 
-		err := utils.Wget(audio.Resource.Url, tempOutputPath, audio.Resource.Headers)
-		if err != nil {
-			continue
-		}
+	err := utils.Wget(mediaMeta.Audio.Url, tempOutputPath, mediaMeta.Headers)
+	if err != nil {
+		return err
+	}
 
-		fmt.Printf("start convert %d, download to : %s\n", i, tempOutputPath)
-		err = ffmpeg.ConvertToMp3(tempOutputPath, targetOutPath, adjustFileMeta(tempOutputPath, audio))
-		_ = os.Remove(tempOutputPath)
-		if err != nil {
-			fmt.Println(err)
-			return err
-		}
+	fmt.Printf("start convert, download to : %s\n", tempOutputPath)
+	err = ffmpeg.ConvertToMp3(tempOutputPath, targetOutPath, adjustFileMeta(tempOutputPath, mediaMeta))
+	_ = os.Remove(tempOutputPath)
+	if err != nil {
+		fmt.Println(err)
+		return err
 	}
 	return nil
 }
@@ -55,11 +53,11 @@ func (p *Processor) getOutputPaths(fileTitle string) (tempFilePath, targetOutPat
 	return
 }
 
-func adjustFileMeta(filePath string, audio *meta.Audio) *ffmpeg.MetaTag {
+func adjustFileMeta(filePath string, mediaMeta *meta.MediaMeta) *ffmpeg.MetaTag {
 	metaTag := &ffmpeg.MetaTag{
-		Album:  audio.Album,
-		Title:  audio.Title,
-		Artist: audio.Artist,
+		Album:  mediaMeta.Album,
+		Title:  mediaMeta.Title,
+		Artist: mediaMeta.Artist,
 	}
 	mediaFormat, err := ffmpeg.GetMediaFormat(filePath)
 

@@ -9,7 +9,7 @@ import (
 	"github.com/foamzou/audio-get/utils"
 )
 
-func (c *Core) fetchFromMV() (mediaMeta *meta.MediaMeta, audios []*meta.Audio, err error) {
+func (c *Core) fetchFromMV() (mediaMeta *meta.MediaMeta, err error) {
 	url := strings.Replace(c.Opts.Url, "#", "/", 1)
 	html, err := fetchHtml(url)
 	if err != nil {
@@ -31,21 +31,16 @@ func (c *Core) fetchFromMV() (mediaMeta *meta.MediaMeta, audios []*meta.Audio, e
 	mediaMeta = &meta.MediaMeta{
 		Title:       songName,
 		Description: utils.RegexSingleMatchIgnoreError(html, `"description": "(.+?)"`, ""),
-	}
-
-	audios = append(audios, &meta.Audio{
-		Title: songName,
+		Album:       "网易Video",
 		Artist: utils.RegexSingleMatchIgnoreError(html, `artistName=(.+?)&`,
 			utils.RegexSingleMatchIgnoreError(html, `data-author="(.+?)"`, ""),
 		),
-		Album: "网易Video",
-		Resource: &meta.Resource{
-			Url: videoUrl,
-			Headers: map[string]string{
-				"user-agent": consts.UAMac,
-				"referer":    c.Opts.Url,
-			},
+		Audio: meta.Audio{Url: videoUrl},
+		Headers: map[string]string{
+			"user-agent": consts.UAMac,
+			"referer":    c.Opts.Url,
 		},
-	})
+	}
+
 	return
 }

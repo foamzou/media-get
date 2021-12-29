@@ -17,7 +17,7 @@ type ConvertResponse struct {
 	Data    string `json:"data"`
 }
 
-func (c *Core) fetchFromMlog() (mediaMeta *meta.MediaMeta, audios []*meta.Audio, err error) {
+func (c *Core) fetchFromMlog() (mediaMeta *meta.MediaMeta, err error) {
 	id, err := utils.RegexSingleMatch(c.Opts.Url, `id=(.+?)&`)
 	if err != nil {
 		return

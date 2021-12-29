@@ -17,7 +17,7 @@ type Core struct {
 
 const Album = "Bilibili"
 
-func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, audios []*meta.Audio, err error) {
+func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error) {
 	html, err := fetchHtml(c.Opts.Url)
 
 	// audio resource
@@ -45,19 +45,15 @@ func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, audios []*
 	}
 
 	audio := resource.Data.Dash.Audio[0]
-	audios = append(audios, &meta.Audio{
-		Title:  mediaMeta.Title,
-		Artist: getSinger(audioMeta),
-		Album:  Album,
-		Resource: &meta.Resource{
-			Url: audio.BaseUrl,
-			Headers: map[string]string{
-				"user-agent": consts.UAMac,
-				"referer":    c.Opts.Url,
-			},
-		},
-	})
-	return mediaMeta, audios, nil
+	mediaMeta.Artist = getSinger(audioMeta)
+	mediaMeta.Album = Album
+	mediaMeta.Headers = map[string]string{
+		"user-agent": consts.UAMac,
+		"referer":    c.Opts.Url,
+	}
+	mediaMeta.Audio.Url = audio.BaseUrl
+
+	return mediaMeta, nil
 }
 
 func getSinger(audioMeta *AudioMeta) string {
@@ -79,7 +75,7 @@ func getSinger(audioMeta *AudioMeta) string {
 }
 
 func fetchHtml(url string) (string, error) {
-	return utils.FetchHtml(url, map[string]string{
+	return utils.HttpGet(url, map[string]string{
 		"user-agent": consts.UAMac,
 	})
 }

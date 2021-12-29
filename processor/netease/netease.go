@@ -11,7 +11,7 @@ type Core struct {
 	Opts *args.Options
 }
 
-func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, audios []*meta.Audio, err error) {
+func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error) {
 	if strings.Contains(c.Opts.Url, "/program") {
 		return c.fetchFromProgram()
 	}
@@ -24,5 +24,5 @@ func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, audios []*
 	if strings.Contains(c.Opts.Url, "/mv") || strings.Contains(c.Opts.Url, "/video") {
 		return c.fetchFromMV()
 	}
-	return nil, nil, err
+	return nil, err
 }

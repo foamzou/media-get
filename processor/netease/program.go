@@ -27,7 +27,7 @@ type ProgramResource struct {
 	Description string `json:"description"`
 }
 
-func (c *Core) fetchFromProgram() (mediaMeta *meta.MediaMeta, audios []*meta.Audio, err error) {
+func (c *Core) fetchFromProgram() (mediaMeta *meta.MediaMeta, err error) {
 	url := strings.Replace(c.Opts.Url, "#", "/", 1)
 	html, err := fetchHtml(url)
 	if err != nil {
@@ -43,26 +43,23 @@ func (c *Core) fetchFromProgram() (mediaMeta *meta.MediaMeta, audios []*meta.Aud
 	if err != nil {
 		return
 	}
-	mediaMeta = &meta.MediaMeta{
-		Title:       resource.MainSong.Name,
-		Description: resource.Description,
-	}
 
 	var artists []string
 	for _, artist := range resource.MainSong.Artists {
 		artists = append(artists, artist.Name)
 	}
-	audios = append(audios, &meta.Audio{
-		Title:  resource.MainSong.Name,
-		Artist: strings.Join(artists, ", "),
-		Album:  resource.Dj.Brand,
-		Resource: &meta.Resource{
-			Url: getSongUrl(resource.MainSong.Id),
-			Headers: map[string]string{
-				"user-agent": consts.UAMac,
-				"referer":    c.Opts.Url,
-			},
+
+	mediaMeta = &meta.MediaMeta{
+		Title:       resource.MainSong.Name,
+		Description: resource.Description,
+		Album:       resource.Dj.Brand,
+		Artist:      strings.Join(artists, ", "),
+		Audio:       meta.Audio{Url: getSongUrl(resource.MainSong.Id)},
+		Headers: map[string]string{
+			"user-agent": consts.UAMac,
+			"referer":    c.Opts.Url,
 		},
-	})
+	}
+
 	return
 }

@@ -10,18 +10,18 @@ type Processor struct {
 
 func (p *Processor) Process() (err error) {
 	processor := p.getProcessor()
-	mediaMeta, audios, err := processor.FetchMetaAndResourceInfo()
+	mediaMeta, err := processor.FetchMetaAndResourceInfo()
 	if err != nil {
 		return
 	}
 
 	if !p.Opts.MetaOnly {
-		err := p.download(mediaMeta, audios)
+		err := p.download(mediaMeta)
 		if err != nil {
 			return err
 		}
 	}
 
-	p.outputMeta(mediaMeta, audios)
+	p.outputMeta(mediaMeta)
 	return
 }

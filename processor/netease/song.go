@@ -9,7 +9,7 @@ import (
 	"github.com/foamzou/audio-get/utils"
 )
 
-func (c *Core) fetchFromSong() (mediaMeta *meta.MediaMeta, audios []*meta.Audio, err error) {
+func (c *Core) fetchFromSong() (mediaMeta *meta.MediaMeta, err error) {
 	url := strings.Replace(c.Opts.Url, "#", "/", 1)
 	songIdStr, err := utils.RegexSingleMatch(url, `id=([\d]+)`)
 	if err != nil {
@@ -32,19 +32,14 @@ func (c *Core) fetchFromSong() (mediaMeta *meta.MediaMeta, audios []*meta.Audio,
 	mediaMeta = &meta.MediaMeta{
 		Title:       songName,
 		Description: utils.RegexSingleMatchIgnoreError(html, `"title": "(.+?)"`, ""),
+		Album:       utils.RegexSingleMatchIgnoreError(html, `og:music:album" content="(.+?)"[\s]*/>`, ""),
+		Artist:      utils.RegexSingleMatchIgnoreError(html, `og:music:artist" content="(.+?)"[\s]*/>`, ""),
+		Audio:       meta.Audio{Url: getSongUrl(songId)},
+		Headers: map[string]string{
+			"user-agent": consts.UAMac,
+			"referer":    c.Opts.Url,
+		},
 	}
 
-	audios = append(audios, &meta.Audio{
-		Title:  songName,
-		Artist: utils.RegexSingleMatchIgnoreError(html, `og:music:artist" content="(.+?)"[\s]*/>`, ""),
-		Album:  utils.RegexSingleMatchIgnoreError(html, `og:music:album" content="(.+?)"[\s]*/>`, ""),
-		Resource: &meta.Resource{
-			Url: getSongUrl(songId),
-			Headers: map[string]string{
-				"user-agent": consts.UAMac,
-				"referer":    c.Opts.Url,
-			},
-		},
-	})
 	return
 }

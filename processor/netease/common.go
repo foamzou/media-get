@@ -12,7 +12,7 @@ func getSongUrl(songId int) string {
 }
 
 func fetchHtml(url string) (string, error) {
-	return utils.FetchHtml(url, map[string]string{
+	return utils.HttpGet(url, map[string]string{
 		"user-agent": consts.UAMac,
 	})
 }
