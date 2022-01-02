@@ -15,6 +15,9 @@ One of the following way can be download
 - from the latest release page. [Click me](https://github.com/foamzou/media-get/releases)
 - brew install (soon...)
 
+## Requirement
+Require `ffmpeg`, please install it before use the tool
+
 ## Usage
 ```shell
 Usage:
@@ -35,13 +38,13 @@ Help Options:
 ## Build
 ```shell
 # linux
-CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build main.go
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" main.go
 
 # windows
-CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build main.go
+CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -ldflags "-s -w" main.go
 
 # macos
-CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build main.go
+CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -ldflags "-s -w" main.go
 ```
 
 
