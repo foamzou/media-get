@@ -23,11 +23,16 @@ func TestCore_FetchMetaAndResourceInfo(t *testing.T) {
 			wantMediaMeta: &meta.MediaMeta{
 				Title:       "【致我们单纯的小美好】主题曲：我多喜欢你，你会知道",
 				Description: "【致我们单纯的小美好】主题曲：我多喜欢你，你会知道",
+				Duration:    221,
+				CoverUrl:    "jpeg",
 				Artist:      "环球音乐宅急送",
 				Album:       "抖音Video",
-				Audio: meta.Audio{
+				Audios: []meta.Audio{{
 					Url: ".mp3",
-				},
+				}},
+				Videos: []meta.Video{{
+					Url: ".mp4",
+				}},
 			},
 		},
 	}

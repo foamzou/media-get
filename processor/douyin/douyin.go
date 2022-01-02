@@ -3,6 +3,7 @@ package douyin
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	"github.com/foamzou/audio-get/args"
 	"github.com/foamzou/audio-get/consts"
@@ -10,9 +11,6 @@ import (
 	"github.com/foamzou/audio-get/utils"
 )
 
-// https://v.douyin.com/8BxvWBm/
-
-// curl -H"user-agent:Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Mobile Safari/537.36"
 const ApiGetItemInfo = "https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids="
 
 type Core struct {
@@ -55,9 +53,18 @@ func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error)
 	mediaMeta = &meta.MediaMeta{
 		Title:       metaItem.Desc,
 		Description: metaItem.Desc,
+		Duration:    metaItem.Duration / 1000,
 		Album:       "抖音Video",
 		Artist:      metaItem.Author.Nickname,
-		Audio:       meta.Audio{Url: metaItem.Music.PlayUrl.Uri},
+		Audios:      []meta.Audio{{Url: metaItem.Music.PlayUrl.Uri}},
+		CoverUrl:    metaItem.Video.OriginCover.UrlList[0],
+		Videos: []meta.Video{{
+			Url:    metaItem.Video.PlayAddr.UrlList[0],
+			Width:  metaItem.Video.Width,
+			Height: metaItem.Video.Height,
+			Ratio:  formatRatio(metaItem.Video.Ratio),
+		}},
+		ResourceType: consts.ResourceTypeVideo,
 		Headers: map[string]string{
 			"user-agent": consts.UAAndroid,
 			"referer":    redirectUrl,
@@ -65,6 +72,10 @@ func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error)
 	}
 
 	return
+}
+
+func formatRatio(dyRatio string) string {
+	return strings.Replace(dyRatio, "p", "P", 1)
 }
 
 func getVideoId(inputUrl string) (string, error) {
