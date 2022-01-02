@@ -42,7 +42,7 @@ func Test_getOutputPaths(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			p := &Processor{Opts: tt.args.opts}
-			gotTempFilePath, gotTargetOutPath := p.getOutputPaths(tt.args.fileTitle)
+			gotTempFilePath, gotTargetOutPath := p.getOutputPaths(tt.args.fileTitle, "mp3")
 			if gotTempFilePath != tt.wantTempFilePath {
 				t.Errorf("getOutputPaths() gotTempFilePath = %v, want %v", gotTempFilePath, tt.wantTempFilePath)
 			}

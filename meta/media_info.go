@@ -5,23 +5,27 @@ type MediaMeta struct {
 	Description string `json:"description"`
 	Artist      string `json:"artist"`
 	Album       string `json:"album"`
-	Duration    int    `json:"duration"`
+	Duration    int    `json:"duration"` // second
 	CoverUrl    string `json:"cover_url"`
 	PublicTime  int64  `json:"public_time"`
 
 	Headers map[string]string `json:"-"`
 
-	Audio Audio `json:"audio"`
-	Video Video `json:"video"`
+	ResourceType string `json:"resource_type"`
+
+	Audios []Audio `json:"audios"`
+	Videos []Video `json:"videos"`
 }
 
 type Audio struct {
-	Url string `json:"url"`
+	Url     string `json:"url"`
+	BitRate string `json:"bit_rate"`
 }
 
 type Video struct {
-	Url    string `json:"url"`
-	Width  int    `json:"width"`
-	Height int    `json:"height"`
-	Ratio  string `json:"ratio"`
+	Url            string `json:"url"`
+	Width          int    `json:"width"`
+	Height         int    `json:"height"`
+	Ratio          string `json:"ratio"`
+	NeedExtraAudio bool   `json:"need_extra_audio"`
 }

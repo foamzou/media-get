@@ -50,11 +50,13 @@ func (c *Core) fetchFromProgram() (mediaMeta *meta.MediaMeta, err error) {
 	}
 
 	mediaMeta = &meta.MediaMeta{
-		Title:       resource.MainSong.Name,
-		Description: resource.Description,
-		Album:       resource.Dj.Brand,
-		Artist:      strings.Join(artists, ", "),
-		Audio:       meta.Audio{Url: getSongUrl(resource.MainSong.Id)},
+		Title:        resource.MainSong.Name,
+		Description:  resource.Description,
+		Duration:     resource.MainSong.Duration / 1000,
+		Album:        resource.Dj.Brand,
+		Artist:       strings.Join(artists, ", "),
+		Audios:       []meta.Audio{{Url: getSongUrl(resource.MainSong.Id)}},
+		ResourceType: consts.ResourceTypeAudio,
 		Headers: map[string]string{
 			"user-agent": consts.UAMac,
 			"referer":    c.Opts.Url,

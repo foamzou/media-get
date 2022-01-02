@@ -8,25 +8,32 @@ import (
 	"github.com/foamzou/audio-get/meta"
 )
 
+type CheckStruct struct {
+	name      string
+	got       interface{}
+	want      interface{}
+	condition string
+}
+
 func TestMediaMeta(t *testing.T, gotMediaMeta, wantMediaMeta *meta.MediaMeta) {
 	if gotMediaMeta == nil {
 		t.Errorf("gotMediaMeta is nil")
 		return
 	}
-	checkList := []struct {
-		name      string
-		got       interface{}
-		want      interface{}
-		condition string
-	}{
+	checkList := []CheckStruct{
 		{"Title", gotMediaMeta.Title, wantMediaMeta.Title, "="},
 		{"Description", gotMediaMeta.Description, wantMediaMeta.Description, "="},
+		{"Duration", gotMediaMeta.Duration, wantMediaMeta.Duration, "="},
+		{"CoverUrl", gotMediaMeta.CoverUrl, wantMediaMeta.CoverUrl, "contain"},
 		{"Artist", gotMediaMeta.Artist, wantMediaMeta.Artist, "="},
 		{"Album", gotMediaMeta.Album, wantMediaMeta.Album, "="},
-		{"Audio.Url", gotMediaMeta.Audio.Url, wantMediaMeta.Audio.Url, "contain"},
+		{"Audios.Url", gotMediaMeta.Audios[0].Url, wantMediaMeta.Audios[0].Url, "contain"},
+	}
+	if wantMediaMeta.Videos != nil && len(wantMediaMeta.Videos) > 1 {
+		checkList = append(checkList, CheckStruct{"Videos.Url", gotMediaMeta.Videos[0].Url, wantMediaMeta.Videos[0].Url, "contain"})
 	}
 	for _, checkItem := range checkList {
-		if checkItem.want != nil {
+		if checkItem.want != nil && checkItem.want != 0 && checkItem.want != "" {
 			if checkItem.condition == "=" && checkItem.got != checkItem.want {
 				t.Errorf("check %s failed. Should give: %v, but got: %v", checkItem.name, checkItem.want, checkItem.got)
 			}

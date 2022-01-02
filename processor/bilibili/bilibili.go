@@ -32,7 +32,10 @@ func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error)
 	}
 
 	// audio meta
-	mediaMeta = &meta.MediaMeta{}
+	mediaMeta = &meta.MediaMeta{
+		Duration:     resource.Data.Dash.Duration,
+		ResourceType: consts.ResourceTypeVideo,
+	}
 	metaJson := utils.RegexSingleMatchIgnoreError(html, `__INITIAL_STATE__=(.+?);\(function`, "{}")
 	audioMeta := &AudioMeta{}
 	err = json.Unmarshal([]byte(metaJson), audioMeta)
@@ -44,16 +47,46 @@ func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error)
 		mediaMeta.Description = audioMeta.VideoData.Description
 	}
 
-	audio := resource.Data.Dash.Audio[0]
+	audio := resource.Data.Dash.Audios[0]
 	mediaMeta.Artist = getSinger(audioMeta)
 	mediaMeta.Album = Album
 	mediaMeta.Headers = map[string]string{
 		"user-agent": consts.UAMac,
 		"referer":    c.Opts.Url,
 	}
-	mediaMeta.Audio.Url = audio.BaseUrl
+	mediaMeta.Audios = append(mediaMeta.Audios, meta.Audio{
+		Url:     audio.BaseUrl,
+		BitRate: consts.BitRate128,
+	})
+
+	for _, bilibiliVideo := range resource.Data.Dash.Videos {
+		mediaMeta.Videos = append(mediaMeta.Videos, meta.Video{
+			Url:            bilibiliVideo.BaseUrl,
+			Width:          bilibiliVideo.Width,
+			Height:         bilibiliVideo.Height,
+			Ratio:          getRatioById(bilibiliVideo.Id),
+			NeedExtraAudio: true,
+		})
+	}
 
 	return mediaMeta, nil
+}
+
+func getRatioById(id int) string {
+	switch id {
+	case 16:
+		return consts.Ratio360
+	case 32:
+		return consts.Ratio480
+	case 64:
+		return consts.Ratio720
+	case 80:
+		return consts.Ratio1080
+	case 112:
+		return consts.Ratio1080Plus
+	default:
+		return consts.RatioUnknown
+	}
 }
 
 func getSinger(audioMeta *AudioMeta) string {

@@ -3,12 +3,20 @@ package bilibili
 type AudioResource struct {
 	Data struct {
 		Dash struct {
-			Duration int `json:"duration"`
-			Audio    []struct {
+			Duration int     `json:"duration"`
+			Videos   []Video `json:"video"`
+			Audios   []struct {
 				BaseUrl string `json:"baseUrl"`
 			} `json:"audio"`
 		} `json:"dash"`
 	} `json:"data"`
+}
+
+type Video struct {
+	Id      int    `json:"id"`
+	BaseUrl string `json:"baseUrl"`
+	Width   int    `json:"width"`
+	Height  int    `json:"height"`
 }
 
 type AudioMeta struct {

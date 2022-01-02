@@ -12,7 +12,7 @@ const MetaFormatPlain = "plain"
 
 func (p *Processor) outputMeta(mediaMeta *meta.MediaMeta) {
 	// json output
-	if p.Opts.MetaFormat == MetaFormatJson {
+	if p.Opts.MetaFormat != MetaFormatPlain {
 		jsonByte, err := json.MarshalIndent(mediaMeta, "", "    ")
 		if err != nil {
 			panic(err)
@@ -21,8 +21,8 @@ func (p *Processor) outputMeta(mediaMeta *meta.MediaMeta) {
 		return
 	}
 
-	// plain output
+	// todo plain output
 	fmt.Println(fmt.Sprintf("[Title] %s\n[Description] %s\n\n", mediaMeta.Title, mediaMeta.Description))
 	fmt.Println(fmt.Sprintf("Artist: %s\n\tAlbum: %s\n\tResource: %s",
-		mediaMeta.Artist, mediaMeta.Album, mediaMeta.Audio.Url))
+		mediaMeta.Artist, mediaMeta.Album, mediaMeta.Audios[0].Url))
 }

@@ -1,7 +1,6 @@
 package netease
 
 import (
-	"strconv"
 	"strings"
 
 	"github.com/foamzou/audio-get/consts"
@@ -11,16 +10,13 @@ import (
 
 func (c *Core) fetchFromSong() (mediaMeta *meta.MediaMeta, err error) {
 	url := strings.Replace(c.Opts.Url, "#", "/", 1)
-	songIdStr, err := utils.RegexSingleMatch(url, `id=([\d]+)`)
-	if err != nil {
-		return
-	}
-	songId, err := strconv.Atoi(songIdStr)
-	if err != nil {
+	songId := utils.RegexSingleMatchIntIgnoreError(url, `id=([\d]+)`, 0)
+	if songId == 0 {
 		return
 	}
 
 	html, err := fetchHtml(url)
+
 	if err != nil {
 		return
 	}
@@ -30,11 +26,13 @@ func (c *Core) fetchFromSong() (mediaMeta *meta.MediaMeta, err error) {
 	)
 
 	mediaMeta = &meta.MediaMeta{
-		Title:       songName,
-		Description: utils.RegexSingleMatchIgnoreError(html, `"title": "(.+?)"`, ""),
-		Album:       utils.RegexSingleMatchIgnoreError(html, `og:music:album" content="(.+?)"[\s]*/>`, ""),
-		Artist:      utils.RegexSingleMatchIgnoreError(html, `og:music:artist" content="(.+?)"[\s]*/>`, ""),
-		Audio:       meta.Audio{Url: getSongUrl(songId)},
+		Title:        songName,
+		Description:  utils.RegexSingleMatchIgnoreError(html, `"title": "(.+?)"`, ""),
+		Duration:     utils.RegexSingleMatchIntIgnoreError(html, `property="music:duration" content="(.+?)"`, 0),
+		Album:        utils.RegexSingleMatchIgnoreError(html, `og:music:album" content="(.+?)"[\s]*/>`, ""),
+		Artist:       utils.RegexSingleMatchIgnoreError(html, `og:music:artist" content="(.+?)"[\s]*/>`, ""),
+		Audios:       []meta.Audio{{Url: getSongUrl(songId)}},
+		ResourceType: consts.ResourceTypeAudio,
 		Headers: map[string]string{
 			"user-agent": consts.UAMac,
 			"referer":    c.Opts.Url,

@@ -3,6 +3,7 @@ package utils
 import (
 	"errors"
 	"regexp"
+	"strconv"
 )
 
 func RegexSingleMatch(input string, expression string) (string, error) {
@@ -23,4 +24,16 @@ func RegexSingleMatchIgnoreError(input string, expression string, fallback strin
 		return fallback
 	}
 	return str
+}
+
+func RegexSingleMatchIntIgnoreError(input string, expression string, fallback int) int {
+	str, err := RegexSingleMatch(input, expression)
+	if err != nil {
+		return fallback
+	}
+	n, err := strconv.Atoi(str)
+	if err != nil {
+		return fallback
+	}
+	return n
 }

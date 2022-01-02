@@ -12,6 +12,7 @@ import (
 func (c *Core) fetchFromMV() (mediaMeta *meta.MediaMeta, err error) {
 	url := strings.Replace(c.Opts.Url, "#", "/", 1)
 	html, err := fetchHtml(url)
+
 	if err != nil {
 		return
 	}
@@ -31,11 +32,14 @@ func (c *Core) fetchFromMV() (mediaMeta *meta.MediaMeta, err error) {
 	mediaMeta = &meta.MediaMeta{
 		Title:       songName,
 		Description: utils.RegexSingleMatchIgnoreError(html, `"description": "(.+?)"`, ""),
+		Duration:    utils.RegexSingleMatchIntIgnoreError(html, `property="video:duration" content="(.+?)"/>`, 0),
 		Album:       "网易Video",
 		Artist: utils.RegexSingleMatchIgnoreError(html, `artistName=(.+?)&`,
 			utils.RegexSingleMatchIgnoreError(html, `data-author="(.+?)"`, ""),
 		),
-		Audio: meta.Audio{Url: videoUrl},
+		Audios:       []meta.Audio{{Url: videoUrl}},
+		Videos:       []meta.Video{{Url: videoUrl}},
+		ResourceType: consts.ResourceTypeVideo,
 		Headers: map[string]string{
 			"user-agent": consts.UAMac,
 			"referer":    c.Opts.Url,

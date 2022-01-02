@@ -6,7 +6,11 @@ import (
 	"os/exec"
 )
 
-func ConvertToMp3(inputFile, outputFile string, tag *MetaTag) error {
+func ConvertSingleInput(inputFile, outputFile string, tag *MetaTag) error {
+	return ConvertMultiInput([]string{inputFile}, outputFile, tag)
+}
+
+func ConvertMultiInput(inputFiles []string, outputFile string, tag *MetaTag) error {
 	var tagParams []string
 
 	if tag != nil {
@@ -17,14 +21,21 @@ func ConvertToMp3(inputFile, outputFile string, tag *MetaTag) error {
 		}
 	}
 
+	var inputParams []string
+	for _, file := range inputFiles {
+		inputParams = append(inputParams, "-i")
+		inputParams = append(inputParams, file)
+	}
+
 	baseParams := []string{
 		"-y",
-		"-i", inputFile,
 		"-c:v", "copy",
 		"-strict", "experimental",
 	}
 
-	params := append(baseParams, tagParams...)
+	params := inputParams
+	params = append(params, baseParams...)
+	params = append(params, tagParams...)
 	params = append(params, outputFile)
 
 	cmd := exec.Command("ffmpeg", params...)

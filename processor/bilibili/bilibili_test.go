@@ -23,11 +23,11 @@ func TestCore_FetchMetaAndResourceInfo(t *testing.T) {
 			wantMediaMeta: &meta.MediaMeta{
 				Title:       "你永远叫不醒一只装睡的狗，除非去玩！",
 				Description: "-",
+				Duration:    81,
 				Artist:      "牧羊小队长",
 				Album:       "Bilibili",
-				Audio: meta.Audio{
-					Url: ".m4s",
-				},
+				Audios:      []meta.Audio{{Url: ".m4s"}},
+				Videos:      []meta.Video{{Url: ".m4s"}},
 			},
 		},
 	}
