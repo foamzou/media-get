@@ -3,7 +3,6 @@ package douyin
 import (
 	"encoding/json"
 	"fmt"
-	"strings"
 
 	"github.com/foamzou/audio-get/args"
 	"github.com/foamzou/audio-get/consts"
@@ -62,7 +61,7 @@ func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error)
 			Url:    metaItem.Video.PlayAddr.UrlList[0],
 			Width:  metaItem.Video.Width,
 			Height: metaItem.Video.Height,
-			Ratio:  formatRatio(metaItem.Video.Ratio),
+			Ratio:  metaItem.Video.Ratio,
 		}},
 		ResourceType: consts.ResourceTypeVideo,
 		Headers: map[string]string{
@@ -72,10 +71,6 @@ func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error)
 	}
 
 	return
-}
-
-func formatRatio(dyRatio string) string {
-	return strings.Replace(dyRatio, "p", "P", 1)
 }
 
 func getVideoId(inputUrl string) (string, error) {
