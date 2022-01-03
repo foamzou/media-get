@@ -19,7 +19,7 @@ type MediaMeta struct {
 
 type Audio struct {
 	Url     string `json:"url"`
-	BitRate string `json:"bit_rate"`
+	BitRate int    `json:"bit_rate"` // kbps
 }
 
 type Video struct {

@@ -7,9 +7,9 @@ const Ratio1080 = "1080p"
 const Ratio1080Plus = "1080p+"
 const RatioUnknown = "unknown"
 
-const BitRate128 = "128kbps"
-const BitRate254 = "256kbps"
-const BitRate512 = "512kbps"
+const BitRate128 = 128
+const BitRate254 = 256
+const BitRate512 = 512
 
 const ExtNameMp3 = "mp3"
 const ExtNameMp4 = "mp4"

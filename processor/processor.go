@@ -10,6 +10,9 @@ type Processor struct {
 
 func (p *Processor) Process() (err error) {
 	processor := p.getProcessor()
+	if processor == nil {
+		panic("do not support the host")
+	}
 	mediaMeta, err := processor.FetchMetaAndResourceInfo()
 	if err != nil {
 		return

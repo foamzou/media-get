@@ -7,6 +7,7 @@ import (
 	"github.com/foamzou/audio-get/processor/bilibili"
 	"github.com/foamzou/audio-get/processor/douyin"
 	"github.com/foamzou/audio-get/processor/netease"
+	"github.com/foamzou/audio-get/processor/youtube"
 )
 
 func (p *Processor) getProcessor() meta.IProcessor {
@@ -14,6 +15,7 @@ func (p *Processor) getProcessor() meta.IProcessor {
 		"163.com":      &netease.Core{Opts: p.Opts},
 		"bilibili.com": &bilibili.Core{Opts: p.Opts},
 		"douyin.com":   &douyin.Core{Opts: p.Opts},
+		"youtube.com":  &youtube.Core{Opts: p.Opts},
 	}
 
 	for host, processor := range ProcessorMap {
