@@ -29,7 +29,7 @@ func TestMediaMeta(t *testing.T, gotMediaMeta, wantMediaMeta *meta.MediaMeta) {
 		{"Album", gotMediaMeta.Album, wantMediaMeta.Album, "="},
 		{"Audios.Url", gotMediaMeta.Audios[0].Url, wantMediaMeta.Audios[0].Url, "contain"},
 	}
-	if wantMediaMeta.Videos != nil && len(wantMediaMeta.Videos) > 1 {
+	if wantMediaMeta.Videos != nil && len(wantMediaMeta.Videos) >= 1 {
 		checkList = append(checkList, CheckStruct{"Videos.Url", gotMediaMeta.Videos[0].Url, wantMediaMeta.Videos[0].Url, "contain"})
 	}
 	for _, checkItem := range checkList {
