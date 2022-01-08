@@ -13,7 +13,7 @@ media-get -u "https://www.bilibili.com/video/BV1eb4y187AG?spm_id_from=444.41.0.0
 ## Download / Update the tool
 One of the following way can be download
 - from the latest release page. [Click me](https://github.com/foamzou/media-get/releases)
-- brew install (soon...)
+- brew install (coming soon...)
 
 ## Requirement
 Require `ffmpeg`, please install it before use the tool
@@ -37,16 +37,16 @@ Help Options:
 
 ## Build
 ```shell
-# linux
-CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" main.go
-
-# windows
-CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -ldflags "-s -w" main.go
-
-# macos
-CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -ldflags "-s -w" main.go
+make build
 ```
 
+## Support media
+Site | audio | video | Remark
+:------------ | :------------- | :------------- | :-------------
+[bilibili](https://www.bilibili.com/) | ✅ | ✅ | 
+[youtube](https://www.youtube.com/) | ✅ | ✅ | 
+[netease](https://music.163.com/) | ✅ | ✅ | include `song`, `mv`, `mlog`, `radio`
+[douyin](https://www.douyin.com/) | ✅ | ✅ |
 
 ## Thanks
 - Netease Encrypt Method: https://github.com/872409/music-get
