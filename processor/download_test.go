@@ -22,21 +22,21 @@ func Test_getOutputPaths(t *testing.T) {
 				opts:      &args2.Options{Out: "/path/to/1.mp3", IsDir: false},
 				fileTitle: "dream",
 			},
-			wantTempFilePath: "/path/to/dream", wantTargetOutPath: "/path/to/1.mp3",
+			wantTempFilePath: "/path/to/dream-mp3", wantTargetOutPath: "/path/to/1.mp3",
 		},
 		{
 			args: args{
 				opts:      &args2.Options{Out: "/path/to/1.audio", IsDir: false},
 				fileTitle: "dream",
 			},
-			wantTempFilePath: "/path/to/dream", wantTargetOutPath: "/path/to/1.audio",
+			wantTempFilePath: "/path/to/dream-mp3", wantTargetOutPath: "/path/to/1.audio",
 		},
 		{
 			args: args{
 				opts:      &args2.Options{Out: "/path/to", IsDir: true},
 				fileTitle: "dream",
 			},
-			wantTempFilePath: "/path/to/dream", wantTargetOutPath: "/path/to/dream.mp3",
+			wantTempFilePath: "/path/to/dream-mp3", wantTargetOutPath: "/path/to/dream.mp3",
 		},
 	}
 	for _, tt := range tests {
