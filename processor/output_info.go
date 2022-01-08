@@ -22,7 +22,7 @@ func (p *Processor) outputMeta(mediaMeta *meta.MediaMeta) {
 	}
 
 	// todo plain output
-	fmt.Println(fmt.Sprintf("[Title] %s\n[Description] %s\n\n", mediaMeta.Title, mediaMeta.Description))
-	fmt.Println(fmt.Sprintf("Artist: %s\n\tAlbum: %s\n\tResource: %s",
-		mediaMeta.Artist, mediaMeta.Album, mediaMeta.Audios[0].Url))
+	fmt.Printf("[Title] %s\n[Description] %s\n\n\n", mediaMeta.Title, mediaMeta.Description)
+	fmt.Printf("Artist: %s\n\tAlbum: %s\n\tResource: %s\n",
+		mediaMeta.Artist, mediaMeta.Album, mediaMeta.Audios[0].Url)
 }

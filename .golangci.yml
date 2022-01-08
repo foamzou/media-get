@@ -229,7 +229,7 @@ linters-settings:
         truncate: "32"
   gosimple:
     # Select the Go version to target. The default is '1.13'.
-    go: "1.15"
+    go: "1.17"
     # https://staticcheck.io/docs/options#checks
     checks: [ "all" ]
   govet:
@@ -470,7 +470,7 @@ issues:
   # large codebase. It's not practical to fix all existing issues at the moment
   # of integration: much better don't allow issues in new code.
   # Default is false.
-  new: true
+  new: false
   new-from-rev: ""
   # Show only new issues created in git patch with set file path.
   new-from-patch:

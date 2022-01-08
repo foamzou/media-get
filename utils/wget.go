@@ -14,15 +14,13 @@ func Wget(url string, downloadTo string, headers map[string]string) error {
 	defer out.Close()
 
 	client := &http.Client{}
-	request, err := http.NewRequest("GET", url, nil)
+	request, err := http.NewRequest("GET", url, nil) // nolint
 	if err != nil {
 		return err
 	}
 
-	if headers != nil {
-		for k, v := range headers {
-			request.Header.Set(k, v)
-		}
+	for k, v := range headers {
+		request.Header.Set(k, v)
 	}
 	resp, err := client.Do(request)
 	if err != nil {

@@ -3,15 +3,12 @@ package ffmpeg
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"os/exec"
 	"strings"
 )
 
 func GetMediaFormat(filePath string) (*MediaFormat, error) {
-	cmdList := strings.Split(fmt.Sprintf(
-		"ffprobe -v quiet -show_format -print_format json",
-	), " ")
+	cmdList := strings.Split("ffprobe -v quiet -show_format -print_format json", " ")
 
 	cmdList = append(cmdList, filePath)
 
