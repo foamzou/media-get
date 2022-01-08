@@ -20,7 +20,8 @@ clean:
 	rm .release/*
 
 test:
-	go test ./...
+	go test ./... -coverprofile=coverage.out
+	go tool cover -func=coverage.out
 
 lint:
 	golangci-lint run
