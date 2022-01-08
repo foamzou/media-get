@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - v*
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  workflow:
+    name: Lint/Build/Test
+
+    strategy:
+      matrix:
+        go-version: [1.17.x]
+        os: [ ubuntu-latest ]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{matrix.go-version}}
+
+      - name: Checkout Code Base
+        uses: actions/checkout@v2
+
+      - uses: google-github-actions/setup-gcloud@master
+        with:
+          version: 'latest'
+
+      - name: Restore Go Module Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/go/internal/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+      
+      - name: Make Lint
+        run: |
+          export GOPATH=$HOME/go
+          export PATH=$PATH:$GOPATH/bin
+          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.43.0
+          make lint
+      
+      - name: Build
+        run: make build
+
+      - name: Test
+        run: make test
+
+      - name: Coverage
+        run: go tool cover -func=coverage.out 
