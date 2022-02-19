@@ -47,6 +47,7 @@ Site | audio | video | Remark
 [youtube](https://www.youtube.com/) | ✅ | ✅ | 
 [netease](https://music.163.com/) | ✅ | ✅ | include `song`, `mv`, `mlog`, `radio`
 [douyin](https://www.douyin.com/) | ✅ | ✅ |
+[migu music](https://music.migu.cn/) | ✅ | - |
 
 ## Thanks
 - Netease Encrypt Method: https://github.com/872409/music-get
