@@ -30,6 +30,7 @@ Application Options:
       --addMediaTag  Add media tag into file from meta information. Default: false
   -m, --metaOnly     Output meta info only. Would not download audio
       --metaFormat=  Support plain/json. Default: plain
+  -l, --logLevel=    Support: silence/error/warn/info/debug. Default: info
 
 Help Options:
   -h, --help         Show this help message

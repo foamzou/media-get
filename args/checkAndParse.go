@@ -6,18 +6,26 @@ import (
 	"strings"
 
 	"github.com/jessevdk/go-flags"
+
+	"github.com/foamzou/audio-get/consts"
+	"github.com/foamzou/audio-get/version"
 )
 
 func CheckAndParse() (opt *Options, err error) {
 	opt = &Options{}
 	_, err = flags.Parse(opt)
 	if err != nil {
-		//fmt.Println(err)
+		if flags.WroteHelp(err) {
+			version.DisplayVersionInfo()
+			return
+		}
 		return
 	}
 
+	setDefault(opt)
+
 	if err = checkAndAdjustOpts(opt); err != nil {
-		return
+		panic(err)
 	}
 
 	return
@@ -46,5 +54,16 @@ func checkAndAdjustOpts(opt *Options) error {
 			opt.IsDir = true
 		}
 	}
+
 	return nil
+}
+
+func setDefault(opt *Options) {
+	if opt.MetaFormat == "" {
+		opt.MetaFormat = consts.MetaFormatPlain
+	}
+
+	if opt.LogLevel == "" {
+		opt.LogLevel = "info"
+	}
 }

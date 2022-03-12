@@ -1,6 +1,21 @@
 package consts
 
-const ResourceTypeAuto = "auto"
-const ResourceTypeAudio = "audio"
-const ResourceTypeVideo = "video"
-const ResourceTypeAll = "all"
+const (
+	ResourceTypeAuto  = "auto"
+	ResourceTypeAudio = "audio"
+	ResourceTypeVideo = "video"
+	ResourceTypeAll   = "all"
+)
+
+const (
+	MetaFormatJson  = "json"
+	MetaFormatPlain = "plain"
+)
+
+const (
+	LogLevelSilence = 0
+	LogLevelError   = 1
+	LogLevelWarn    = 2
+	LogLevelInfo    = 3
+	LogLevelDebug   = 4
+)

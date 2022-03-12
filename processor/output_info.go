@@ -4,15 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/foamzou/audio-get/consts"
 	"github.com/foamzou/audio-get/meta"
 )
 
-const MetaFormatJson = "json"
-const MetaFormatPlain = "plain"
-
 func (p *Processor) outputMeta(mediaMeta *meta.MediaMeta) {
 	// json output
-	if p.Opts.MetaFormat != MetaFormatPlain {
+	if p.Opts.MetaFormat != consts.MetaFormatPlain {
 		jsonByte, err := json.MarshalIndent(mediaMeta, "", "    ")
 		if err != nil {
 			panic(err)

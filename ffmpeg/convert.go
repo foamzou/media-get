@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"os/exec"
 
-	"github.com/foamzou/audio-get/utils/logger"
+	"github.com/foamzou/audio-get/logger"
 )
 
 func ConvertSingleInput(inputFile, outputFile string, tag *MetaTag) error {

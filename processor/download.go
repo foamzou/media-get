@@ -7,6 +7,7 @@ import (
 
 	"github.com/foamzou/audio-get/consts"
 	"github.com/foamzou/audio-get/ffmpeg"
+	"github.com/foamzou/audio-get/logger"
 	"github.com/foamzou/audio-get/meta"
 	"github.com/foamzou/audio-get/utils"
 )
@@ -26,7 +27,7 @@ func (p *Processor) download(mediaMeta *meta.MediaMeta) error {
 
 func (p *Processor) downloadAudio(mediaMeta *meta.MediaMeta) error {
 	audioUrl := mediaMeta.Audios[0].Url
-	fmt.Printf("-----------------\n start fetch audio: %s\n", audioUrl)
+	logger.Debug(fmt.Sprintf("-----------------\n start fetch audio: %s\n", audioUrl))
 	tempOutputPath, targetOutPath := p.getOutputPaths(mediaMeta.Title, consts.ExtNameMp3)
 
 	if !p.Opts.AddMediaTag && utils.GetExtFromUrl(audioUrl) == consts.ExtNameMp3 {
@@ -42,11 +43,11 @@ func (p *Processor) downloadAudio(mediaMeta *meta.MediaMeta) error {
 		return err
 	}
 
-	fmt.Printf("start convert, download to : %s\n", tempOutputPath)
+	logger.Info(fmt.Sprintf("start convert, to : %s\n", tempOutputPath))
 	err = ffmpeg.ConvertSingleInput(tempOutputPath, targetOutPath, adjustFileMeta(tempOutputPath, mediaMeta))
 	_ = os.Remove(tempOutputPath)
 	if err != nil {
-		fmt.Println(err)
+		logger.Error(err)
 		return err
 	}
 	return nil
@@ -66,7 +67,7 @@ func (p *Processor) downloadVideo(mediaMeta *meta.MediaMeta) error {
 	}
 
 	videoUrl := mediaMeta.Videos[0].Url
-	fmt.Printf("-----------------\n start fetch video: %s\n", videoUrl)
+	logger.Info(fmt.Sprintf("-----------------\n start fetch video: %s\n", videoUrl))
 	tempOutputPath, targetOutPath := p.getOutputPaths(mediaMeta.Title, consts.ExtNameMp4)
 
 	if !p.Opts.AddMediaTag && utils.GetExtFromUrl(videoUrl) == consts.ExtNameMp4 {
@@ -83,14 +84,14 @@ func (p *Processor) downloadVideo(mediaMeta *meta.MediaMeta) error {
 	}
 	inputs = append(inputs, tempOutputPath)
 
-	fmt.Printf("start convert, download to : %s\n", tempOutputPath)
+	logger.Debug(fmt.Sprintf("start convert, download to : %s\n", tempOutputPath))
 	err = ffmpeg.ConvertMultiInput(inputs, targetOutPath, adjustFileMeta(tempOutputPath, mediaMeta))
 	_ = os.Remove(tempOutputPath)
 	if tempAudioOutputPath != "" {
 		_ = os.Remove(tempAudioOutputPath)
 	}
 	if err != nil {
-		fmt.Println(err)
+		logger.Error(err)
 		return err
 	}
 	return nil
@@ -141,11 +142,12 @@ func adjustFileMeta(filePath string, mediaMeta *meta.MediaMeta) *ffmpeg.MetaTag 
 		Album:  mediaMeta.Album,
 		Title:  mediaMeta.Title,
 		Artist: mediaMeta.Artist,
+		Cover:  mediaMeta.CoverUrl,
 	}
 	mediaFormat, err := ffmpeg.GetMediaFormat(filePath)
 
 	if err != nil {
-		fmt.Println(err)
+		logger.Error(err)
 		return metaTag
 	}
 
