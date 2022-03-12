@@ -12,7 +12,7 @@ type Core struct {
 }
 
 func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error) {
-	if strings.Contains(c.Opts.Url, "/program") {
+	if strings.Contains(c.Opts.Url, "/program") || strings.Contains(c.Opts.Url, "/dj") {
 		return c.fetchFromProgram()
 	}
 	if strings.Contains(c.Opts.Url, "/song") {

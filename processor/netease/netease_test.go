@@ -81,6 +81,17 @@ func TestCore_FetchMetaAndResourceInfo(t *testing.T) {
 				Audios:      []meta.Audio{{Url: ".mp3"}},
 			},
 		},
+		{
+			name:   "Test dj",
+			fields: fields{Opts: &args.Options{Url: "https://y.music.163.com/m/dj?id=2058743537&userid=52644372"}},
+			wantMediaMeta: &meta.MediaMeta{
+				Title:    "这个冬天 想和你做的事情",
+				Duration: 126,
+				Artist:   "我我我叫很美味",
+				Album:    "关于美味的cover",
+				Audios:   []meta.Audio{{Url: ".mp3"}},
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
