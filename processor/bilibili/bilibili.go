@@ -53,6 +53,7 @@ func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error)
 	audio := resource.Data.Dash.Audios[0]
 	mediaMeta.Artist = getSinger(audioMeta)
 	mediaMeta.Album = Album
+	mediaMeta.CoverUrl = audioMeta.VideoData.Pic
 	mediaMeta.Headers = map[string]string{
 		"user-agent": consts.UAMac,
 		"referer":    c.Opts.Url,

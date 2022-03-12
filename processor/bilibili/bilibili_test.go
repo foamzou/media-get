@@ -28,6 +28,7 @@ func TestCore_FetchMetaAndResourceInfo(t *testing.T) {
 				Album:       "Bilibili",
 				Audios:      []meta.Audio{{Url: ".m4s"}},
 				Videos:      []meta.Video{{Url: ".m4s"}},
+				CoverUrl:    "jpg",
 			},
 		},
 	}

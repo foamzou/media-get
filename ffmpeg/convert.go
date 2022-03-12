@@ -2,8 +2,9 @@ package ffmpeg
 
 import (
 	"bytes"
-	"fmt"
 	"os/exec"
+
+	"github.com/foamzou/audio-get/utils/logger"
 )
 
 func ConvertSingleInput(inputFile, outputFile string, tag *MetaTag) error {
@@ -12,6 +13,7 @@ func ConvertSingleInput(inputFile, outputFile string, tag *MetaTag) error {
 
 func ConvertMultiInput(inputFiles []string, outputFile string, tag *MetaTag) error {
 	var tagParams []string
+	shouldAddCover := len(inputFiles) == 1 && tag != nil && tag.Cover != ""
 
 	if tag != nil {
 		tagParams = []string{
@@ -19,12 +21,19 @@ func ConvertMultiInput(inputFiles []string, outputFile string, tag *MetaTag) err
 			"-metadata", "artist=" + tag.Artist,
 			"-metadata", "album=" + tag.Album,
 		}
+		if shouldAddCover {
+			// audio at 0, cover/video at 1
+			tagParams = append(tagParams, "-map", "0:a", "-map", "1:v")
+		}
 	}
 
 	var inputParams []string
 	for _, file := range inputFiles {
-		inputParams = append(inputParams, "-i")
-		inputParams = append(inputParams, file)
+		inputParams = append(inputParams, "-i", file)
+	}
+
+	if tag != nil && shouldAddCover {
+		inputParams = append(inputParams, "-i", tag.Cover)
 	}
 
 	baseParams := []string{
@@ -39,8 +48,8 @@ func ConvertMultiInput(inputFiles []string, outputFile string, tag *MetaTag) err
 	params = append(params, outputFile)
 
 	cmd := exec.Command("ffmpeg", params...)
-	fmt.Println("------------------")
-	fmt.Println(cmd.Args)
+	logger.Debug("------------------")
+	logger.Debug(cmd.Args)
 
 	var out bytes.Buffer
 	var stdErr bytes.Buffer
@@ -48,7 +57,7 @@ func ConvertMultiInput(inputFiles []string, outputFile string, tag *MetaTag) err
 	cmd.Stderr = &stdErr
 	err := cmd.Run()
 	if err != nil {
-		fmt.Println(stdErr.String())
+		logger.Error(stdErr.String())
 		return err
 	}
 	return nil

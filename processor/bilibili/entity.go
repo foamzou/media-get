@@ -24,6 +24,7 @@ type AudioMeta struct {
 		Title       string `json:"title"`
 		Duration    int    `json:"duration"`
 		Description string `json:"desc"`
+		Pic         string `json:"pic"`
 		Owner       struct {
 			Mid  int    `json:"mid"`
 			Name string `json:"name"`

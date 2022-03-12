@@ -15,4 +15,5 @@ type MetaTag struct {
 	Album  string
 	Title  string
 	Artist string
+	Cover  string
 }
