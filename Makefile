@@ -1,9 +1,12 @@
 BINARY_NAME=media-get
-MAC_BIN=.release/${BINARY_NAME}-darwin
-LINUX_BIN=.release/${BINARY_NAME}-linux
-WIN_BIN=.release/${BINARY_NAME}-win
+VERSION_NAME := $(shell grep "BuildName" version/version.go | head -n1 | awk -F'"' '{print $$2}')
+
+MAC_BIN=.release/${BINARY_NAME}-${VERSION_NAME}-darwin
+LINUX_BIN=.release/${BINARY_NAME}-${VERSION_NAME}-linux
+WIN_BIN=.release/${BINARY_NAME}-${VERSION_NAME}-win.exe
 
 release:
+	@printf "${VERSION_NAME}" > ./LATEST_VERSION
 	mkdir -p .release
 	CGO_ENABLED=0 GOARCH=amd64 GOOS=darwin go build -ldflags "-s -w" -o ${MAC_BIN} main.go
 	CGO_ENABLED=0 GOARCH=amd64 GOOS=linux go build -ldflags "-s -w" -o ${LINUX_BIN} main.go
