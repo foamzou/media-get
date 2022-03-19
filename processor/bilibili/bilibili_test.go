@@ -31,6 +31,19 @@ func TestCore_FetchMetaAndResourceInfo(t *testing.T) {
 				CoverUrl:    "jpg",
 			},
 		},
+		{
+			fields: fields{Opts: &args.Options{Url: "https://b23.tv/dtPFsPH"}},
+			wantMediaMeta: &meta.MediaMeta{
+				Title:       "当当：虽然我绝育了，但是不妨碍我有女朋友呀！",
+				Description: "-",
+				Duration:    161,
+				Artist:      "牧羊小队长",
+				Album:       "Bilibili",
+				Audios:      []meta.Audio{{Url: ".m4s"}},
+				Videos:      []meta.Video{{Url: ".m4s"}},
+				CoverUrl:    "jpg",
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
