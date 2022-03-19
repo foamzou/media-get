@@ -17,7 +17,7 @@ func HttpGet(url string, headers map[string]string) (string, error) {
 		return "", err
 	}
 	if resp.StatusCode() != 200 {
-		return "", errors.New("http code should be 200")
+		return "", fmt.Errorf("http code should be 200, got %d", resp.StatusCode())
 	}
 	return resp.String(), nil
 }

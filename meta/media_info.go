@@ -8,6 +8,7 @@ type MediaMeta struct {
 	Duration    int    `json:"duration"` // second
 	CoverUrl    string `json:"cover_url"`
 	PublicTime  int64  `json:"public_time"`
+	IsTrial     bool   `json:"is_trial"`
 
 	Headers map[string]string `json:"-"`
 
