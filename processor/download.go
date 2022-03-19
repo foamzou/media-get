@@ -14,13 +14,16 @@ import (
 
 func (p *Processor) download(mediaMeta *meta.MediaMeta) error {
 	shouldDownloadAudio, shouldDownloadVideo := p.whichResourceShouldBeDownload(mediaMeta)
-
 	if shouldDownloadAudio {
-		_ = p.downloadAudio(mediaMeta)
+		if err := p.downloadAudio(mediaMeta); err != nil {
+			return err
+		}
 	}
 
 	if shouldDownloadVideo {
-		_ = p.downloadVideo(mediaMeta)
+		if err := p.downloadVideo(mediaMeta); err != nil {
+			return err
+		}
 	}
 	return nil
 }
@@ -31,14 +34,14 @@ func (p *Processor) downloadAudio(mediaMeta *meta.MediaMeta) error {
 	tempOutputPath, targetOutPath := p.getOutputPaths(mediaMeta.Title, consts.ExtNameMp3)
 
 	if !p.Opts.AddMediaTag && utils.GetExtFromUrl(audioUrl) == consts.ExtNameMp3 {
-		err := utils.Wget(audioUrl, targetOutPath, mediaMeta.Headers)
+		err := utils.WgetBinary(audioUrl, targetOutPath, mediaMeta.Headers)
 		if err != nil {
 			return err
 		}
 		return nil
 	}
 
-	err := utils.Wget(audioUrl, tempOutputPath, mediaMeta.Headers)
+	err := utils.WgetBinary(audioUrl, tempOutputPath, mediaMeta.Headers)
 	if err != nil {
 		return err
 	}
@@ -59,7 +62,7 @@ func (p *Processor) downloadVideo(mediaMeta *meta.MediaMeta) error {
 	if mediaMeta.Videos[0].NeedExtraAudio {
 		audioUrl := mediaMeta.Audios[0].Url
 		tempAudioOutputPath, _ = p.getOutputPaths(mediaMeta.Title, "mp3")
-		err := utils.Wget(audioUrl, tempAudioOutputPath, mediaMeta.Headers)
+		err := utils.WgetBinary(audioUrl, tempAudioOutputPath, mediaMeta.Headers)
 		if err != nil {
 			return err
 		}
@@ -71,14 +74,14 @@ func (p *Processor) downloadVideo(mediaMeta *meta.MediaMeta) error {
 	tempOutputPath, targetOutPath := p.getOutputPaths(mediaMeta.Title, consts.ExtNameMp4)
 
 	if !p.Opts.AddMediaTag && utils.GetExtFromUrl(videoUrl) == consts.ExtNameMp4 {
-		err := utils.Wget(videoUrl, targetOutPath, mediaMeta.Headers)
+		err := utils.WgetBinary(videoUrl, targetOutPath, mediaMeta.Headers)
 		if err != nil {
 			return err
 		}
 		return nil
 	}
 
-	err := utils.Wget(videoUrl, tempOutputPath, mediaMeta.Headers)
+	err := utils.WgetBinary(videoUrl, tempOutputPath, mediaMeta.Headers)
 	if err != nil {
 		return err
 	}
