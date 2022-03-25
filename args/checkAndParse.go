@@ -59,8 +59,8 @@ func checkAndAdjustOpts(opt *Options) error {
 }
 
 func setDefault(opt *Options) {
-	if opt.MetaFormat == "" {
-		opt.MetaFormat = consts.MetaFormatPlain
+	if opt.InfoFormat == "" {
+		opt.InfoFormat = consts.InfoFormatPlain
 	}
 
 	if opt.LogLevel == "" {
