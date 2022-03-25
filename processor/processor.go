@@ -1,10 +1,9 @@
 package processor
 
 import (
-	"os"
+	"errors"
 
 	"github.com/foamzou/audio-get/args"
-	"github.com/foamzou/audio-get/logger"
 )
 
 type Processor struct {
@@ -12,26 +11,11 @@ type Processor struct {
 }
 
 func (p *Processor) Process() (err error) {
-	if p.Opts.Url == "" {
-		logger.Error("the required flag `-u, --url' was not specified")
-		os.Exit(1)
+	if p.Opts.Url != "" {
+		return p.FetchMetaAndResourceInfo()
 	}
-	processor := p.getProcessor()
-	if processor == nil {
-		panic("do not support the host")
+	if p.Opts.Search.Keyword != "" {
+		return p.Search()
 	}
-	mediaMeta, err := processor.FetchMetaAndResourceInfo()
-	if err != nil {
-		return
-	}
-
-	if !p.Opts.MetaOnly {
-		err := p.download(mediaMeta)
-		if err != nil {
-			return err
-		}
-	}
-
-	p.outputMeta(mediaMeta)
-	return
+	return errors.New("url or keyword is required")
 }

@@ -15,6 +15,28 @@ import (
 )
 
 func (p *Processor) getProcessor() meta.IProcessor {
+	var ProcessorMap = p.getProcessorMap()
+
+	for host, processor := range ProcessorMap {
+		if strings.Contains(p.Opts.Url, host) {
+			return processor
+		}
+	}
+
+	return nil
+}
+
+func (p *Processor) getProcessors() []meta.IProcessor {
+	var processors = make([]meta.IProcessor, 0)
+
+	for _, processor := range p.getProcessorMap() {
+		processors = append(processors, processor)
+	}
+
+	return processors
+}
+
+func (p *Processor) getProcessorMap() map[string]meta.IProcessor {
 	var ProcessorMap = map[string]meta.IProcessor{
 		"163.com":      &netease.Core{Opts: p.Opts},
 		"bilibili.com": &bilibili.Core{Opts: p.Opts},
@@ -26,11 +48,5 @@ func (p *Processor) getProcessor() meta.IProcessor {
 		"qq.com":       &qqmusic.Core{Opts: p.Opts},
 	}
 
-	for host, processor := range ProcessorMap {
-		if strings.Contains(p.Opts.Url, host) {
-			return processor
-		}
-	}
-
-	return nil
+	return ProcessorMap
 }

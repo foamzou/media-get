@@ -8,13 +8,6 @@ import (
 	"github.com/foamzou/audio-get/meta"
 )
 
-type CheckStruct struct {
-	name      string
-	got       interface{}
-	want      interface{}
-	condition string
-}
-
 func TestMediaMeta(t *testing.T, gotMediaMeta, wantMediaMeta *meta.MediaMeta) {
 	if gotMediaMeta == nil {
 		t.Errorf("gotMediaMeta is nil")

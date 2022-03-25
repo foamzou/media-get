@@ -8,8 +8,8 @@ const (
 )
 
 const (
-	MetaFormatJson  = "json"
-	MetaFormatPlain = "plain"
+	InfoFormatJson  = "json"
+	InfoFormatPlain = "plain"
 )
 
 const (
