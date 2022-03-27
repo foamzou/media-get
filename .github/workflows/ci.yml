@@ -29,10 +29,6 @@ jobs:
       - name: Checkout Code Base
         uses: actions/checkout@v2
 
-      - uses: google-github-actions/setup-gcloud@master
-        with:
-          version: 'latest'
-
       - name: Restore Go Module Cache
         uses: actions/cache@v2
         with:
