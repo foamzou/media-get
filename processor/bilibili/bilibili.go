@@ -2,11 +2,11 @@ package bilibili
 
 import (
 	"encoding/json"
-	"fmt"
 	"strings"
 
 	"github.com/foamzou/audio-get/args"
 	"github.com/foamzou/audio-get/consts"
+	"github.com/foamzou/audio-get/logger"
 	"github.com/foamzou/audio-get/meta"
 	"github.com/foamzou/audio-get/utils"
 )
@@ -55,7 +55,7 @@ func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error)
 	audioMeta := &AudioMeta{}
 	err = json.Unmarshal([]byte(metaJson), audioMeta)
 	if err != nil {
-		fmt.Println("fetch meta json failed", err)
+		logger.Warn("fetch meta json failed", err)
 		mediaMeta.Title = utils.RegexSingleMatchIgnoreError(html, `<h1 title="(.+?)"`, utils.Md5(c.Opts.Url))
 	} else {
 		mediaMeta.Title = audioMeta.VideoData.Title
