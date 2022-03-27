@@ -14,7 +14,15 @@ type Options struct {
 	IsDir bool
 }
 
+//nolint
 type Search struct {
-	Keyword string `short:"k" long:"keyword" description:"Such as \"songName singer\"" required:"false"`
-	Type    string `long:"searchType" description:"Support: song, Default: song" required:"false"`
+	Keyword        string `short:"k" long:"keyword" description:"If search song, keyword or searchSongName is required. Would use keyword to search if both of them are specify. Such as \"songName singer\"" required:"false"`
+	SongName       string `long:"searchSongName" description:"song name" required:"false"`
+	Artist         string `long:"searchArtist" description:"artist name" required:"false"`
+	Album          string `long:"searchAlbum" description:"album name" required:"false"`
+	Type           string `long:"searchType" description:"Support: song, Default: song" required:"false"`
+	Sources        string `long:"sources" description:"Search in the specific source, separate with comma. Support: bilibili,douyin,kugou,kuwo,migu,netease,qq,youtube. Default: All" required:"false"`
+	ExcludeSources string `long:"excludeSource" description:"Search not in the specific source, separate with comma" required:"false"`
+
+	SourcesWillBeSearch []string
 }

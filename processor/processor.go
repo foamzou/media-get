@@ -14,7 +14,7 @@ func (p *Processor) Process() (err error) {
 	if p.Opts.Url != "" {
 		return p.FetchMetaAndResourceInfo()
 	}
-	if p.Opts.Search.Keyword != "" {
+	if p.Opts.Search.Keyword != "" || p.Opts.Search.SongName != "" {
 		return p.Search()
 	}
 	return errors.New("url or keyword is required")

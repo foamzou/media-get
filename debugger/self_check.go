@@ -1,4 +1,4 @@
-package init_app
+package debugger
 
 import (
 	"os"

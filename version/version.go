@@ -5,8 +5,8 @@ import (
 )
 
 const (
-	BuildCode = 4
-	BuildName = "0.1.3"
+	BuildCode = 5
+	BuildName = "0.2.0"
 	Repo      = "https://github.com/foamzou/media-get"
 )
 

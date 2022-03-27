@@ -3,6 +3,7 @@ package processor
 import (
 	"strings"
 
+	"github.com/foamzou/audio-get/consts"
 	"github.com/foamzou/audio-get/meta"
 	"github.com/foamzou/audio-get/processor/bilibili"
 	"github.com/foamzou/audio-get/processor/douyin"
@@ -17,12 +18,22 @@ import (
 func (p *Processor) getProcessor() meta.IProcessor {
 	var ProcessorMap = p.getProcessorMap()
 
-	for host, processor := range ProcessorMap {
-		if strings.Contains(p.Opts.Url, host) {
+	for _, processor := range ProcessorMap {
+		if strings.Contains(p.Opts.Url, processor.Domain()) {
 			return processor
 		}
 	}
 
+	return nil
+}
+
+func (p *Processor) getProcessorBySourceName(sourceName string) meta.IProcessor {
+	var ProcessorMap = p.getProcessorMap()
+
+	provider, found := ProcessorMap[sourceName]
+	if found {
+		return provider
+	}
 	return nil
 }
 
@@ -38,14 +49,14 @@ func (p *Processor) getProcessors() []meta.IProcessor {
 
 func (p *Processor) getProcessorMap() map[string]meta.IProcessor {
 	var ProcessorMap = map[string]meta.IProcessor{
-		"163.com":      &netease.Core{Opts: p.Opts},
-		"bilibili.com": &bilibili.Core{Opts: p.Opts},
-		"douyin.com":   &douyin.Core{Opts: p.Opts},
-		"youtube.com":  &youtube.Core{Opts: p.Opts},
-		"migu.cn":      &migu.Core{Opts: p.Opts},
-		"kugou.com":    &kugou.Core{Opts: p.Opts},
-		"kuwo.cn":      &kuwo.Core{Opts: p.Opts},
-		"qq.com":       &qqmusic.Core{Opts: p.Opts},
+		consts.SourceNameNetease:  &netease.Core{Opts: p.Opts},
+		consts.SourceNameBilibili: &bilibili.Core{Opts: p.Opts},
+		consts.SourceNameDouyin:   &douyin.Core{Opts: p.Opts},
+		consts.SourceNameYoutube:  &youtube.Core{Opts: p.Opts},
+		consts.SourceNameMigu:     &migu.Core{Opts: p.Opts},
+		consts.SourceNameKugou:    &kugou.Core{Opts: p.Opts},
+		consts.SourceNameKuwo:     &kuwo.Core{Opts: p.Opts},
+		consts.SourceNameQq:       &qqmusic.Core{Opts: p.Opts},
 	}
 
 	return ProcessorMap

@@ -16,18 +16,38 @@ type Core struct {
 	Opts *args.Options
 }
 
+func (c *Core) IsMusicPlatform() bool {
+	return false
+}
+
+func (c *Core) Domain() string {
+	return "douyin.com"
+}
+
+func (c *Core) GetSourceName() string {
+	return consts.SourceNameDouyin
+}
+
 func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error) {
-	redirectUrl, err := utils.GetLocation(c.Opts.Url, map[string]string{
-		"user-agent": consts.UAAndroid,
-	})
+	var videoId string
+	var redirectUrl string
 
-	if err != nil {
-		return
-	}
+	videoId, _ = getVideoId(c.Opts.Url)
+	redirectUrl = c.Opts.Url
 
-	videoId, err := getVideoId(redirectUrl)
-	if err != nil {
-		return
+	if videoId == "" {
+		redirectUrl, err = utils.GetLocation(c.Opts.Url, map[string]string{
+			"user-agent": consts.UAAndroid,
+		})
+
+		if err != nil {
+			return
+		}
+
+		videoId, err = getVideoId(redirectUrl)
+		if err != nil {
+			return
+		}
 	}
 
 	metaInfo, err := utils.HttpGet(ApiGetItemInfo+videoId, map[string]string{
@@ -74,5 +94,5 @@ func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error)
 }
 
 func getVideoId(inputUrl string) (string, error) {
-	return utils.RegexSingleMatch(inputUrl, `video/(.+?)/`)
+	return utils.RegexSingleMatch(inputUrl, `video/([^/?#]+)`)
 }

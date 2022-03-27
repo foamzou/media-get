@@ -1,4 +1,4 @@
-package migu
+package kugou
 
 import (
 	"encoding/json"
@@ -10,17 +10,15 @@ import (
 	"github.com/foamzou/audio-get/utils"
 )
 
-const APISearch = "https://m.music.migu.cn/migumusic/h5/search/all?text=%s&pageNo=1&pageSize=30"
+const APISearch = "https://mobiles.kugou.com/api/v3/search/song?format=json&keyword=%s&page=1&pagesize=30&showtype=1"
 
 func (c *Core) SearchSong() ([]*meta.SearchSongItem, error) {
 	var searchSongItems []*meta.SearchSongItem
 	api := fmt.Sprintf(APISearch, url.QueryEscape(c.Opts.Search.Keyword))
 
-	ua := consts.UAAndroid
 	jsonStr, err := utils.HttpGet(api, map[string]string{
-		"User-Agent": ua,
-		"By":         utils.Md5(ua),
-		"Referer":    "https://m.music.migu.cn/v4/search",
+		"User-Agent": consts.UAAndroid,
+		"Referer":    "https://m3ws.kugou.com/",
 	})
 	if err != nil {
 		return nil, err
@@ -32,18 +30,14 @@ func (c *Core) SearchSong() ([]*meta.SearchSongItem, error) {
 		return nil, err
 	}
 
-	for _, item := range searchSongResponse.Data.SongsData.Items {
-		artist := ""
-		if len(item.Singers) > 0 {
-			artist = item.Singers[0].Name
-		}
+	for _, item := range searchSongResponse.Data.Info {
 		searchSongItems = append(searchSongItems, &meta.SearchSongItem{
-			Name:     item.Name,
-			Artist:   artist,
-			Album:    item.Album.Name,
-			Duration: 0, // unknown in the API
-			Url:      fmt.Sprintf("https://music.migu.cn/v3/music/song/%s", item.CopyrightId),
-			Source:   consts.SourceNameMigu,
+			Name:     item.Songname,
+			Artist:   item.Singername,
+			Album:    item.AlbumName,
+			Duration: item.Duration,
+			Url:      fmt.Sprintf("https://www.kugou.com/song/#hash=%s&album_id=%s", item.Hash, item.AlbumId),
+			Source:   consts.SourceNameKugou,
 		})
 	}
 

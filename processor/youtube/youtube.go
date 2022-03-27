@@ -10,10 +10,20 @@ import (
 	"github.com/foamzou/audio-get/utils"
 )
 
-const ApiGetItemInfo = "https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids="
-
 type Core struct {
 	Opts *args.Options
+}
+
+func (c *Core) IsMusicPlatform() bool {
+	return false
+}
+
+func (c *Core) Domain() string {
+	return "youtube.com"
+}
+
+func (c *Core) GetSourceName() string {
+	return consts.SourceNameYoutube
 }
 
 func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error) {

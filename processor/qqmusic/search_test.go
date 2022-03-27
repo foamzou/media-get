@@ -1,4 +1,4 @@
-package migu
+package qqmusic
 
 import (
 	"testing"
@@ -21,13 +21,13 @@ func TestCore_SearchSong(t *testing.T) {
 	}{
 		{
 			name:   "Test search song",
-			fields: fields{Opts: &args.Options{Search: args.Search{Keyword: "淡水海边 周杰伦", Type: "song"}}},
+			fields: fields{Opts: &args.Options{Search: args.Search{Keyword: "彩虹 周杰伦", Type: "song"}}},
 			wantSongItem: &meta.SearchSongItem{
-				Name:   "淡水海边(电影《不能说的秘密》背景音乐)",
+				Name:   "彩虹",
 				Artist: "周杰伦",
-				Album:  "《不能说的秘密》电影原声",
-				Url:    "music.migu.cn",
-				Source: consts.SourceNameMigu,
+				Album:  "我很忙",
+				Url:    "y.qq.com",
+				Source: consts.SourceNameQq,
 			},
 		},
 	}

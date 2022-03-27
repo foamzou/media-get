@@ -17,6 +17,18 @@ type Core struct {
 
 const Album = "Bilibili"
 
+func (c *Core) IsMusicPlatform() bool {
+	return false
+}
+
+func (c *Core) Domain() string {
+	return "bilibili.com"
+}
+
+func (c *Core) GetSourceName() string {
+	return consts.SourceNameBilibili
+}
+
 func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error) {
 	html, err := fetchHtml(c.Opts.Url)
 	if err != nil {

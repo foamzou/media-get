@@ -8,6 +8,7 @@ import (
 	"github.com/jessevdk/go-flags"
 
 	"github.com/foamzou/audio-get/consts"
+	"github.com/foamzou/audio-get/utils"
 	"github.com/foamzou/audio-get/version"
 )
 
@@ -55,6 +56,8 @@ func checkAndAdjustOpts(opt *Options) error {
 		}
 	}
 
+	parseSearchSource(opt)
+
 	return nil
 }
 
@@ -66,4 +69,36 @@ func setDefault(opt *Options) {
 	if opt.LogLevel == "" {
 		opt.LogLevel = "info"
 	}
+}
+
+func parseSearchSource(opt *Options) {
+	allSourceName := consts.GetAllSourceName()
+
+	var sourcesWillBeSearch, includes, excludes []string
+	if opt.Search.Sources == "" {
+		includes = allSourceName
+	} else {
+		includes = strings.Split(opt.Search.Sources, ",")
+	}
+	if opt.Search.ExcludeSources != "" {
+		excludes = strings.Split(opt.Search.ExcludeSources, ",")
+	}
+	includes = trimValueInSlice(includes)
+	excludes = trimValueInSlice(excludes)
+
+	for _, sourceName := range includes {
+		if !utils.InArray(excludes, sourceName) && utils.InArray(allSourceName, sourceName) {
+			sourcesWillBeSearch = append(sourcesWillBeSearch, sourceName)
+		}
+	}
+
+	opt.Search.SourcesWillBeSearch = sourcesWillBeSearch
+}
+
+func trimValueInSlice(slice []string) []string {
+	var result []string
+	for _, v := range slice {
+		result = append(result, strings.TrimSpace(v))
+	}
+	return result
 }

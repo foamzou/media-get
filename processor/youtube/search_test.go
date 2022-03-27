@@ -1,4 +1,4 @@
-package migu
+package youtube
 
 import (
 	"testing"
@@ -20,14 +20,13 @@ func TestCore_SearchSong(t *testing.T) {
 		wantErr      bool
 	}{
 		{
-			name:   "Test search song",
-			fields: fields{Opts: &args.Options{Search: args.Search{Keyword: "淡水海边 周杰伦", Type: "song"}}},
+			name:   "Test search video",
+			fields: fields{Opts: &args.Options{Search: args.Search{Keyword: "123木头人 黑girl", Type: "song"}}},
 			wantSongItem: &meta.SearchSongItem{
-				Name:   "淡水海边(电影《不能说的秘密》背景音乐)",
-				Artist: "周杰伦",
-				Album:  "《不能说的秘密》电影原声",
-				Url:    "music.migu.cn",
-				Source: consts.SourceNameMigu,
+				Name:   "黑澀會美眉 - 123木頭人 (官方版MV)",
+				Artist: "福茂唱片",
+				Url:    "youtube",
+				Source: consts.SourceNameYoutube,
 			},
 		},
 	}

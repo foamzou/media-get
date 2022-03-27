@@ -6,7 +6,7 @@ import (
 	"github.com/foamzou/audio-get/consts"
 )
 
-var logLevel = consts.LogLevelDebug
+var logLevel = consts.LogLevelInfo
 
 func SetLogLevel(level string) {
 	switch level {

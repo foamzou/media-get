@@ -21,6 +21,18 @@ type Core struct {
 	Opts *args.Options
 }
 
+func (c *Core) IsMusicPlatform() bool {
+	return true
+}
+
+func (c *Core) Domain() string {
+	return "qq.com"
+}
+
+func (c *Core) GetSourceName() string {
+	return consts.SourceNameQq
+}
+
 func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error) {
 	songMid, err := getSongMid(c.Opts.Url)
 	if err != nil {
@@ -30,6 +42,7 @@ func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error)
 	if err != nil {
 		return nil, err
 	}
+
 	songUrl, coverUrl, err := getSongUrlAndCoverUrl(songMid)
 	if err != nil {
 		return nil, err
@@ -51,9 +64,11 @@ func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error)
 }
 
 func getSongUrlAndCoverUrl(songMid string) (songUrl, coverUrl string, err error) {
+	fmt.Println(fmt.Sprintf(SongHtmlURL, songMid))
 	html, err := utils.HttpGet(fmt.Sprintf(SongHtmlURL, songMid), map[string]string{
 		"user-agent": consts.UAAndroid,
 	})
+	fmt.Println(html)
 	if err != nil {
 		return
 	}

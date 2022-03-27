@@ -22,6 +22,18 @@ type Core struct {
 	Opts *args.Options
 }
 
+func (c *Core) IsMusicPlatform() bool {
+	return true
+}
+
+func (c *Core) Domain() string {
+	return "kugou.com"
+}
+
+func (c *Core) GetSourceName() string {
+	return consts.SourceNameKugou
+}
+
 func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error) {
 	hash, albumID, mixSongID, err := getSongIdInfo(c.Opts.Url)
 	if err != nil {

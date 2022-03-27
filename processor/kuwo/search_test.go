@@ -1,4 +1,4 @@
-package migu
+package kuwo
 
 import (
 	"testing"
@@ -21,13 +21,13 @@ func TestCore_SearchSong(t *testing.T) {
 	}{
 		{
 			name:   "Test search song",
-			fields: fields{Opts: &args.Options{Search: args.Search{Keyword: "淡水海边 周杰伦", Type: "song"}}},
+			fields: fields{Opts: &args.Options{Search: args.Search{Keyword: "再生花 陈慧琳", Type: "song"}}},
 			wantSongItem: &meta.SearchSongItem{
-				Name:   "淡水海边(电影《不能说的秘密》背景音乐)",
-				Artist: "周杰伦",
-				Album:  "《不能说的秘密》电影原声",
-				Url:    "music.migu.cn",
-				Source: consts.SourceNameMigu,
+				Name:   "再生花-《再生缘》电视剧主题曲",
+				Artist: "陈慧琳",
+				Album:  "最爱的主题曲",
+				Url:    "kuwo.cn",
+				Source: consts.SourceNameKuwo,
 			},
 		},
 	}

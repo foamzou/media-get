@@ -1,5 +1,11 @@
 package utils
 
+import (
+	"regexp"
+	"sort"
+	"strings"
+)
+
 func SimilarText(str1, str2 string) float64 {
 	l1, l2 := len(str1), len(str2)
 	if l1+l2 == 0 {
@@ -37,4 +43,34 @@ func similarText(str1, str2 string, len1, len2 int) int {
 	}
 
 	return sum
+}
+
+func RemoveTagFromString(str string) string {
+	const pattern = `(<\/?[a-zA-A]+?[^>]*\/?>)*`
+	r := regexp.MustCompile(pattern)
+	groups := r.FindAllString(str, -1)
+	sort.Slice(groups, func(i, j int) bool {
+		return len(groups[i]) > len(groups[j])
+	})
+	for _, group := range groups {
+		if strings.TrimSpace(group) != "" {
+			str = strings.ReplaceAll(str, group, "")
+		}
+	}
+	return str
+}
+
+func RemoveBracketsFromString(str string) string {
+	const pattern = `(\(.+?\))`
+	r := regexp.MustCompile(pattern)
+	groups := r.FindAllString(str, -1)
+	sort.Slice(groups, func(i, j int) bool {
+		return len(groups[i]) > len(groups[j])
+	})
+	for _, group := range groups {
+		if strings.TrimSpace(group) != "" {
+			str = strings.ReplaceAll(str, group, "")
+		}
+	}
+	return str
 }

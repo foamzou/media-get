@@ -107,13 +107,4 @@ type SongMeta struct {
 			Peak float64 `json:"peak"`
 		} `json:"volume"`
 	} `json:"data"`
-	Url struct {
-		Field1 string `json:"338095127"`
-	} `json:"url"`
-	Url1 struct {
-	} `json:"url1"`
-	ExtraData []interface{} `json:"extra_data"`
-	Joox      int           `json:"joox"`
-	JooxLogin int           `json:"joox_login"`
-	Msgid     int           `json:"msgid"`
 }

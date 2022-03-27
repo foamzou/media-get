@@ -1,4 +1,4 @@
-package migu
+package kugou
 
 import (
 	"testing"
@@ -21,13 +21,13 @@ func TestCore_SearchSong(t *testing.T) {
 	}{
 		{
 			name:   "Test search song",
-			fields: fields{Opts: &args.Options{Search: args.Search{Keyword: "淡水海边 周杰伦", Type: "song"}}},
+			fields: fields{Opts: &args.Options{Search: args.Search{Keyword: "雨下的瞬間 李梦尹", Type: "song"}}},
 			wantSongItem: &meta.SearchSongItem{
-				Name:   "淡水海边(电影《不能说的秘密》背景音乐)",
-				Artist: "周杰伦",
-				Album:  "《不能说的秘密》电影原声",
-				Url:    "music.migu.cn",
-				Source: consts.SourceNameMigu,
+				Name:   "雨下的瞬間",
+				Artist: "李梦尹",
+				Album:  "雨下的瞬間",
+				Url:    "kugou.com",
+				Source: consts.SourceNameKugou,
 			},
 		},
 	}

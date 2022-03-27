@@ -1,4 +1,4 @@
-package migu
+package qqmusic
 
 import (
 	"encoding/json"
@@ -10,17 +10,16 @@ import (
 	"github.com/foamzou/audio-get/utils"
 )
 
-const APISearch = "https://m.music.migu.cn/migumusic/h5/search/all?text=%s&pageNo=1&pageSize=30"
+//nolint
+const APISearch = "https://shc.y.qq.com/soso/fcgi-bin/search_for_qq_cp?format=json&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&w=%s&perpage=20&n=20&p=1&remoteplace=txt.mqq.all"
 
 func (c *Core) SearchSong() ([]*meta.SearchSongItem, error) {
 	var searchSongItems []*meta.SearchSongItem
 	api := fmt.Sprintf(APISearch, url.QueryEscape(c.Opts.Search.Keyword))
 
-	ua := consts.UAAndroid
 	jsonStr, err := utils.HttpGet(api, map[string]string{
-		"User-Agent": ua,
-		"By":         utils.Md5(ua),
-		"Referer":    "https://m.music.migu.cn/v4/search",
+		"User-Agent": consts.UAAndroid,
+		"Referer":    "https://i.y.qq.com/",
 	})
 	if err != nil {
 		return nil, err
@@ -32,18 +31,15 @@ func (c *Core) SearchSong() ([]*meta.SearchSongItem, error) {
 		return nil, err
 	}
 
-	for _, item := range searchSongResponse.Data.SongsData.Items {
-		artist := ""
-		if len(item.Singers) > 0 {
-			artist = item.Singers[0].Name
-		}
+	for _, item := range searchSongResponse.Data.Song.List {
 		searchSongItems = append(searchSongItems, &meta.SearchSongItem{
-			Name:     item.Name,
-			Artist:   artist,
-			Album:    item.Album.Name,
-			Duration: 0, // unknown in the API
-			Url:      fmt.Sprintf("https://music.migu.cn/v3/music/song/%s", item.CopyrightId),
-			Source:   consts.SourceNameMigu,
+			Name:           item.Songname,
+			Artist:         item.Singer[0].Name,
+			Album:          item.Albumname,
+			Duration:       item.Interval,
+			Url:            fmt.Sprintf("https://y.qq.com/n/ryqq/songDetail/%s", item.Songmid),
+			CannotDownload: item.Pay.Payplay == 1,
+			Source:         consts.SourceNameQq,
 		})
 	}
 
