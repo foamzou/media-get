@@ -140,7 +140,7 @@ func (p *Processor) calculateTheScore(searchOption args.Search, searchItem meta.
 			}
 
 			// MV on the platform is close to the target
-			if strings.Contains(searchItem.Name, "MV") {
+			if strings.Contains(searchItem.Name, "mv") {
 				bwc += 1
 			}
 		}
