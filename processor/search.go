@@ -177,8 +177,14 @@ func (p *Processor) outputSearchResult(searchItems []*meta.SearchSongItem) {
 	}
 }
 
-func convertTC2SC(occ *ccgo.OpenCC, in string) string {
-	out, _ := occ.Convert(in)
+func convertTC2SC(occ *ccgo.OpenCC, in string) (out string) {
+	out = in
+	defer func() {
+		if err := recover(); err != nil {
+			return
+		}
+	}()
+	out, _ = occ.Convert(in)
 	if out == "" {
 		return in
 	}
