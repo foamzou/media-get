@@ -4,6 +4,7 @@
 在给定的 url 里解析出媒体文件，例如音频视频
 
 ## 示例
+### 在 url 所在的网页下载资源
 ```shell
 # 下载 b 站的视频
 media-get -u "https://www.bilibili.com/video/BV1eb4y187AG?spm_id_from=444.41.0.0"
@@ -37,9 +38,11 @@ media-get --searchSongName="그리움에 가까운" --searchArtist="Hello Gayoun
 ```
 
 ## 如何下载或更新该工具
+支持 Win、Mac 和 Linux
+
 以下方式任选一种
 - 在 release 页面下载： [Click me](https://github.com/foamzou/media-get/releases)
-- Mac 用户可以使用 brew install (等 star 多了才能在 brew 申请通过，可以支持一下...)
+- Mac 用户可以使用 brew install (等 star 多了才能在 brew 申请通过，可以支持一下)
 
 ## 依赖
 需要预先安装 `ffmpeg`
