@@ -61,7 +61,10 @@ func (p *Processor) SearchSong() error {
 			}
 
 			mutex.Lock()
-			searchItems = append(searchItems, items...)
+			for _, item := range items {
+				item.FromMusicPlatform = processor.IsMusicPlatform()
+				searchItems = append(searchItems, item)
+			}
 			mutex.Unlock()
 		}()
 	}
@@ -101,12 +104,25 @@ func (p *Processor) calculateTheScore(searchOption args.Search, searchItem meta.
 		source               string
 		weightCoefficientBuf float64
 	}{
-		{artist: "周杰伦", source: consts.SourceNameMigu, weightCoefficientBuf: 0.25},
-		{artist: searchItem.Artist, source: consts.SourceNameMigu, weightCoefficientBuf: 0.1}, // migu is a good platform
+		{source: consts.SourceNameMigu, weightCoefficientBuf: 10}, // migu is a good platform
 	}
 
 	for _, config := range extraScoreConfig {
-		if strings.Contains(searchItem.Artist, config.artist) && strings.Contains(searchOption.Keyword, config.artist) && config.source == searchItem.Source {
+		if config.source != searchItem.Source {
+			continue
+		}
+
+		kws := strings.Split(searchOption.Keyword, " ")
+		hit := true
+		for _, kw := range kws {
+			if strings.TrimSpace(kw) == "" {
+				continue
+			}
+			if !strings.Contains(searchItem.Artist, kw) && !strings.Contains(searchItem.Name, kw) {
+				hit = false
+			}
+		}
+		if hit {
 			bwc += config.weightCoefficientBuf
 		}
 	}

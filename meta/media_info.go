@@ -1,14 +1,15 @@
 package meta
 
 type MediaMeta struct {
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	Artist      string `json:"artist"`
-	Album       string `json:"album"`
-	Duration    int    `json:"duration"` // second
-	CoverUrl    string `json:"cover_url"`
-	PublicTime  int64  `json:"public_time"`
-	IsTrial     bool   `json:"is_trial"`
+	Title             string `json:"title"`
+	Description       string `json:"description"`
+	Artist            string `json:"artist"`
+	Album             string `json:"album"`
+	Duration          int    `json:"duration"` // second
+	CoverUrl          string `json:"cover_url"`
+	PublicTime        int64  `json:"public_time"`
+	IsTrial           bool   `json:"is_trial"`
+	FromMusicPlatform bool   `json:"from_music_platform"`
 
 	Headers map[string]string `json:"-"`
 
