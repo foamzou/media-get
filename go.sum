@@ -4,6 +4,8 @@ github.com/ApesPlan/prefixtree-OpenCC v0.0.1 h1:IUkCLgeeR4KthhTVyvebFhTtAL/2AFWa
 github.com/ApesPlan/prefixtree-OpenCC v0.0.1/go.mod h1:SiIhatLsC76OcNp+8FWyte/UJVSlQOfSyGP/A67Thz0=
 github.com/ApesPlan/prefixtree-core v0.0.0-20200724072454-be92dad4a8df h1:DQezQoeXUVrwqRyzb7HTpY/do7sPWRVVzVYaeDBDEPw=
 github.com/ApesPlan/prefixtree-core v0.0.0-20200724072454-be92dad4a8df/go.mod h1:VRdzaC6I1RuPNF2EQl/dnXx19SXmZsnfc/Qv4cBNMUU=
+github.com/dexyk/stringosim v0.0.0-20170922105913-9d0b3e91a842 h1:FWXGhOthNyZKdK0YVyDrkg5dCXOfKvexcRG37U1v6AQ=
+github.com/dexyk/stringosim v0.0.0-20170922105913-9d0b3e91a842/go.mod h1:PfVoEMbmPGFArz22/wIefW9CzuQhdnE+C9ikEzJvb9Q=
 github.com/go-resty/resty/v2 v2.7.0 h1:me+K9p3uhSmXtrBZ4k9jcEAfJmuC8IivWHwaLZwPrFY=
 github.com/go-resty/resty/v2 v2.7.0/go.mod h1:9PWDzw47qPphMRFfhsyk0NnSgvluHcljSMVIq3w7q0I=
 github.com/jessevdk/go-flags v1.5.0 h1:1jKYvbxEjfUl0fmqTCOfonvskHHXMjBySTLW4y9LFvc=
