@@ -3,6 +3,7 @@ package ffmpeg
 import (
 	"bytes"
 	"os/exec"
+	"strings"
 
 	"github.com/foamzou/audio-get/logger"
 )
@@ -17,7 +18,7 @@ func ConvertMultiInput(inputFiles []string, outputFile string, tag *MetaTag) err
 
 	if tag != nil {
 		tagParams = []string{
-			"-metadata", "title=" + tag.Title,
+			"-metadata", "title=" + filterUnexpectedChar(tag.Title),
 			"-metadata", "artist=" + tag.Artist,
 			"-metadata", "album=" + tag.Album,
 		}
@@ -61,4 +62,12 @@ func ConvertMultiInput(inputFiles []string, outputFile string, tag *MetaTag) err
 		return err
 	}
 	return nil
+}
+
+func filterUnexpectedChar(title string) string {
+	title = strings.ReplaceAll(title, " ", "")
+	title = strings.ReplaceAll(title, ".", "")
+	title = strings.ReplaceAll(title, "/", "")
+	title = strings.ReplaceAll(title, "?", "")
+	return title
 }
