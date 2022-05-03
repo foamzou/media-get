@@ -28,7 +28,6 @@ func (c *Core) SearchSong() ([]*meta.SearchSongItem, error) {
 		"By":         utils.Md5(ua),
 		"Referer":    "https://m.music.migu.cn/v4/search",
 	})
-	fmt.Println(jsonStr)
 	if err != nil {
 		return nil, err
 	}
