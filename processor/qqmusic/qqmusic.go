@@ -50,12 +50,13 @@ func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error)
 
 	songInfo := songMeta.Data[0]
 	mediaMeta = &meta.MediaMeta{
-		Title:       songInfo.Title,
-		Description: songInfo.Subtitle,
-		Artist:      songInfo.Singer[0].Name,
-		Album:       songInfo.Album.Name,
-		Duration:    songInfo.Interval,
-		CoverUrl:    coverUrl,
+		Title:             songInfo.Title,
+		Description:       songInfo.Subtitle,
+		Artist:            songInfo.Singer[0].Name,
+		Album:             songInfo.Album.Name,
+		Duration:          songInfo.Interval,
+		CoverUrl:          coverUrl,
+		ResourceForbidden: songUrl == "",
 		//IsTrial:      songInfo.IsFreePart == 1,
 		ResourceType: consts.ResourceTypeAudio,
 		Audios:       []meta.Audio{{Url: songUrl}},
@@ -91,10 +92,6 @@ func getSongUrlAndCoverUrl(songMid string) (songUrl, coverUrl string, err error)
 		// fallback
 		songUrl = utils.RegexSingleMatchIgnoreError(html, "\"url\":[\\s]*\"(http.+?music.+?)\"", "")
 		songUrl = strings.ReplaceAll(songUrl, "\\u002F", "/")
-	}
-	if songUrl == "" {
-		err = errors.New("url not found")
-		return
 	}
 	return songUrl, coverUrl, nil
 }

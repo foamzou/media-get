@@ -65,6 +65,7 @@ func TestCore_FetchMetaAndResourceInfo(t *testing.T) {
 				Description: "越爱越难过",
 				Duration:    272,
 				Artist:      "吴克群",
+				CoverUrl:    "jpg",
 				Album:       "MagiK Great Hits 新歌+精选",
 				Audios:      []meta.Audio{{Url: ".mp3"}},
 			},

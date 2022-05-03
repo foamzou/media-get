@@ -9,7 +9,9 @@ type MediaMeta struct {
 	CoverUrl          string `json:"cover_url"`
 	PublicTime        int64  `json:"public_time"`
 	IsTrial           bool   `json:"is_trial"`
+	ResourceForbidden bool   `json:"resource_forbidden"`
 	FromMusicPlatform bool   `json:"from_music_platform"`
+	Source            string `json:"source"`
 
 	Headers map[string]string `json:"-"`
 

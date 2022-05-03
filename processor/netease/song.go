@@ -31,6 +31,7 @@ func (c *Core) fetchFromSong() (mediaMeta *meta.MediaMeta, err error) {
 		Duration:     utils.RegexSingleMatchIntIgnoreError(html, `property="music:duration" content="(.+?)"`, 0),
 		Album:        utils.RegexSingleMatchIgnoreError(html, `og:music:album" content="(.+?)"[\s]*/>`, ""),
 		Artist:       utils.RegexSingleMatchIgnoreError(html, `og:music:artist" content="(.+?)"[\s]*/>`, ""),
+		CoverUrl:     utils.RegexSingleMatchIgnoreError(html, `src="(.+?)" class="j-img"`, ""),
 		Audios:       []meta.Audio{{Url: getSongUrl(songId)}},
 		ResourceType: consts.ResourceTypeAudio,
 		Headers: map[string]string{

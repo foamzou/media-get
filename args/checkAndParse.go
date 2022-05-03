@@ -1,6 +1,7 @@
 package args
 
 import (
+	"fmt"
 	"os"
 	"path"
 	"strings"
@@ -8,6 +9,7 @@ import (
 	"github.com/jessevdk/go-flags"
 
 	"github.com/foamzou/audio-get/consts"
+	"github.com/foamzou/audio-get/debugger"
 	"github.com/foamzou/audio-get/utils"
 	"github.com/foamzou/audio-get/version"
 )
@@ -17,6 +19,12 @@ func CheckAndParse() (opt *Options, err error) {
 	_, err = flags.Parse(opt)
 	if err != nil {
 		if flags.WroteHelp(err) {
+			if debugger.HasInstalledFFmpeg() {
+				fmt.Println("FFmpeg,FFprobe: installed")
+			} else {
+				fmt.Println("FFmpeg,FFprobe: one of them is not installed")
+			}
+
 			version.DisplayVersionInfo()
 			return
 		}

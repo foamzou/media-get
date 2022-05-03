@@ -30,6 +30,17 @@ func TestCore_SearchSong(t *testing.T) {
 				Source: consts.SourceNameMigu,
 			},
 		},
+		{
+			name:   "Test search song",
+			fields: fields{Opts: &args.Options{Search: args.Search{Keyword: "I Remember F.I.R", Type: "song"}}},
+			wantSongItem: &meta.SearchSongItem{
+				Name:   "淡水海边(电影《不能说的秘密》背景音乐)",
+				Artist: "周杰伦",
+				Album:  "《不能说的秘密》电影原声",
+				Url:    "music.migu.cn",
+				Source: consts.SourceNameMigu,
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

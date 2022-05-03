@@ -6,7 +6,7 @@ type SearchSongItem struct {
 	Album             string
 	Duration          int
 	Url               string
-	CannotDownload    bool
+	ResourceForbidden bool
 	Source            string
 	FromMusicPlatform bool
 

@@ -33,13 +33,13 @@ func (c *Core) SearchSong() ([]*meta.SearchSongItem, error) {
 
 	for _, item := range searchSongResponse.Data.Song.List {
 		searchSongItems = append(searchSongItems, &meta.SearchSongItem{
-			Name:           item.Songname,
-			Artist:         item.Singer[0].Name,
-			Album:          item.Albumname,
-			Duration:       item.Interval,
-			Url:            fmt.Sprintf("https://y.qq.com/n/ryqq/songDetail/%s", item.Songmid),
-			CannotDownload: item.Pay.Payplay == 1,
-			Source:         consts.SourceNameQq,
+			Name:              item.Songname,
+			Artist:            item.Singer[0].Name,
+			Album:             item.Albumname,
+			Duration:          item.Interval,
+			Url:               fmt.Sprintf("https://y.qq.com/n/ryqq/songDetail/%s", item.Songmid),
+			ResourceForbidden: item.Pay.Payplay == 1,
+			Source:            consts.SourceNameQq,
 		})
 	}
 

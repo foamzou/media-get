@@ -32,12 +32,13 @@ func (c *Core) SearchSong() ([]*meta.SearchSongItem, error) {
 
 	for _, item := range searchSongResponse.Data.Info {
 		searchSongItems = append(searchSongItems, &meta.SearchSongItem{
-			Name:     item.Songname,
-			Artist:   item.Singername,
-			Album:    item.AlbumName,
-			Duration: item.Duration,
-			Url:      fmt.Sprintf("https://www.kugou.com/song/#hash=%s&album_id=%s", item.Hash, item.AlbumId),
-			Source:   consts.SourceNameKugou,
+			Name:              item.Songname,
+			Artist:            item.Singername,
+			Album:             item.AlbumName,
+			Duration:          item.Duration,
+			ResourceForbidden: item.Privilege >= 10,
+			Url:               fmt.Sprintf("https://www.kugou.com/song/#hash=%s&album_id=%s", item.Hash, item.AlbumId),
+			Source:            consts.SourceNameKugou,
 		})
 	}
 

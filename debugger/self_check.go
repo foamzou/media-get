@@ -22,3 +22,12 @@ func SelfCheck() {
 
 	logger.Debug("self check finish")
 }
+
+func HasInstalledFFmpeg() bool {
+	ffmpegBin := ffmpeg.GetFfmpegBin()
+	ffprobeBin := ffmpeg.GetFfprobeBin()
+	if ffmpegBin == "" || ffprobeBin == "" {
+		return false
+	}
+	return true
+}

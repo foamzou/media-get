@@ -24,6 +24,7 @@ func (p *Processor) FetchMetaAndResourceInfo() (err error) {
 		return
 	}
 	mediaMeta.FromMusicPlatform = processor.IsMusicPlatform()
+	mediaMeta.Source = processor.GetSourceName()
 
 	if !p.Opts.MetaOnly {
 		err := p.download(mediaMeta)

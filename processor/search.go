@@ -162,8 +162,8 @@ func (p *Processor) calculateTheScore(searchOption args.Search, searchItem meta.
 		}
 	}
 
-	if searchItem.CannotDownload {
-		bwc -= 0.5
+	if searchItem.ResourceForbidden {
+		bwc -= 0.7
 	}
 
 	// cal the score

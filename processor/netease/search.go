@@ -40,12 +40,13 @@ func (c *Core) SearchSong() ([]*meta.SearchSongItem, error) {
 
 	for _, item := range searchSongResponse.Result.Songs {
 		searchSongItems = append(searchSongItems, &meta.SearchSongItem{
-			Name:     item.Name,
-			Artist:   item.Ar[0].Name,
-			Album:    item.Al.Name,
-			Duration: item.Dt / 1000,
-			Url:      fmt.Sprintf("https://music.163.com/#/song?id=%d", item.Id),
-			Source:   consts.SourceNameNetease,
+			Name:              item.Name,
+			Artist:            item.Ar[0].Name,
+			Album:             item.Al.Name,
+			Duration:          item.Dt / 1000,
+			ResourceForbidden: item.Privilege.Subp == 0,
+			Url:               fmt.Sprintf("https://music.163.com/#/song?id=%d", item.Id),
+			Source:            consts.SourceNameNetease,
 		})
 	}
 
