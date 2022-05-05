@@ -3,22 +3,22 @@ package ffmpeg
 import (
 	"bytes"
 	"os/exec"
-	"strings"
 
 	"github.com/foamzou/audio-get/logger"
+	"github.com/foamzou/audio-get/utils"
 )
 
-func ConvertSingleInput(inputFile, outputFile string, tag *MetaTag) error {
-	return ConvertMultiInput([]string{inputFile}, outputFile, tag)
+func ConvertSingleInput(inputFile, outputFile string, tag *MetaTag, isAudio bool) error {
+	return ConvertMultiInput([]string{inputFile}, outputFile, tag, isAudio)
 }
 
-func ConvertMultiInput(inputFiles []string, outputFile string, tag *MetaTag) error {
+func ConvertMultiInput(inputFiles []string, outputFile string, tag *MetaTag, isAudio bool) error {
 	var tagParams []string
-	shouldAddCover := len(inputFiles) == 1 && tag != nil && tag.Cover != ""
+	shouldAddCover := isAudio && len(inputFiles) == 1 && tag != nil && tag.Cover != ""
 
 	if tag != nil {
 		tagParams = []string{
-			"-metadata", "title=" + filterUnexpectedChar(tag.Title),
+			"-metadata", "title=" + utils.FilterUnexpectedChar(tag.Title),
 			"-metadata", "artist=" + tag.Artist,
 			"-metadata", "album=" + tag.Album,
 		}
@@ -62,12 +62,4 @@ func ConvertMultiInput(inputFiles []string, outputFile string, tag *MetaTag) err
 		return err
 	}
 	return nil
-}
-
-func filterUnexpectedChar(title string) string {
-	title = strings.ReplaceAll(title, " ", "")
-	title = strings.ReplaceAll(title, ".", "")
-	title = strings.ReplaceAll(title, "/", "")
-	title = strings.ReplaceAll(title, "?", "")
-	return title
 }

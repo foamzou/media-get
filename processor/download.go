@@ -47,7 +47,7 @@ func (p *Processor) downloadAudio(mediaMeta *meta.MediaMeta) error {
 	}
 
 	logger.Info(fmt.Sprintf("start convert, to : %s\n", tempOutputPath))
-	err = ffmpeg.ConvertSingleInput(tempOutputPath, targetOutPath, adjustFileMeta(tempOutputPath, mediaMeta))
+	err = ffmpeg.ConvertSingleInput(tempOutputPath, targetOutPath, adjustFileMeta(tempOutputPath, mediaMeta), true)
 	_ = os.Remove(tempOutputPath)
 	if err != nil {
 		logger.Error(err)
@@ -88,7 +88,7 @@ func (p *Processor) downloadVideo(mediaMeta *meta.MediaMeta) error {
 	inputs = append(inputs, tempOutputPath)
 
 	logger.Debug(fmt.Sprintf("start convert, download to : %s\n", tempOutputPath))
-	err = ffmpeg.ConvertMultiInput(inputs, targetOutPath, adjustFileMeta(tempOutputPath, mediaMeta))
+	err = ffmpeg.ConvertMultiInput(inputs, targetOutPath, adjustFileMeta(tempOutputPath, mediaMeta), false)
 	_ = os.Remove(tempOutputPath)
 	if tempAudioOutputPath != "" {
 		_ = os.Remove(tempAudioOutputPath)
@@ -128,6 +128,8 @@ func (p *Processor) getOutputPaths(fileTitle string, newExt string) (tempFilePat
 		p.Opts.IsDir = true
 		tempFilePath = dir
 	}
+
+	fileTitle = utils.FilterUnexpectedChar(fileTitle)
 
 	if p.Opts.IsDir {
 		targetOutPath = utils.ModifyFileExt(path.Join(tempFilePath, fileTitle), newExt)

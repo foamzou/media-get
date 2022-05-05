@@ -1,12 +1,21 @@
 package utils
 
 import (
-	"path"
 	"strings"
 )
 
 func GetExtFromUrl(url string) string {
-	ext := strings.Split(path.Ext(url), "?")[0]
+	ext := strings.Split(url, "?")[0]
 	ext = strings.Split(ext, "#")[0]
-	return strings.Split(ext, ".")[1]
+	extGroup := strings.Split(ext, "/")
+
+	if len(extGroup) <= 1 {
+		return ""
+	}
+
+	extGroup = strings.Split(extGroup[len(extGroup)-1], ".")
+	if len(extGroup) > 1 {
+		return extGroup[len(extGroup)-1]
+	}
+	return ""
 }

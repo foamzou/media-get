@@ -1,9 +1,9 @@
 package utils
 
 import (
-	"io/ioutil"
 	"os"
 	"path"
+	"strings"
 )
 
 func ModifyFileExt(filename, newExt string) string {
@@ -19,10 +19,10 @@ func GetCurrentDir() (string, error) {
 	return dir, nil
 }
 
-func ReadFile(path string) (string, error) {
-	b, err := ioutil.ReadFile(path)
-	if err != nil {
-		return "", err
-	}
-	return string(b), nil
+func FilterUnexpectedChar(path string) string {
+	path = strings.ReplaceAll(path, " ", "")
+	path = strings.ReplaceAll(path, ".", "")
+	path = strings.ReplaceAll(path, "/", "")
+	path = strings.ReplaceAll(path, "?", "")
+	return path
 }

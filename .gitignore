@@ -1,6 +1,7 @@
 # Binaries for programs and plugins
 *.exe
 *.mp3
+*.mp4
 *.exe~
 *.dll
 *.so
