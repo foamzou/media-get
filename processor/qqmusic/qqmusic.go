@@ -93,6 +93,9 @@ func getSongUrlAndCoverUrl(songMid string) (songUrl, coverUrl string, err error)
 		songUrl = utils.RegexSingleMatchIgnoreError(html, "\"url\":[\\s]*\"(http.+?music.+?)\"", "")
 		songUrl = strings.ReplaceAll(songUrl, "\\u002F", "/")
 	}
+	if songUrl == "" {
+		return "", "", errors.New("can not get song url")
+	}
 	return songUrl, coverUrl, nil
 }
 
