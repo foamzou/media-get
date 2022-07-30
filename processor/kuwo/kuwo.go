@@ -24,8 +24,8 @@ func (c *Core) IsMusicPlatform() bool {
 	return true
 }
 
-func (c *Core) Domain() string {
-	return "kuwo.cn"
+func (c *Core) Domains() []string {
+	return []string{"kuwo.cn"}
 }
 
 func (c *Core) GetSourceName() string {

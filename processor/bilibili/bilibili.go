@@ -21,8 +21,8 @@ func (c *Core) IsMusicPlatform() bool {
 	return false
 }
 
-func (c *Core) Domain() string {
-	return "bilibili.com"
+func (c *Core) Domains() []string {
+	return []string{"bilibili.com", "b23.tv"}
 }
 
 func (c *Core) GetSourceName() string {
@@ -30,6 +30,13 @@ func (c *Core) GetSourceName() string {
 }
 
 func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error) {
+	if strings.Contains(c.Opts.Url, "b23.tv") {
+		if redirectUrl, err := utils.GetLocation(c.Opts.Url, map[string]string{
+			"user-agent": consts.UAAndroid,
+		}); err == nil {
+			c.Opts.Url = redirectUrl
+		}
+	}
 	html, err := fetchHtml(c.Opts.Url)
 	if err != nil {
 		return

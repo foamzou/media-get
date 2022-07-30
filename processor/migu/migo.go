@@ -20,8 +20,8 @@ func (c *Core) GetSourceName() string {
 	return consts.SourceNameMigu
 }
 
-func (c *Core) Domain() string {
-	return "migu.cn"
+func (c *Core) Domains() []string {
+	return []string{"migu.cn"}
 }
 
 func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error) {

@@ -20,8 +20,8 @@ func (c *Core) IsMusicPlatform() bool {
 	return false
 }
 
-func (c *Core) Domain() string {
-	return "douyin.com"
+func (c *Core) Domains() []string {
+	return []string{"douyin.com"}
 }
 
 func (c *Core) GetSourceName() string {

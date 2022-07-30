@@ -19,8 +19,11 @@ func (p *Processor) getProcessor() meta.IProcessor {
 	var ProcessorMap = p.getProcessorMap()
 
 	for _, processor := range ProcessorMap {
-		if strings.Contains(p.Opts.Url, processor.Domain()) {
-			return processor
+		domains := processor.Domains()
+		for _, domain := range domains {
+			if strings.Contains(p.Opts.Url, domain) {
+				return processor
+			}
 		}
 	}
 
