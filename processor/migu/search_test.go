@@ -34,9 +34,9 @@ func TestCore_SearchSong(t *testing.T) {
 			name:   "Test search song",
 			fields: fields{Opts: &args.Options{Search: args.Search{Keyword: "I Remember F.I.R", Type: "song"}}},
 			wantSongItem: &meta.SearchSongItem{
-				Name:   "淡水海边(电影《不能说的秘密》背景音乐)",
-				Artist: "周杰伦",
-				Album:  "《不能说的秘密》电影原声",
+				Name:   "I Remember",
+				Artist: "飞儿乐团",
+				Album:  "Better Life",
 				Url:    "music.migu.cn",
 				Source: consts.SourceNameMigu,
 			},

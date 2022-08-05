@@ -3,6 +3,7 @@ package migu
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	"github.com/foamzou/audio-get/consts"
 	"github.com/foamzou/audio-get/meta"
@@ -58,7 +59,8 @@ func (c *Core) fetchFromSong() (mediaMeta *meta.MediaMeta, err error) {
 func getSongUrlFromResources(resources []RateFormat) string {
 	for _, resource := range resources {
 		if resource.FormatType == "HQ" {
-			return "https://freetyst.nf.migu.cn/" + utils.RegexSingleMatchIgnoreError(resource.Url, `ftp:\/\/[^/]+\/(.*)`, "")
+			url := "https://freetyst.nf.migu.cn/" + utils.RegexSingleMatchIgnoreError(resource.Url, `ftp:\/\/[^/]+\/(.*)`, "")
+			return strings.ReplaceAll(url, "+", "%2B")
 		}
 	}
 	return ""

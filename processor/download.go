@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path"
+	"strings"
 
 	"github.com/foamzou/audio-get/consts"
 	"github.com/foamzou/audio-get/ffmpeg"
@@ -34,7 +35,15 @@ func (p *Processor) downloadAudio(mediaMeta *meta.MediaMeta) error {
 	tempOutputPath, targetOutPath := p.getOutputPaths(mediaMeta.Title, consts.ExtNameMp3)
 
 	if !p.Opts.AddMediaTag && utils.GetExtFromUrl(audioUrl) == consts.ExtNameMp3 {
-		err := utils.WgetBinary(audioUrl, targetOutPath, mediaMeta.Headers)
+		var err error
+
+		// When the url contain + in migu, it should be encode to %2B. But the net/http package will decode it to + when
+		// send to service. So have to use socket to download.
+		if mediaMeta.Source == consts.SourceNameMigu && strings.Contains(audioUrl, "%2B") {
+			err = utils.DownloadBinaryWithTCP(audioUrl, targetOutPath, mediaMeta.Headers)
+		} else {
+			err = utils.WgetBinary(audioUrl, targetOutPath, mediaMeta.Headers)
+		}
 		if err != nil {
 			return err
 		}
