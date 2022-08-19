@@ -44,7 +44,6 @@ func TestCore_FetchMetaAndResourceInfo(t *testing.T) {
 				Description: "七朵花《我只想要》是多少人的回忆#音乐推荐 #经典音乐#情感音乐#热门歌曲#抖音热歌#音乐mv#音乐 ",
 				Duration:    260,
 				CoverUrl:    "jpeg",
-				Artist:      "音乐而动(激光炮)",
 				Album:       "抖音Video",
 				Audios: []meta.Audio{{
 					Url: ".mp3",

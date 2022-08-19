@@ -48,11 +48,19 @@ func GetLocation(url string, headers map[string]string) (string, error) {
 	return location, nil
 }
 
-func GetCookie(url string, headers map[string]string) (string, error) {
+func GetCookie(url string, headers map[string]string, isHead bool) (string, error) {
 	client := createClient()
-	resp, err := client.R().
-		SetHeaders(headers).
-		Get(url)
+	var resp *resty.Response
+	var err error
+	if isHead {
+		resp, err = client.R().
+			SetHeaders(headers).
+			Head(url)
+	} else {
+		resp, err = client.R().
+			SetHeaders(headers).
+			Get(url)
+	}
 
 	if err != nil {
 		return "", err

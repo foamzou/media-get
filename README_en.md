@@ -69,7 +69,7 @@ Search Options:
       --searchArtist=   artist name
       --searchAlbum=    album name
       --searchType=     Support: song, Default: song
-      --sources=        Search in the specific source, separate with comma. Support: bilibili,douyin,kugou,kuwo,migu,netease,qq,youtube. Default search in all
+      --sources=        Search in the specific source, separate with comma. Support: bilibili,douyin,kugou,kuwo,migu,netease,qq,youtube,qmkg. Default search in all
       --excludeSource=  Search not in the specific source, separate with comma
 
 Help Options:
@@ -93,6 +93,9 @@ Site | Source Name | Audio | Video | Search
 [migu music](https://music.migu.cn/) |migu | ✅ | ⌛ | ✅
 [kugou](https://www.kugou.com/) |kugou | ✅ | ⌛ | ✅
 [kuwo](https://www.kuwo.cn/) | kuwo |✅ | ⌛ | ✅
+[qmkg](https://kg.qq.com/) | qmkg |✅ | ⌛ | ⌛
+
 
 ## Thanks
+- DouYin XB: https://www.jianshu.com/p/4db4f4d6a536
 - Netease Encrypt Method: https://github.com/872409/music-get

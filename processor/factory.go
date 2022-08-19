@@ -11,6 +11,7 @@ import (
 	"github.com/foamzou/audio-get/processor/kuwo"
 	"github.com/foamzou/audio-get/processor/migu"
 	"github.com/foamzou/audio-get/processor/netease"
+	"github.com/foamzou/audio-get/processor/qmkg"
 	"github.com/foamzou/audio-get/processor/qqmusic"
 	"github.com/foamzou/audio-get/processor/youtube"
 )
@@ -59,6 +60,7 @@ func (p *Processor) getProcessorMap() map[string]meta.IProcessor {
 		consts.SourceNameMigu:     &migu.Core{Opts: p.Opts},
 		consts.SourceNameKugou:    &kugou.Core{Opts: p.Opts},
 		consts.SourceNameKuwo:     &kuwo.Core{Opts: p.Opts},
+		consts.SourceNameQMKG:     &qmkg.Core{Opts: p.Opts},
 		consts.SourceNameQq:       &qqmusic.Core{Opts: p.Opts},
 	}
 

@@ -401,11 +401,12 @@ linters:
     - govet
     - gofmt
     - goimports
-    - lll
     - megacheck
     - misspell
     - revive
   disable:
+    - gosec
+    - lll
     - maligned
     - prealloc
     - scopelint

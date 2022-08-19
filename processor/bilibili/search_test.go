@@ -23,8 +23,8 @@ func TestCore_SearchSong(t *testing.T) {
 			name:   "Test search video",
 			fields: fields{Opts: &args.Options{Search: args.Search{Keyword: "珊瑚海 周杰伦", Type: "song"}}},
 			wantSongItem: &meta.SearchSongItem{
-				Name:   "珊瑚海-周杰伦",
-				Artist: "cb林师傅",
+				Name:   "【1080P修复】周杰伦 梁心颐 - 珊瑚海MV 修复版",
+				Artist: "zyl2012",
 				Url:    "bilibili",
 				Source: consts.SourceNameBilibili,
 			},

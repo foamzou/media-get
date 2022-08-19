@@ -21,7 +21,7 @@ type Search struct {
 	Artist         string `long:"searchArtist" description:"artist name" required:"false"`
 	Album          string `long:"searchAlbum" description:"album name" required:"false"`
 	Type           string `long:"searchType" description:"Support: song, Default: song" required:"false"`
-	Sources        string `long:"sources" description:"Search in the specific source, separate with comma. Support: bilibili,douyin,kugou,kuwo,migu,netease,qq,youtube. Default: All" required:"false"`
+	Sources        string `long:"sources" description:"Search in the specific source, separate with comma. Support: bilibili,douyin,kugou,kuwo,migu,netease,qq,youtube,qmkg. Default: All" required:"false"`
 	ExcludeSources string `long:"excludeSource" description:"Search not in the specific source, separate with comma" required:"false"`
 
 	SourcesWillBeSearch []string

@@ -39,7 +39,7 @@ func Test_parseSearchSource(t *testing.T) {
 			name: "all field not specified, should use default: all",
 			args: args{opt: &Options{Search: Search{Sources: "", ExcludeSources: ""}}},
 			wantSources: []string{
-				"bilibili", "douyin", "kugou", "kuwo", "migu", "netease", "qq", "youtube",
+				"bilibili", "douyin", "kugou", "kuwo", "migu", "netease", "qq", "youtube", "qmkg",
 			},
 		},
 		{
@@ -67,14 +67,14 @@ func Test_parseSearchSource(t *testing.T) {
 			name: "excludeSources specified but not sources",
 			args: args{opt: &Options{Search: Search{Sources: "", ExcludeSources: "kuwo,qq"}}},
 			wantSources: []string{
-				"bilibili", "douyin", "kugou", "migu", "netease", "youtube",
+				"bilibili", "douyin", "kugou", "migu", "netease", "youtube", "qmkg",
 			},
 		},
 		{
 			name: "excludeSources with space specified but not sources",
 			args: args{opt: &Options{Search: Search{Sources: "", ExcludeSources: "kuwo , qq"}}},
 			wantSources: []string{
-				"bilibili", "douyin", "kugou", "migu", "netease", "youtube",
+				"bilibili", "douyin", "kugou", "migu", "netease", "youtube", "qmkg",
 			},
 		},
 		{

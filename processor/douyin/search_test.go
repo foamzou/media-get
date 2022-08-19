@@ -24,7 +24,6 @@ func TestCore_SearchSong(t *testing.T) {
 			fields: fields{Opts: &args.Options{Search: args.Search{Keyword: "七朵花《我只想要》是多少人的回忆", Type: "song"}}},
 			wantSongItem: &meta.SearchSongItem{
 				Name:   "七朵花《我只想要》是多少人的回忆#音乐推荐 #经典音乐#情感音乐#热门歌曲#抖音热歌#音乐mv#音乐 ",
-				Artist: "音乐而动(激光炮)",
 				Url:    "douyin",
 				Source: consts.SourceNameDouyin,
 			},
@@ -37,7 +36,7 @@ func TestCore_SearchSong(t *testing.T) {
 			}
 			gotSongItems, err := c.SearchSong()
 			if (err != nil) != tt.wantErr {
-				t.Errorf("FetchMetaAndResourceInfo() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("SearchSong() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			test_helper.TestSearchSongResult(t, gotSongItems, tt.wantSongItem)

@@ -1,4 +1,4 @@
-package migu
+package qmkg
 
 import (
 	"testing"
@@ -19,15 +19,17 @@ func TestCore_FetchMetaAndResourceInfo(t *testing.T) {
 		wantErr       bool
 	}{
 		{
-			name:   "Test song",
-			fields: fields{Opts: &args.Options{Url: "https://music.migu.cn/v3/music/song/60054701952"}},
+			name:   "test share url",
+			fields: fields{Opts: &args.Options{Url: "https://kg3.qq.com/node/a6MPpvAot8/play_v2?s=bcY2OWbCGDcTPbjz&shareuid=679f9582262e328e&topsource=a0_pn201001006_z11_u52873355_l1_t1660396943__&pageId=details_of_creations"}},
 			wantMediaMeta: &meta.MediaMeta{
-				Title:       "枫",
-				Description: "枫",
-				Duration:    277,
-				Artist:      "周杰伦",
-				Album:       "十一月的萧邦",
-				Audios:      []meta.Audio{{Url: ".mp3"}},
+				Title:    "我以为",
+				Duration: 308,
+				CoverUrl: "jpg",
+				Artist:   "锋哥",
+				Album:    "全民K歌",
+				Audios: []meta.Audio{{
+					Url: ".m4a",
+				}},
 			},
 		},
 	}

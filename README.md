@@ -69,7 +69,7 @@ Search Options:
       --searchArtist=   歌手名
       --searchAlbum=    专辑名
       --searchType=     暂时只支持: song, 默认: song
-      --sources=        在指定的网站中搜索，使用英文逗号隔开. 目前支持: bilibili,douyin,kugou,kuwo,migu,netease,qq,youtube. 默认在全部网站中搜索
+      --sources=        在指定的网站中搜索，使用英文逗号隔开. 目前支持: bilibili,douyin,kugou,kuwo,migu,netease,qq,youtube,qmkg. 默认在全部网站中搜索
       --excludeSource=  排除指定的网站，使用英文逗号隔开
 
 Help Options:
@@ -92,7 +92,9 @@ Site | Source Name | Audio | Video | Search
 [咪咕音乐](https://music.migu.cn/) |migu | ✅ | ⌛ | ✅
 [酷狗](https://www.kugou.com/) |kugou | ✅ | ⌛ | ✅
 [酷我](https://www.kuwo.cn/) | kuwo |✅ | ⌛ | ✅
+[全民K歌](https://kg.qq.com/) | qmkg |✅ | ⌛ | ⌛
 
 
 ## 致谢
+- DouYin XB: https://www.jianshu.com/p/4db4f4d6a536
 - Netease Encrypt Method: https://github.com/872409/music-get
