@@ -9,6 +9,7 @@ const (
 	SourceNameNetease  = "netease"
 	SourceNameQq       = "qq"
 	SourceNameYoutube  = "youtube"
+	SourceNameQMKG     = "qmkg"
 )
 
 func GetAllSourceName() []string {
@@ -21,5 +22,6 @@ func GetAllSourceName() []string {
 		SourceNameNetease,
 		SourceNameQq,
 		SourceNameYoutube,
+		SourceNameQMKG,
 	}
 }
