@@ -21,11 +21,11 @@ func TestCore_SearchSong(t *testing.T) {
 	}{
 		{
 			name:   "Test search song",
-			fields: fields{Opts: &args.Options{Search: args.Search{Keyword: "雨下的瞬間 李梦尹", Type: "song"}}},
+			fields: fields{Opts: &args.Options{Search: args.Search{Keyword: "灰色头像 许嵩", Type: "song"}}},
 			wantSongItem: &meta.SearchSongItem{
-				Name:   "雨下的瞬間",
-				Artist: "李梦尹",
-				Album:  "雨下的瞬間",
+				Name:   "灰色头像",
+				Artist: "许嵩",
+				Album:  "寻雾启示",
 				Url:    "kugou.com",
 				Source: consts.SourceNameKugou,
 			},

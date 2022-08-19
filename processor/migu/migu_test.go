@@ -20,13 +20,13 @@ func TestCore_FetchMetaAndResourceInfo(t *testing.T) {
 	}{
 		{
 			name:   "Test song",
-			fields: fields{Opts: &args.Options{Url: "https://music.migu.cn/v3/music/song/60054701938"}},
+			fields: fields{Opts: &args.Options{Url: "https://music.migu.cn/v3/music/song/60054701952"}},
 			wantMediaMeta: &meta.MediaMeta{
-				Title:       "搁浅",
-				Description: "搁浅",
-				Duration:    240,
+				Title:       "枫",
+				Description: "枫",
+				Duration:    277,
 				Artist:      "周杰伦",
-				Album:       "七里香",
+				Album:       "十一月的萧邦",
 				Audios:      []meta.Audio{{Url: ".mp3"}},
 			},
 		},
