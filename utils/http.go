@@ -70,9 +70,6 @@ func GetCookie(url string, headers map[string]string, isHead bool) (string, erro
 	}
 	cookie := resp.RawResponse.Header.Get("Set-Cookie")
 	if cookie == "" {
-		fmt.Println(url)
-		fmt.Println(headers)
-		fmt.Println(resp.RawResponse.Header)
 		return "", fmt.Errorf("cookie is empty")
 	}
 
