@@ -48,11 +48,19 @@ func GetLocation(url string, headers map[string]string) (string, error) {
 	return location, nil
 }
 
-func GetCookie(url string, headers map[string]string) (string, error) {
+func GetCookie(url string, headers map[string]string, isHead bool) (string, error) {
 	client := createClient()
-	resp, err := client.R().
-		SetHeaders(headers).
-		Get(url)
+	var resp *resty.Response
+	var err error
+	if isHead {
+		resp, err = client.R().
+			SetHeaders(headers).
+			Head(url)
+	} else {
+		resp, err = client.R().
+			SetHeaders(headers).
+			Get(url)
+	}
 
 	if err != nil {
 		return "", err
@@ -62,6 +70,9 @@ func GetCookie(url string, headers map[string]string) (string, error) {
 	}
 	cookie := resp.RawResponse.Header.Get("Set-Cookie")
 	if cookie == "" {
+		fmt.Println(url)
+		fmt.Println(headers)
+		fmt.Println(resp.RawResponse.Header)
 		return "", fmt.Errorf("cookie is empty")
 	}
 
