@@ -4,13 +4,47 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net"
 	"net/http"
 	"net/url"
 	"os"
 	"strings"
+
+	"github.com/foamzou/audio-get/logger"
 )
+
+type WgetBinaryProgressReader struct {
+	io.Reader
+	Total   int64
+	Current int64
+}
+
+func (r *WgetBinaryProgressReader) Read(p []byte) (n int, err error) {
+	n, err = r.Reader.Read(p)
+
+	r.Current += int64(n)
+	logger.Infof("\rdownloading percent: %.2f%%", float64(r.Current*10000/r.Total)/100)
+	return
+}
+
+type TCPProgressReader struct {
+	net.Conn
+	Init    bool
+	Current int64
+	Total   int64
+}
+
+func (r *TCPProgressReader) Read(p []byte) (n int, err error) {
+	n, err = r.Conn.Read(p)
+	if !r.Init {
+		//fmt.Println(string(p[:]))
+		r.Init = true
+	}
+
+	// TODO: parse Total from first package
+	//logger.Infof("\rdownloading percent: %.2f%%", float64(r.Current*10000/r.Total)/100)
+	return
+}
 
 func WgetBinary(url string, downloadTo string, headers map[string]string) error {
 	out, err := os.Create(downloadTo)
@@ -44,7 +78,12 @@ func WgetBinary(url string, downloadTo string, headers map[string]string) error 
 		return errors.New("target is not a binary")
 	}
 
-	_, err = io.Copy(out, resp.Body)
+	reader := &WgetBinaryProgressReader{
+		Reader: resp.Body,
+		Total:  resp.ContentLength,
+	}
+	_, err = io.Copy(out, reader)
+	logger.Info("\n")
 	if err != nil {
 		return err
 	}
@@ -75,13 +114,15 @@ func DownloadBinaryWithTCP(inputUrl string, downloadTo string, headers map[strin
 	if err != nil {
 		return err
 	}
-
-	resp, err := ioutil.ReadAll(conn)
+	reader := &TCPProgressReader{
+		Conn: conn,
+	}
+	resp, err := io.ReadAll(reader)
 	if err != nil {
 		return err
 	}
 
-	err = ioutil.WriteFile(downloadTo, resp, 0600)
+	err = os.WriteFile(downloadTo, resp, 0600)
 	if err != nil {
 		return err
 	}
