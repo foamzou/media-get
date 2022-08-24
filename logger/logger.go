@@ -31,9 +31,21 @@ func Info(msg ...interface{}) {
 	}
 }
 
+func Infof(format string, a interface{}) {
+	if consts.LogLevelInfo <= logLevel {
+		fmt.Printf(format, a)
+	}
+}
+
 func Error(msg ...interface{}) {
 	if consts.LogLevelError <= logLevel {
 		fmt.Println(msg...)
+	}
+}
+
+func Errorf(format string, a interface{}) {
+	if consts.LogLevelError <= logLevel {
+		fmt.Printf(format, a)
 	}
 }
 
@@ -43,8 +55,20 @@ func Warn(msg ...interface{}) {
 	}
 }
 
+func Warnf(format string, a interface{}) {
+	if consts.LogLevelWarn <= logLevel {
+		fmt.Printf(format, a)
+	}
+}
+
 func Debug(msg ...interface{}) {
 	if consts.LogLevelDebug <= logLevel {
 		fmt.Println(msg...)
+	}
+}
+
+func Debugf(format string, a interface{}) {
+	if consts.LogLevelDebug <= logLevel {
+		fmt.Printf(format, a)
 	}
 }
