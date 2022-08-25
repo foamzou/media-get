@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net"
 	"net/http"
+	"net/url"
+	"os"
 	"time"
 
 	"github.com/go-resty/resty/v2"
@@ -15,6 +17,12 @@ const TcpConnectTimeout = 1500 * time.Millisecond
 
 func HttpGet(url string, headers map[string]string) (string, error) {
 	client := createClient()
+
+	httpProxyEnv := GetProxyUrl()
+	if httpProxyEnv != "" {
+		client.SetProxy(httpProxyEnv)
+	}
+
 	resp, err := client.R().
 		SetHeaders(headers).
 		Get(url)
@@ -98,4 +106,26 @@ func createClient() resty.Client {
 			Timeout: TcpConnectTimeout,
 		}).DialContext,
 	}))
+}
+
+func SetHttpClientProxy(client *http.Client) error {
+	httpProxyEnv := GetProxyUrl()
+	if httpProxyEnv != "" {
+		proxyUrl, err := url.Parse(httpProxyEnv)
+		if err != nil {
+			return err
+		}
+		client.Transport = &http.Transport{Proxy: http.ProxyURL(proxyUrl)}
+	}
+	return nil
+}
+
+func GetProxyUrl() string {
+	httpProxy := os.Getenv("http_proxy")
+	httpsProxy := os.Getenv("https_proxy")
+	if httpProxy != "" {
+		return httpProxy
+	} else {
+		return httpsProxy
+	}
 }

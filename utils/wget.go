@@ -46,7 +46,7 @@ func (r *TCPProgressReader) Read(p []byte) (n int, err error) {
 	return
 }
 
-func WgetBinary(url string, downloadTo string, headers map[string]string) error {
+func WgetBinary(srcUrl string, downloadTo string, headers map[string]string) error {
 	out, err := os.Create(downloadTo)
 	if err != nil {
 		return err
@@ -56,7 +56,13 @@ func WgetBinary(url string, downloadTo string, headers map[string]string) error 
 	}(out)
 
 	client := &http.Client{}
-	request, err := http.NewRequest("GET", url, nil) // nolint
+
+	err = SetHttpClientProxy(client)
+	if err != nil {
+		return err
+	}
+
+	request, err := http.NewRequest("GET", srcUrl, nil) // nolint
 	if err != nil {
 		return err
 	}
