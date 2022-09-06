@@ -55,3 +55,12 @@ type SearchSongResponse struct {
 		} `json:"result"`
 	} `json:"data"`
 }
+
+type FingerInfo struct {
+	Code int `json:"code"`
+	Data struct {
+		B3 string `json:"b_3"`
+		B4 string `json:"b_4"`
+	} `json:"data"`
+	Message string `json:"message"`
+}
