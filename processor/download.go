@@ -2,14 +2,15 @@ package processor
 
 import (
 	"fmt"
+	"os"
+	"path"
+	"strings"
+
 	"github.com/foamzou/audio-get/consts"
 	"github.com/foamzou/audio-get/ffmpeg"
 	"github.com/foamzou/audio-get/logger"
 	"github.com/foamzou/audio-get/meta"
 	"github.com/foamzou/audio-get/utils"
-	"os"
-	"path"
-	"strings"
 )
 
 func (p *Processor) download(mediaMeta *meta.MediaMeta) error {
