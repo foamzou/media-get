@@ -18,7 +18,7 @@ func (c *Core) SearchSong() ([]*meta.SearchSongItem, error) {
 	var searchSongItems []*meta.SearchSongItem
 	api := fmt.Sprintf(APISearch, url.QueryEscape(c.Opts.Search.Keyword))
 
-	jsonStr, err := utils.HttpGet(api, map[string]string{
+	jsonStr, err := utils.HttpGet(consts.SourceNameKuwo, api, map[string]string{
 		"User-Agent": consts.UAMac,
 		"Referer":    "https://m.kuwo.cn/",
 	})

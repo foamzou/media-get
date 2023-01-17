@@ -75,7 +75,7 @@ func tryGetSongMeta(hash string, albumID, mixSongID int) (songMeta *SongMeta, er
 }
 
 func getSongMeta(url string) (songMeta *SongMeta, err error) {
-	kugouMetaJson, err := utils.HttpGet(url, map[string]string{
+	kugouMetaJson, err := utils.HttpGet(consts.SourceNameKugou, url, map[string]string{
 		"user-agent": consts.UAMac,
 	})
 	if err != nil {
@@ -99,7 +99,7 @@ func getSongIdInfo(url string) (hash string, albumID int, mixSongID int, err err
 		mixSongID = albumID
 		return
 	}
-	html, err := utils.HttpGet(url, map[string]string{
+	html, err := utils.HttpGet(consts.SourceNameKugou, url, map[string]string{
 		"user-agent": consts.UAMac,
 	})
 	if err != nil {

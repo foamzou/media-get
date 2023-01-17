@@ -65,7 +65,7 @@ func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error)
 }
 
 func getSongUrlAndCoverUrl(songMid string) (songUrl, coverUrl string, err error) {
-	html, err := utils.HttpGet(fmt.Sprintf(SongHtmlURL, songMid), map[string]string{
+	html, err := utils.HttpGet(consts.SourceNameQq, fmt.Sprintf(SongHtmlURL, songMid), map[string]string{
 		"user-agent": consts.UAAndroid,
 	})
 	if err != nil {
@@ -114,7 +114,7 @@ func getSongMid(url string) (string, error) {
 
 func getSongMeta(songMid string) (songMeta *SongMeta, err error) {
 	songAPI := fmt.Sprintf(SongInfoAPI, songMid)
-	qqMetaJson, err := utils.HttpGet(songAPI, map[string]string{
+	qqMetaJson, err := utils.HttpGet(consts.SourceNameQq, songAPI, map[string]string{
 		"user-agent": consts.UAMac,
 	})
 	if err != nil {

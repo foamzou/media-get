@@ -1,10 +1,12 @@
 package utils
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/go-resty/resty/v2"
@@ -12,9 +14,11 @@ import (
 
 const TimeOut = 3 * time.Second
 const TcpConnectTimeout = 1500 * time.Millisecond
+const HttpRetryCnt = 3
+const ConfigFile = "/$HOME/.media-get.json"
 
-func HttpGet(url string, headers map[string]string) (string, error) {
-	client := createClient()
+func HttpGet(source, url string, headers map[string]string) (string, error) {
+	client := createClient(source)
 	resp, err := client.R().
 		SetHeaders(headers).
 		Get(url)
@@ -28,8 +32,8 @@ func HttpGet(url string, headers map[string]string) (string, error) {
 	return resp.String(), nil
 }
 
-func GetLocation(url string, headers map[string]string) (string, error) {
-	client := createClient()
+func GetLocation(source, url string, headers map[string]string) (string, error) {
+	client := createClient(source)
 	client.SetRedirectPolicy(resty.NoRedirectPolicy())
 	// Should ignore the error since the redirect policy would return error when found redirect
 	resp, _ := client.R().
@@ -48,8 +52,8 @@ func GetLocation(url string, headers map[string]string) (string, error) {
 	return location, nil
 }
 
-func GetCookie(url string, headers map[string]string, isHead bool) (string, error) {
-	client := createClient()
+func GetCookie(source, url string, headers map[string]string, isHead bool) (string, error) {
+	client := createClient(source)
 	var resp *resty.Response
 	var err error
 	if isHead {
@@ -76,8 +80,8 @@ func GetCookie(url string, headers map[string]string, isHead bool) (string, erro
 	return cookie, nil
 }
 
-func PostForm(url string, data, headers map[string]string) (string, error) {
-	client := createClient()
+func PostForm(source, url string, data, headers map[string]string) (string, error) {
+	client := createClient(source)
 	resp, err := client.R().
 		SetHeaders(headers).
 		SetFormData(data).
@@ -92,10 +96,40 @@ func PostForm(url string, data, headers map[string]string) (string, error) {
 	return resp.String(), nil
 }
 
-func createClient() resty.Client {
-	return *(resty.New().SetTimeout(TimeOut).SetTransport(&http.Transport{
+func createClient(source string) resty.Client {
+	// match source from proxy config
+	proxyAddr := getProxyConfig(source)
+	restCli := *(resty.New().SetTimeout(TimeOut).SetRetryCount(HttpRetryCnt).SetTransport(&http.Transport{
 		DialContext: (&net.Dialer{
 			Timeout: TcpConnectTimeout,
 		}).DialContext,
 	}))
+	// match source from proxy config
+	if proxyAddr != "" {
+		restCli.SetProxy(proxyAddr)
+	}
+	return restCli
+}
+
+func getProxyConfig(source string) string {
+	f, err := os.Open(ConfigFile)
+	if err != nil {
+		fmt.Println("open file err = ", err)
+		return ""
+	}
+
+	defer f.Close()
+
+	proxyInfos := make(map[string]string)
+	decoder := json.NewDecoder(f)
+	err = decoder.Decode(&proxyInfos)
+	if err != nil {
+		fmt.Printf("json decode has error:%v\n", err)
+		return ""
+	}
+	value, ok := proxyInfos[source]
+	if ok {
+		return value
+	}
+	return ""
 }

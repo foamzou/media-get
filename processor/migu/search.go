@@ -10,7 +10,9 @@ import (
 	"github.com/foamzou/audio-get/utils"
 )
 
-const APISearch = "https://m.music.migu.cn/migumusic/h5/search/all?text=%s&pageNo=1&pageSize=30"
+const (
+	APISearch = "https://m.music.migu.cn/migumusic/h5/search/all?text=%s&pageNo=1&pageSize=30"
+)
 
 func (c *Core) SearchSong() ([]*meta.SearchSongItem, error) {
 	var searchSongItems []*meta.SearchSongItem
@@ -23,7 +25,7 @@ func (c *Core) SearchSong() ([]*meta.SearchSongItem, error) {
 	api := fmt.Sprintf(APISearch, url.QueryEscape(keyword))
 
 	ua := consts.UAAndroid
-	jsonStr, err := utils.HttpGet(api, map[string]string{
+	jsonStr, err := utils.HttpGet(consts.SourceNameMigu, api, map[string]string{
 		"User-Agent": ua,
 		"By":         utils.Md5(ua),
 		"Referer":    "https://m.music.migu.cn/v4/search",

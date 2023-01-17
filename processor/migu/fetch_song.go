@@ -20,7 +20,7 @@ func (c *Core) fetchFromSong() (mediaMeta *meta.MediaMeta, err error) {
 		return
 	}
 
-	songJson, err := utils.HttpGet(fmt.Sprintf(ApiUrlSong, songId), map[string]string{
+	songJson, err := utils.HttpGet(consts.SourceNameMigu, fmt.Sprintf(ApiUrlSong, songId), map[string]string{
 		"user-agent": consts.UAMac,
 		"referer":    c.Opts.Url,
 	})

@@ -27,14 +27,14 @@ func (c *Core) SearchSong() ([]*meta.SearchSongItem, error) {
 	apiQuery += "&X-Bogus=" + xb
 	api := APISearchAPI + apiQuery
 
-	cookie, err := utils.GetCookie(searchUrl, map[string]string{
+	cookie, err := utils.GetCookie(consts.SourceNameDouyin, searchUrl, map[string]string{
 		"User-Agent": consts.UAMac,
 	}, false)
 	if err != nil {
 		return nil, err
 	}
 
-	cookie, err = utils.GetCookie(searchUrl, map[string]string{
+	cookie, err = utils.GetCookie(consts.SourceNameDouyin, searchUrl, map[string]string{
 		"User-Agent": consts.UAMac,
 		"Referer":    searchUrl,
 		"Cookie":     cookie,
@@ -43,7 +43,7 @@ func (c *Core) SearchSong() ([]*meta.SearchSongItem, error) {
 		return nil, err
 	}
 
-	jsonStr, err := utils.HttpGet(api, map[string]string{
+	jsonStr, err := utils.HttpGet(consts.SourceNameDouyin, api, map[string]string{
 		"User-Agent": consts.UAMac,
 		"Referer":    searchUrl,
 		"Cookie":     cookie,

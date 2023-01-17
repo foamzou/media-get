@@ -31,7 +31,7 @@ func (c *Core) GetSourceName() string {
 
 func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error) {
 	if strings.Contains(c.Opts.Url, "b23.tv") {
-		if redirectUrl, err := utils.GetLocation(c.Opts.Url, map[string]string{
+		if redirectUrl, err := utils.GetLocation(consts.SourceNameBilibili, c.Opts.Url, map[string]string{
 			"user-agent": consts.UAAndroid,
 		}); err == nil {
 			c.Opts.Url = redirectUrl
@@ -131,7 +131,7 @@ func getSinger(audioMeta *AudioMeta) string {
 }
 
 func fetchHtml(url string) (string, error) {
-	return utils.HttpGet(url, map[string]string{
+	return utils.HttpGet(consts.SourceNameBilibili, url, map[string]string{
 		"user-agent": consts.UAMac,
 	})
 }

@@ -63,7 +63,7 @@ func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error)
 
 func getSongMeta(songID int) (songMeta *SongMeta, err error) {
 	reqID := utils.GenReqID()
-	kuwoMetaJson, err := utils.HttpGet(fmt.Sprintf(InfoAPI, songID, reqID), map[string]string{
+	kuwoMetaJson, err := utils.HttpGet(consts.SourceNameKuwo, fmt.Sprintf(InfoAPI, songID, reqID), map[string]string{
 		"user-agent": consts.UAMac,
 	})
 	if err != nil {
@@ -79,7 +79,7 @@ func getSongMeta(songID int) (songMeta *SongMeta, err error) {
 
 func getSongUrl(songID int) (songUrl string, err error) {
 	reqID := utils.GenReqID()
-	kuwoMetaJson, err := utils.HttpGet(fmt.Sprintf(PlayAPI, songID, reqID), map[string]string{
+	kuwoMetaJson, err := utils.HttpGet(consts.SourceNameKuwo, fmt.Sprintf(PlayAPI, songID, reqID), map[string]string{
 		"user-agent": consts.UAMac,
 	})
 	if err != nil {

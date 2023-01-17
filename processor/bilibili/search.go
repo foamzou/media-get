@@ -15,7 +15,7 @@ const APIFinger = "https://api.bilibili.com/x/frontend/finger/spi"
 const SearchPageUrl = "https://search.bilibili.com/all"
 
 func (c *Core) SearchSong() ([]*meta.SearchSongItem, error) {
-	cookie, err := utils.GetCookie(SearchPageUrl, map[string]string{
+	cookie, err := utils.GetCookie(consts.SourceNameBilibili, SearchPageUrl, map[string]string{
 		"User-Agent": consts.UAMac,
 		"Referer":    "https://search.bilibili.com/",
 	}, false)
@@ -23,7 +23,7 @@ func (c *Core) SearchSong() ([]*meta.SearchSongItem, error) {
 		return nil, err
 	}
 
-	fingerJsonStr, err := utils.HttpGet(APIFinger, map[string]string{
+	fingerJsonStr, err := utils.HttpGet(consts.SourceNameBilibili, APIFinger, map[string]string{
 		"User-Agent": consts.UAMac,
 		"Referer":    "https://search.bilibili.com/all",
 		"Cookie":     cookie,
@@ -40,7 +40,7 @@ func (c *Core) SearchSong() ([]*meta.SearchSongItem, error) {
 
 	var searchSongItems []*meta.SearchSongItem
 	api := fmt.Sprintf(APISearch, url.QueryEscape(c.Opts.Search.Keyword))
-	jsonStr, err := utils.HttpGet(api, map[string]string{
+	jsonStr, err := utils.HttpGet(consts.SourceNameBilibili, api, map[string]string{
 		"User-Agent": consts.UAMac,
 		"Referer":    "https://search.bilibili.com/all",
 		"Cookie":     cookie,

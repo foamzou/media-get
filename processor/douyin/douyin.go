@@ -36,7 +36,7 @@ func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error)
 	redirectUrl = c.Opts.Url
 
 	if videoId == "" {
-		redirectUrl, err = utils.GetLocation(c.Opts.Url, map[string]string{
+		redirectUrl, err = utils.GetLocation(consts.SourceNameDouyin, c.Opts.Url, map[string]string{
 			"user-agent": consts.UAAndroid,
 		})
 
@@ -50,7 +50,7 @@ func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error)
 		}
 	}
 
-	metaInfo, err := utils.HttpGet(ApiGetItemInfo+videoId, map[string]string{
+	metaInfo, err := utils.HttpGet(consts.SourceNameDouyin, ApiGetItemInfo+videoId, map[string]string{
 		"user-agent": consts.UAAndroid,
 		"referer":    redirectUrl,
 	})

@@ -26,7 +26,7 @@ func (c *Core) fetchFromMlog() (mediaMeta *meta.MediaMeta, err error) {
 	if err != nil {
 		return
 	}
-	videoIdJson, err := utils.PostForm(ApiMlogVideoConvertId,
+	videoIdJson, err := utils.PostForm(consts.SourceNameNetease, ApiMlogVideoConvertId,
 		map[string]string{
 			"params":    params,
 			"encSecKey": encSecKey,
