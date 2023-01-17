@@ -114,7 +114,9 @@ func createClient(source string) resty.Client {
 func getProxyConfig(source string) string {
 	f, err := os.Open(ConfigFile)
 	if err != nil {
-		fmt.Println("open file err = ", err)
+		if err != os.ErrNotExist {
+			fmt.Println("open file err = ", err)
+		}
 		return ""
 	}
 
