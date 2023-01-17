@@ -2,6 +2,7 @@ package bilibili
 
 import (
 	"encoding/json"
+	"errors"
 	"strings"
 
 	"github.com/foamzou/audio-get/args"
@@ -68,7 +69,9 @@ func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error)
 		mediaMeta.Title = audioMeta.VideoData.Title
 		mediaMeta.Description = audioMeta.VideoData.Description
 	}
-
+	if len(resource.Data.Dash.Audios) == 0 {
+		return nil, errors.New("no audio data")
+	}
 	audio := resource.Data.Dash.Audios[0]
 	mediaMeta.Artist = getSinger(audioMeta)
 	mediaMeta.Album = Album
