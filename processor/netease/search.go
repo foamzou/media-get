@@ -18,7 +18,7 @@ func (c *Core) SearchSong() ([]*meta.SearchSongItem, error) {
 	if err != nil {
 		return nil, err
 	}
-	jsonStr, err := utils.PostForm(APISearch,
+	jsonStr, err := utils.PostForm(consts.SourceNameNetease, APISearch,
 		map[string]string{
 			"params":    params,
 			"encSecKey": encSecKey,

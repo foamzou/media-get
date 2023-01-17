@@ -42,7 +42,7 @@ func (c *Core) GetSourceName() string {
 
 func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error) {
 
-	html, err := utils.HttpGet(c.Opts.Url, map[string]string{
+	html, err := utils.HttpGet(consts.SourceNameQMKG, c.Opts.Url, map[string]string{
 		"user-agent": consts.UAAndroid,
 		"referer":    c.Opts.Url,
 	})

@@ -27,7 +27,7 @@ func (c *Core) GetSourceName() string {
 }
 
 func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error) {
-	htmlInfo, err := utils.HttpGet(c.Opts.Url, map[string]string{
+	htmlInfo, err := utils.HttpGet(consts.SourceNameYoutube, c.Opts.Url, map[string]string{
 		"user-agent": consts.UAMac,
 		"referer":    "https://www.youtube.com/",
 	})

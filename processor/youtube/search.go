@@ -10,13 +10,15 @@ import (
 	"github.com/foamzou/audio-get/utils"
 )
 
-const SearchPage = "https://www.youtube.com/results?search_query=%s"
+const (
+	SearchPage = "https://www.youtube.com/results?search_query=%s"
+)
 
 func (c *Core) SearchSong() ([]*meta.SearchSongItem, error) {
 	var searchSongItems []*meta.SearchSongItem
 	searchUrl := fmt.Sprintf(SearchPage, url.QueryEscape(c.Opts.Search.Keyword))
 
-	htmlInfo, err := utils.HttpGet(searchUrl, map[string]string{
+	htmlInfo, err := utils.HttpGet(consts.SourceNameYoutube, searchUrl, map[string]string{
 		"user-agent": consts.UAMac,
 		"referer":    "https://www.youtube.com/",
 	})
