@@ -9,6 +9,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/foamzou/audio-get/logger"
 	"github.com/go-resty/resty/v2"
 )
 
@@ -16,6 +17,13 @@ const TimeOut = 3 * time.Second
 const TcpConnectTimeout = 1500 * time.Millisecond
 const HttpRetryCnt = 3
 const ConfigFile = "/$HOME/.media-get.json"
+const ConfigENV = "Media_Get_ENV"
+
+var ConfigInfos map[string]interface{}
+
+func init() {
+	ConfigInfos = getConfig()
+}
 
 func HttpGet(source, url string, headers map[string]string) (string, error) {
 	client := createClient(source)
@@ -112,26 +120,47 @@ func createClient(source string) resty.Client {
 }
 
 func getProxyConfig(source string) string {
-	f, err := os.Open(ConfigFile)
-	if err != nil {
-		if err != os.ErrNotExist {
-			fmt.Println("open file err = ", err)
-		}
+
+	if ConfigInfos == nil {
+		logger.Error("get config failed")
 		return ""
 	}
 
-	defer f.Close()
-
-	proxyInfos := make(map[string]string)
-	decoder := json.NewDecoder(f)
-	err = decoder.Decode(&proxyInfos)
-	if err != nil {
-		fmt.Printf("json decode has error:%v\n", err)
-		return ""
-	}
+	proxyInfos := ConfigInfos["proxy"].(map[string]string)
 	value, ok := proxyInfos[source]
 	if ok {
 		return value
 	}
 	return ""
+}
+
+func getConfig() map[string]interface{} {
+	// get config from env first
+	configInfos := make(map[string]interface{})
+	configEnv := os.Getenv(ConfigENV)
+	if configEnv != "" {
+		err := json.Unmarshal([]byte(configEnv), &configInfos)
+		if err != nil {
+			logger.Error("json decode has error:%v\n", err)
+			return nil
+		}
+		return configInfos
+	}
+	// get config from file
+	f, err := os.Open(ConfigFile)
+	if err != nil {
+		if err != os.ErrNotExist {
+			logger.Debug("open file err = ", err)
+		}
+		return nil
+	}
+
+	defer f.Close()
+	decoder := json.NewDecoder(f)
+	err = decoder.Decode(&configInfos)
+	if err != nil {
+		logger.Error("json decode has error:%v\n", err)
+		return nil
+	}
+	return configInfos
 }
