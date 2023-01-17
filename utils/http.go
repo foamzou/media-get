@@ -149,8 +149,8 @@ func getConfig() map[string]interface{} {
 	// get config from file
 	f, err := os.Open(ConfigFile)
 	if err != nil {
-		if err != os.ErrNotExist {
-			logger.Debug("open file err = ", err)
+		if !errors.Is(err, os.ErrNotExist) {
+			logger.Debug("open file err: %v\n", err)
 		}
 		return nil
 	}
