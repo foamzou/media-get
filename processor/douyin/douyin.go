@@ -10,7 +10,7 @@ import (
 	"github.com/foamzou/audio-get/utils"
 )
 
-const ApiGetItemInfo = "https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids="
+const ApiGetItemInfo = "https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?"
 
 type Core struct {
 	Opts *args.Options
@@ -49,15 +49,28 @@ func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error)
 			return
 		}
 	}
+	query := "reflow_source=reflow_page&item_ids=" + videoId + "&msToken="
+	xb, _ := genXB(query, consts.UAAndroid)
+	query += "&X-Bogus=" + xb
 
-	metaInfo, err := utils.HttpGet(consts.SourceNameDouyin, ApiGetItemInfo+videoId, map[string]string{
-		"user-agent": consts.UAAndroid,
-		"referer":    redirectUrl,
+	cookie, err := utils.GetCookie(consts.SourceNameDouyin, ApiGetItemInfo+query, map[string]string{
+		"User-Agent": consts.UAAndroid,
+	}, false)
+	if err != nil {
+		return nil, err
+	}
+
+	metaInfo, err := utils.HttpGet(consts.SourceNameDouyin, ApiGetItemInfo+query, map[string]string{
+		"User-Agent":      consts.UAAndroid,
+		"Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
+		"Accept-Encoding": "deflate, gzip",
+		"Accept":          "*/*",
+		"Cookie":          cookie,
+		"Referer":         redirectUrl,
 	})
 	if err != nil {
 		return
 	}
-
 	metaResponse := &MetaResponse{}
 	if err = json.Unmarshal([]byte(metaInfo), metaResponse); err != nil {
 		return

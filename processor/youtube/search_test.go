@@ -7,9 +7,11 @@ import (
 	"github.com/foamzou/audio-get/consts"
 	"github.com/foamzou/audio-get/meta"
 	"github.com/foamzou/audio-get/test_helper"
+	"github.com/foamzou/audio-get/utils"
 )
 
 func TestCore_SearchSong(t *testing.T) {
+	utils.InitConfig()
 	type fields struct {
 		Opts *args.Options
 	}

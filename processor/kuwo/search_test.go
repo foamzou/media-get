@@ -7,9 +7,11 @@ import (
 	"github.com/foamzou/audio-get/consts"
 	"github.com/foamzou/audio-get/meta"
 	"github.com/foamzou/audio-get/test_helper"
+	"github.com/foamzou/audio-get/utils"
 )
 
 func TestCore_SearchSong(t *testing.T) {
+	utils.InitConfig()
 	type fields struct {
 		Opts *args.Options
 	}
@@ -21,11 +23,11 @@ func TestCore_SearchSong(t *testing.T) {
 	}{
 		{
 			name:   "Test search song",
-			fields: fields{Opts: &args.Options{Search: args.Search{Keyword: "再生花 陈慧琳", Type: "song"}}},
+			fields: fields{Opts: &args.Options{Search: args.Search{Keyword: "星座书上", Type: "song"}}},
 			wantSongItem: &meta.SearchSongItem{
-				Name:   "再生花-《再生缘》电视剧主题曲",
-				Artist: "陈慧琳",
-				Album:  "最爱的主题曲",
+				Name:   "星座书上",
+				Artist: "许嵩",
+				Album:  "许嵩早期单曲集",
 				Url:    "kuwo.cn",
 				Source: consts.SourceNameKuwo,
 			},

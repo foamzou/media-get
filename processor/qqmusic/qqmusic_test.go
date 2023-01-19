@@ -6,9 +6,11 @@ import (
 	"github.com/foamzou/audio-get/args"
 	"github.com/foamzou/audio-get/meta"
 	"github.com/foamzou/audio-get/test_helper"
+	"github.com/foamzou/audio-get/utils"
 )
 
 func TestCore_FetchMetaAndResourceInfo(t *testing.T) {
+	utils.InitConfig()
 	type fields struct {
 		Opts *args.Options
 	}
