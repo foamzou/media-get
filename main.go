@@ -5,6 +5,7 @@ import (
 	"github.com/foamzou/audio-get/debugger"
 	"github.com/foamzou/audio-get/logger"
 	"github.com/foamzou/audio-get/processor"
+	"github.com/foamzou/audio-get/utils"
 )
 
 func main() {
@@ -30,6 +31,8 @@ func init() {
 }
 
 func initApp(opt *args.Options) {
+	utils.InitConfig()
+
 	logger.SetLogLevel(opt.LogLevel)
 
 	if !opt.MetaOnly {
