@@ -111,6 +111,8 @@ func createClient(source string, retry bool) resty.Client {
 	if proxyAddr != "" {
 		restCli.SetProxy(proxyAddr)
 	}
+
+	restCli.SetLogger(logger.MyLogger{})
 	return restCli
 }
 

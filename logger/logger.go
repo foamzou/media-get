@@ -72,3 +72,15 @@ func Debugf(format string, a interface{}) {
 		fmt.Printf(format, a)
 	}
 }
+
+type MyLogger struct{}
+
+func (l MyLogger) Errorf(format string, v ...interface{}) {
+	Errorf(format, v)
+}
+func (l MyLogger) Warnf(format string, v ...interface{}) {
+	Warnf(format, v)
+}
+func (l MyLogger) Debugf(format string, v ...interface{}) {
+	Debugf(format, v)
+}
