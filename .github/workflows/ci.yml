@@ -50,4 +50,6 @@ jobs:
         run: make build
 
       - name: Test
+        env:
+          ENV_MEDIA_GET: ${{ secrets.ENV_MEDIA_GET }}
         run: make test
