@@ -30,6 +30,22 @@ media-get -k "搁浅 周杰伦" --sources="migu,bilibili"
 # Search in all source but some source
 media-get -k "搁浅 周杰伦" --excludeSource="youtube"
 ```
+### Proxy setting
+The proxy is set in the form of environment variables or json files, with priority environment variables > configuration files.
+
+#### Set by env
+You only need to set the ENV_MEDIA_GET environment variable to take effect, the environment variable is also in json format
+```markdown
+{
+    "proxy":{
+        "douyin":"http://a.com",
+        "bilibili":"http://b.com"
+    }
+}
+```
+#### Set by config file
+You need to create a file named .media-get.json in the HOME directory of the current login, with the same contents as the environment variables set above, also a json format configuration
+
 ### Call the program on your application
 The program support output info with JSON. You can search with keyword then filter the result you wanna.
 After that, call the program with the url to download media file
