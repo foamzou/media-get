@@ -1,7 +1,7 @@
 English | [中文](./README.md)
 
 # media-get
-Get the media through the url
+Get the media through the url, and provide proxy setting, for different sources can set different proxy address
 
 ## Quick Start
 ### Download media file from the url 
