@@ -46,7 +46,6 @@ type SearchSongResponse struct {
 				RankScore    int           `json:"rank_score"`
 				Like         int           `json:"like"`
 				Upic         string        `json:"upic"`
-				Corner       string        `json:"corner"`
 				Cover        string        `json:"cover"`
 				Desc         string        `json:"desc"`
 				Url          string        `json:"url"`

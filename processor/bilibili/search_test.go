@@ -31,6 +31,16 @@ func TestCore_SearchSong(t *testing.T) {
 				Source: consts.SourceNameBilibili,
 			},
 		},
+		{
+			name:   "Test search video",
+			fields: fields{Opts: &args.Options{Search: args.Search{Keyword: "热带雨林", Type: "song"}}},
+			wantSongItem: &meta.SearchSongItem{
+				Name:   "【S.H.E】热带雨林-720P修复版 周杰伦作曲",
+				Artist: "zyl2012",
+				Url:    "bilibili",
+				Source: consts.SourceNameBilibili,
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

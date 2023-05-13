@@ -15,13 +15,14 @@ const APIFinger = "https://api.bilibili.com/x/frontend/finger/spi"
 const SearchPageUrl = "https://search.bilibili.com/all"
 
 func (c *Core) SearchSong() ([]*meta.SearchSongItem, error) {
-	cookie, err := utils.GetCookie(consts.SourceNameBilibili, SearchPageUrl, map[string]string{
+	cookie, _ := utils.GetCookie(consts.SourceNameBilibili, SearchPageUrl, map[string]string{
 		"User-Agent": consts.UAMac,
 		"Referer":    "https://search.bilibili.com/",
 	}, false)
-	if err != nil {
-		return nil, err
-	}
+	// In some case, the cookie is not required
+	//if err != nil {
+	//	return nil, err
+	//}
 
 	fingerJsonStr, err := utils.HttpGet(consts.SourceNameBilibili, APIFinger, map[string]string{
 		"User-Agent": consts.UAMac,
