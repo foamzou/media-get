@@ -41,7 +41,7 @@ func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error)
 	if err != nil {
 		return nil, err
 	}
-	songUrl, err := getSongUrl(songID)
+	songUrl, err := c.getSongUrl(songID)
 	if err != nil {
 		return nil, err
 	}
@@ -77,10 +77,22 @@ func getSongMeta(songID int) (songMeta *SongMeta, err error) {
 	return songMeta, nil
 }
 
-func getSongUrl(songID int) (songUrl string, err error) {
+func (c *Core) getSongUrl(songID int) (songUrl string, err error) {
 	reqID := utils.GenReqID()
+
+	cookie, err := utils.GetCookie(consts.SourceNameKuwo, c.Opts.Url, map[string]string{
+		"user-agent": consts.UAMac,
+	}, false)
+	if err != nil {
+		return "", err
+	}
+	cookieKey := utils.RegexSingleMatchIgnoreError(cookie, "(Hm_.+?)=", "Hm_Iuvt_cdb524f42f0cer9b268e4v7y735ewrq2324")
+	secret := genSecretHeader(cookie, cookieKey)
+
 	kuwoMetaJson, err := utils.HttpGet(consts.SourceNameKuwo, fmt.Sprintf(PlayAPI, songID, reqID), map[string]string{
 		"user-agent": consts.UAMac,
+		"cookie":     cookie,
+		"secret":     secret,
 	})
 	if err != nil {
 		return

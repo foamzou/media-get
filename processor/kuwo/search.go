@@ -12,7 +12,7 @@ import (
 	"github.com/foamzou/audio-get/utils"
 )
 
-const APISearch = "https://search.kuwo.cn/r.s?all=%s&ft=music&client=kt&cluster=0&pn=0&rn=50&rformat=json&encoding=utf8"
+const APISearch = "https://kuwo.cn/search/searchMusicBykeyWord?vipver=1&ft=music&client=kt&cluster=0&pn=0&rn=50&rformat=json&encoding=utf8&strategy=2012&mobi=1&issubtitle=1&show_copyright_off=1&all=%s"
 
 func (c *Core) SearchSong() ([]*meta.SearchSongItem, error) {
 	var searchSongItems []*meta.SearchSongItem
@@ -25,8 +25,6 @@ func (c *Core) SearchSong() ([]*meta.SearchSongItem, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	jsonStr = strings.ReplaceAll(jsonStr, "'", "\"")
 
 	var searchSongResponse SearchSongResponse
 	err = json.Unmarshal([]byte(jsonStr), &searchSongResponse)

@@ -1,8 +1,8 @@
 package douyin
 
 type MetaResponse struct {
-	StatusCode int        `json:"status_code"`
-	ItemList   []MetaItem `json:"item_list"`
+	StatusCode int      `json:"status_code"`
+	Detail     MetaItem `json:"aweme_detail"`
 }
 
 type MetaItem struct {

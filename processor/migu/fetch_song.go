@@ -3,6 +3,7 @@ package migu
 import (
 	"encoding/json"
 	"fmt"
+	"regexp"
 	"strings"
 
 	"github.com/foamzou/audio-get/consts"
@@ -38,6 +39,8 @@ func (c *Core) fetchFromSong() (mediaMeta *meta.MediaMeta, err error) {
 
 	songResource := songInfo.Resource[0]
 
+	songUrl, audioUrlErr := getAudioUrl(songResource.CopyrightId)
+
 	mediaMeta = &meta.MediaMeta{
 		Title:        songResource.SongName,
 		Description:  songResource.SongName,
@@ -45,7 +48,7 @@ func (c *Core) fetchFromSong() (mediaMeta *meta.MediaMeta, err error) {
 		Album:        songResource.Album,
 		Artist:       songResource.Singer,
 		CoverUrl:     songResource.AlbumImgs[1].Img,
-		Audios:       []meta.Audio{{Url: getSongUrlFromResources(songResource.RateFormats)}},
+		Audios:       []meta.Audio{{Url: songUrl, NotAvailable: audioUrlErr != nil}},
 		ResourceType: consts.ResourceTypeAudio,
 		Headers: map[string]string{
 			"user-agent": consts.UAMac,
@@ -56,12 +59,38 @@ func (c *Core) fetchFromSong() (mediaMeta *meta.MediaMeta, err error) {
 	return
 }
 
-func getSongUrlFromResources(resources []RateFormat) string {
-	for _, resource := range resources {
-		if resource.FormatType == "HQ" {
-			url := "https://freetyst.nf.migu.cn/" + utils.RegexSingleMatchIgnoreError(resource.Url, `ftp:\/\/[^/]+\/(.*)`, "")
-			return strings.ReplaceAll(url, "+", "%2B")
-		}
+func getAudioUrl(copyrightID string) (string, error) {
+	songResourceInfoUrl := fmt.Sprintf("https://c.musicapp.migu.cn/MIGUM2.0/v1.0/content/resourceinfo.do?copyrightId=%s&resourceType=0", copyrightID)
+
+	header := map[string]string{
+		"user-agent": consts.UAAndroid,
 	}
-	return ""
+
+	resp, err := utils.HttpGet(consts.SourceNameMigu, songResourceInfoUrl, header)
+	if err != nil {
+		return "", err
+	}
+	var songResources SongResources
+	if err = json.Unmarshal([]byte(resp), &songResources); err != nil {
+		return "", err
+	}
+	if len(songResources.Resource) == 0 {
+		return "", err
+	}
+
+	audioUrl := songResources.Resource[0].AudioUrl
+
+	pattern := `\/彩铃\/[^\/]+\/`
+	regex := regexp.MustCompile(pattern)
+
+	audioUrl = regex.ReplaceAllString(audioUrl, "/标清高清/MP3_320_16_Stero/")
+
+	audioUrl = "https://freetyst.nf.migu.cn/" + utils.RegexSingleMatchIgnoreError(audioUrl, `ftp:\/\/[^/]+\/(.*)`, "")
+	audioUrl = strings.ReplaceAll(audioUrl, "+", "%2B")
+	// 咪咕改版需要登录后，部分音源已经不可用，需要检查一下
+	if err = utils.HttpHead(consts.SourceNameMigu, audioUrl, header); err != nil {
+		return audioUrl, err
+	}
+
+	return audioUrl, nil
 }

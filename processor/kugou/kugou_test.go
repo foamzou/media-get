@@ -34,7 +34,7 @@ func TestCore_FetchMetaAndResourceInfo(t *testing.T) {
 		},
 		{
 			name:   "Test song",
-			fields: fields{Opts: &args.Options{Url: "https://www.kugou.com/song/#hash=014E975909CB0DE854AC4ACA2B94F154&album_id=1968878"}},
+			fields: fields{Opts: &args.Options{Url: "https://www.kugou.com/song/#hash=843212fbd7476010ee8975e1bccc3706&album_id=1968878"}},
 			wantMediaMeta: &meta.MediaMeta{
 				Title:       "南山忆",
 				Description: "许嵩 - 南山忆",
@@ -58,7 +58,7 @@ func TestCore_FetchMetaAndResourceInfo(t *testing.T) {
 		},
 		{
 			name:   "Test song",
-			fields: fields{Opts: &args.Options{Url: "https://www.kugou.com/song/#hash=85E3519452F6B74790775061D882A4C2&album_id=14340507"}},
+			fields: fields{Opts: &args.Options{Url: "https://www.kugou.com/song/#hash=dd95a1368dfa32d5dfed3c5cdf8ab308&album_id=14340507"}},
 			wantMediaMeta: &meta.MediaMeta{
 				Title:       "残缺的彩虹",
 				Description: "陈绮贞 - 残缺的彩虹",

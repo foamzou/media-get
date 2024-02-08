@@ -195,3 +195,11 @@ type SongInfo struct {
 		MaterialValidStatus bool     `json:"materialValidStatus"`
 	} `json:"resource"`
 }
+
+type SongResources struct {
+	Code     string `json:"code"`
+	Info     string `json:"info"`
+	Resource []struct {
+		AudioUrl string `json:"audioUrl"`
+	} `json:"resource"`
+}

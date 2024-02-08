@@ -28,7 +28,7 @@ func TestCore_FetchMetaAndResourceInfo(t *testing.T) {
 				Description: "【致我们单纯的小美好】主题曲：我多喜欢你，你会知道",
 				Duration:    223,
 				CoverUrl:    "jpeg",
-				Artist:      "环球音乐宅急送",
+				Artist:      "音乐宅急送",
 				Album:       "抖音Video",
 				Audios: []meta.Audio{{
 					Url: ".mp3",

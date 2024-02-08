@@ -23,7 +23,7 @@ func TestCore_SearchSong(t *testing.T) {
 	}{
 		{
 			name:   "Test search song",
-			fields: fields{Opts: &args.Options{Search: args.Search{Keyword: "星座书上", Type: "song"}}},
+			fields: fields{Opts: &args.Options{Search: args.Search{Keyword: "星座书上 许嵩", Type: "song"}}},
 			wantSongItem: &meta.SearchSongItem{
 				Name:   "星座书上",
 				Artist: "许嵩",

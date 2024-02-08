@@ -34,7 +34,7 @@ func TestCore_FetchMetaAndResourceInfo(t *testing.T) {
 			},
 		},
 		{
-			fields: fields{Opts: &args.Options{Url: "https://b23.tv/dtPFsPH"}},
+			fields: fields{Opts: &args.Options{Url: "https://b23.tv/Qi3Frq1"}},
 			wantMediaMeta: &meta.MediaMeta{
 				Title:       "当当：虽然我绝育了，但是不妨碍我有女朋友呀！",
 				Description: "-",

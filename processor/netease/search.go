@@ -9,7 +9,7 @@ import (
 	"github.com/foamzou/audio-get/utils"
 )
 
-const APISearch = "https://music.163.com/weapi/cloudsearch/get/web"
+const APISearch = "https://interface.music.163.com/weapi/search/get"
 
 func (c *Core) SearchSong() ([]*meta.SearchSongItem, error) {
 	var searchSongItems []*meta.SearchSongItem
@@ -41,10 +41,10 @@ func (c *Core) SearchSong() ([]*meta.SearchSongItem, error) {
 	for _, item := range searchSongResponse.Result.Songs {
 		searchSongItems = append(searchSongItems, &meta.SearchSongItem{
 			Name:              item.Name,
-			Artist:            item.Ar[0].Name,
-			Album:             item.Al.Name,
-			Duration:          item.Dt / 1000,
-			ResourceForbidden: item.Privilege.Subp == 0,
+			Artist:            item.Artists[0].Name,
+			Album:             item.Album.Name,
+			Duration:          item.Duration / 1000,
+			ResourceForbidden: false, // FIXME: can't get the real value, set to false temporarily
 			Url:               fmt.Sprintf("https://music.163.com/#/song?id=%d", item.Id),
 			Source:            consts.SourceNameNetease,
 		})

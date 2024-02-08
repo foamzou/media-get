@@ -26,10 +26,22 @@ func TestCore_FetchMetaAndResourceInfo(t *testing.T) {
 			wantMediaMeta: &meta.MediaMeta{
 				Title:       "枫",
 				Description: "枫",
-				Duration:    277,
+				Duration:    275,
 				Artist:      "周杰伦",
 				Album:       "十一月的萧邦",
-				Audios:      []meta.Audio{{Url: ".mp3"}},
+				Audios:      []meta.Audio{{Url: ".mp3", NotAvailable: true}},
+			},
+		},
+		{
+			name:   "Test song",
+			fields: fields{Opts: &args.Options{Url: "https://music.migu.cn/v3/music/song/6005751LTG9"}},
+			wantMediaMeta: &meta.MediaMeta{
+				Title:       "I Remember",
+				Description: "I Remember",
+				Duration:    306,
+				Artist:      "飞儿乐团",
+				Album:       "Better Life",
+				Audios:      []meta.Audio{{Url: ".mp3", NotAvailable: false}},
 			},
 		},
 	}

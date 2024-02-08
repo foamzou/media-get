@@ -30,6 +30,21 @@ func HttpGet(source, url string, headers map[string]string) (string, error) {
 	return resp.String(), nil
 }
 
+func HttpHead(source, url string, headers map[string]string) error {
+	client := createClient(source, true)
+	resp, err := client.R().
+		SetHeaders(headers).
+		Head(url)
+
+	if err != nil {
+		return err
+	}
+	if !resp.IsSuccess() {
+		return fmt.Errorf("http code should be 2xx, got %d", resp.StatusCode())
+	}
+	return nil
+}
+
 func GetLocation(source, url string, headers map[string]string) (string, error) {
 	client := createClient(source, false)
 	client.SetRedirectPolicy(resty.NoRedirectPolicy())

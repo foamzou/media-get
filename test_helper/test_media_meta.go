@@ -21,6 +21,7 @@ func TestMediaMeta(t *testing.T, gotMediaMeta, wantMediaMeta *meta.MediaMeta) {
 		{"Artist", gotMediaMeta.Artist, wantMediaMeta.Artist, "="},
 		{"Album", gotMediaMeta.Album, wantMediaMeta.Album, "="},
 		{"Audios.Url", gotMediaMeta.Audios[0].Url, wantMediaMeta.Audios[0].Url, "contain"},
+		{"Audios.NotAvailable", gotMediaMeta.Audios[0].NotAvailable, wantMediaMeta.Audios[0].NotAvailable, "="},
 	}
 	if wantMediaMeta.Videos != nil && len(wantMediaMeta.Videos) >= 1 {
 		checkList = append(checkList, CheckStruct{"Videos.Url", gotMediaMeta.Videos[0].Url, wantMediaMeta.Videos[0].Url, "contain"})

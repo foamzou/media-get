@@ -25,7 +25,7 @@ func TestCore_SearchSong(t *testing.T) {
 			name:   "Test search video",
 			fields: fields{Opts: &args.Options{Search: args.Search{Keyword: "珊瑚海 周杰伦", Type: "song"}}},
 			wantSongItem: &meta.SearchSongItem{
-				Name:   "【1080P修复】周杰伦 梁心颐 - 珊瑚海MV 修复版",
+				Name:   "【4K修复】周杰伦 梁心颐 - 珊瑚海 MV 2160P修复版",
 				Artist: "zyl2012",
 				Url:    "bilibili",
 				Source: consts.SourceNameBilibili,
@@ -33,10 +33,10 @@ func TestCore_SearchSong(t *testing.T) {
 		},
 		{
 			name:   "Test search video",
-			fields: fields{Opts: &args.Options{Search: args.Search{Keyword: "热带雨林", Type: "song"}}},
+			fields: fields{Opts: &args.Options{Search: args.Search{Keyword: "4K收藏级画质】回味经典，S.H.E《热带雨林》万人大合唱", Type: "song"}}},
 			wantSongItem: &meta.SearchSongItem{
-				Name:   "【S.H.E】热带雨林-720P修复版 周杰伦作曲",
-				Artist: "zyl2012",
+				Name:   "【4K收藏级画质】回味经典，S.H.E《热带雨林》万人大合唱！！！",
+				Artist: "狂音乐",
 				Url:    "bilibili",
 				Source: consts.SourceNameBilibili,
 			},

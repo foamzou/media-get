@@ -22,8 +22,9 @@ type MediaMeta struct {
 }
 
 type Audio struct {
-	Url     string `json:"url"`
-	BitRate int    `json:"bit_rate"` // kbps
+	Url          string `json:"url"`
+	BitRate      int    `json:"bit_rate"` // kbps
+	NotAvailable bool   `json:"not_available"`
 }
 
 type Video struct {
@@ -32,4 +33,5 @@ type Video struct {
 	Height         int    `json:"height"`
 	Ratio          string `json:"ratio"`
 	NeedExtraAudio bool   `json:"need_extra_audio"`
+	NotAvailable   bool   `json:"not_available"`
 }

@@ -17,8 +17,9 @@ release:
 	CGO_ENABLED=0 GOARCH=arm64 GOOS=linux go build -trimpath -ldflags "-s -w" -o ${LINUX_ARM64_BIN} main.go
 
 	CGO_ENABLED=0 GOARCH=amd64 GOOS=windows go build -trimpath -ldflags "-s -w" -o ${WIN_BIN} main.go
-	upx ${MAC_AMD64_BIN}
-	upx ${MAC_ARM64_BIN}
+#   upx 尚不支持 macos 最新版本，先不做压缩
+#	upx ${MAC_AMD64_BIN}
+#	upx ${MAC_ARM64_BIN}
 	upx ${LINUX_AMD64_BIN}
 	upx ${LINUX_ARM64_BIN}
 	upx ${WIN_BIN}

@@ -23,9 +23,9 @@ func TestCore_SearchSong(t *testing.T) {
 	}{
 		{
 			name:   "Test search video",
-			fields: fields{Opts: &args.Options{Search: args.Search{Keyword: "七朵花《我只想要》是多少人的回忆", Type: "song"}}},
+			fields: fields{Opts: &args.Options{Search: args.Search{Keyword: "徐子骞被天瑜坚强乐观的性格吸引，金枝妈妈也有意撮合两人", Type: "song"}}},
 			wantSongItem: &meta.SearchSongItem{
-				Name:   "七朵花《我只想要》是多少人的回忆#音乐推荐 #经典音乐#情感音乐#热门歌曲#抖音热歌#音乐mv#音乐 ",
+				Name:   "子骞在和天瑜相处的时间里，渐渐被她乐观开朗的性格吸引， #怀旧经典影视 #陈乔恩 #明道 #精彩片段",
 				Url:    "douyin",
 				Source: consts.SourceNameDouyin,
 			},
