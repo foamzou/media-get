@@ -20,9 +20,9 @@ func GetCurrentDir() (string, error) {
 }
 
 func FilterUnexpectedChar(path string) string {
-	path = strings.ReplaceAll(path, " ", "")
-	path = strings.ReplaceAll(path, ".", "")
-	path = strings.ReplaceAll(path, "/", "")
-	path = strings.ReplaceAll(path, "?", "")
+	invalidChars := []string{" ", ".", "/", "?", "\\", ":", "*", "\"", "<", ">", "|"}
+	for _, char := range invalidChars {
+		path = strings.ReplaceAll(path, char, "")
+	}
 	return path
 }
