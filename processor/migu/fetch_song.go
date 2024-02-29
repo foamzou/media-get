@@ -15,15 +15,15 @@ const (
 	ApiUrlSong = "https://c.musicapp.migu.cn/MIGUM2.0/v1.0/content/resourceinfo.do?copyrightId=%s&resourceType=2"
 )
 
-func (c *Core) fetchFromSong() (mediaMeta *meta.MediaMeta, err error) {
-	songId := utils.RegexSingleMatchIgnoreError(c.Opts.Url, `song/(.+)`, "0")
+func (c *Core) fetchFromSong(url string) (mediaMeta *meta.MediaMeta, err error) {
+	songId := utils.RegexSingleMatchIgnoreError(url, `song/(.+)`, "0")
 	if songId == "0" {
 		return
 	}
 
 	songJson, err := utils.HttpGet(consts.SourceNameMigu, fmt.Sprintf(ApiUrlSong, songId), map[string]string{
 		"user-agent": consts.UAMac,
-		"referer":    c.Opts.Url,
+		"referer":    url,
 	})
 	if err != nil {
 		return nil, err
@@ -52,7 +52,7 @@ func (c *Core) fetchFromSong() (mediaMeta *meta.MediaMeta, err error) {
 		ResourceType: consts.ResourceTypeAudio,
 		Headers: map[string]string{
 			"user-agent": consts.UAMac,
-			"referer":    c.Opts.Url,
+			"referer":    url,
 		},
 	}
 

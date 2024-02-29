@@ -26,7 +26,7 @@ func (c *Core) Domains() []string {
 
 func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error) {
 	if strings.Contains(c.Opts.Url, "/song/") {
-		return c.fetchFromSong()
+		return c.fetchFromSong(c.Opts.Url)
 	}
 	return nil, err
 }

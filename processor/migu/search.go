@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/url"
+	"sync"
 
 	"github.com/foamzou/audio-get/consts"
 	"github.com/foamzou/audio-get/meta"
@@ -40,20 +41,35 @@ func (c *Core) SearchSong() ([]*meta.SearchSongItem, error) {
 		return nil, err
 	}
 
+	var mutex sync.Mutex
+	wg := sync.WaitGroup{}
 	for _, item := range searchSongResponse.Data.SongsData.Items {
-		artist := ""
-		if len(item.Singers) > 0 {
-			artist = item.Singers[0].Name
-		}
-		searchSongItems = append(searchSongItems, &meta.SearchSongItem{
-			Name:     item.Name,
-			Artist:   artist,
-			Album:    item.Album.Name,
-			Duration: 0, // unknown in the API
-			Url:      fmt.Sprintf("https://music.migu.cn/v3/music/song/%s", item.CopyrightId),
-			Source:   consts.SourceNameMigu,
-		})
+		wg.Add(1)
+		item := item
+		go func() {
+			defer func() {
+				wg.Done()
+			}()
+			artist := ""
+			if len(item.Singers) > 0 {
+				artist = item.Singers[0].Name
+			}
+			songUrl := fmt.Sprintf("https://music.migu.cn/v3/music/song/%s", item.CopyrightId)
+			songMeta, _ := c.fetchFromSong(songUrl)
+			mutex.Lock()
+			searchSongItems = append(searchSongItems, &meta.SearchSongItem{
+				Name:              item.Name,
+				Artist:            artist,
+				Album:             item.Album.Name,
+				Duration:          songMeta.Duration,
+				Url:               songUrl,
+				Source:            consts.SourceNameMigu,
+				ResourceForbidden: songMeta.ResourceForbidden,
+			})
+			mutex.Unlock()
+		}()
 	}
+	wg.Wait()
 
 	return searchSongItems, nil
 }
