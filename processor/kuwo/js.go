@@ -1,144 +1,96 @@
 package kuwo
 
 import (
-	"fmt"
+	"crypto/md5"
+	"encoding/hex"
+	"io/ioutil"
+	"os"
+	"path/filepath"
+	"strings"
 
-	"github.com/dop251/goja"
 	"github.com/foamzou/audio-get/logger"
+	"github.com/foamzou/audio-get/utils"
 )
 
 var codeJS = `
-// the function is for fix 1.7118116959910114e+99 -> 1.71181169599101e+99
-function normalizeParseIntToString(numberString) {
-  const match = numberString.match(/^(\d+\.\d{14})(\d*)e([+-]?\d+)$/);
-
-  if (match) {
-    return match[1] + "e" + match[3];
-  }
-
-  return numberString;
-}
-
-function encryptMessage(input, password) {
-    const debugList = [];
-    const dl = (m) => {
-        debugList.push(m);
-    }
-    const ed = () => {
-        return debugList.join("\n");
-    }
-
-    if (password == null || password.length === 0) {
+function h(t, e) {
+    if (e == null || e.length <= 0) {
       console.log("Please enter a password with which to encrypt the message.");
       return null;
     }
-  
-    let numericPassword = "";
-    for (let i = 0; i < password.length; i++) {
-      numericPassword += password.charCodeAt(i).toString();
+    for (var n = "", i = 0; i < e.length; i++) {
+      n += e.charCodeAt(i).toString();
     }
-    const r = Math.floor(numericPassword.length / 5);
-    const o = parseInt(
-      numericPassword.charAt(r) +
-        numericPassword.charAt(2 * r) +
-        numericPassword.charAt(3 * r) +
-        numericPassword.charAt(4 * r) +
-        numericPassword.charAt(5 * r)
-    );
-  
-    const l = Math.ceil(password.length / 2);
-    const c = Math.pow(2, 31) - 1;
-  
+    var r = Math.floor(n.length / 5);
+    var o = parseInt(n.charAt(r) + n.charAt(r * 2) + n.charAt(r * 3) + n.charAt(r * 4) + n.charAt(r * 5));
+    var l = Math.ceil(e.length / 2);
+    var c = Math.pow(2, 31) - 1;
     if (o < 2) {
-      console.log(
-        "Algorithm cannot find a suitable hash. Please choose a different password.\nPossible considerations are to choose a more complex or longer password."
-      );
+      console.log("Algorithm cannot find a suitable hash. Please choose a different password. \nPossible considerations are to choose a more complex or longer password.");
       return null;
     }
-  
-    let randomNum = Math.round(1e9 * Math.random()) % 1e8;
-	randomNum = 91610361; // fixed this value
-    numericPassword += randomNum.toString();
-
-    let counter = 0;
-    while (numericPassword.length > 10) {
-        dl("sss|" + numericPassword)
-        numericPassword = normalizeParseIntToString((
-            parseInt(numericPassword.substring(0, 10)) +
-            parseInt(numericPassword.substring(10))
-            ).toString());
-        dl("eee|" + numericPassword)
-        if (counter++ > 20) {
-			break;
-    	}
-	}
-    dl(numericPassword.toString())
-    
-    numericPassword = (o * numericPassword + l) % c;
-    dl(numericPassword.toString())
-
-    let encryptedMessage = "";
-    let hexValue = "";
-    for (let i = 0; i < input.length; i++) {
-      hexValue = parseInt(input.charCodeAt(i) ^ Math.floor((numericPassword / c) * 255));
-      if (hexValue < 16) {
-        encryptedMessage += "0" + hexValue.toString(16);
-      } else {
-        encryptedMessage += hexValue.toString(16);
-      }
-  
-      numericPassword = (o * numericPassword + l) % c;
+    var d = Math.round(Math.random() * 1000000000) % 100000000;
+    for (n += d; n.length > 10;) {
+      n = (parseInt(n.substring(0, 10)) + parseInt(n.substring(10, n.length))).toString();
     }
-    randomNum = randomNum.toString(16);
-  
-    while (randomNum.length < 8) {
-      randomNum = "0" + randomNum;
+    n = (o * n + l) % c;
+    var h = "";
+    var f = "";
+    for (i = 0; i < t.length; i++) {
+      f += (h = parseInt(t.charCodeAt(i) ^ Math.floor(n / c * 255))) < 16 ? "0" + h.toString(16) : h.toString(16);
+      n = (o * n + l) % c;
     }
-	dl(randomNum)
-    //return ed();
-    return encryptedMessage + randomNum;
+    for (d = d.toString(16); d.length < 8;) {
+      d = "0" + d;
+    }
+    return f += d;
   }
 
-function findCookieValue(cookie, name) {
-    const cookieString = cookie;
-    const cookieName = name + '=';
-    let startIndex = cookieString.indexOf(cookieName);
-    
-    if (startIndex !== -1) {
-      startIndex = startIndex + cookieName.length;
-      let endIndex = cookieString.indexOf(";", startIndex);
-      
-      if (endIndex === -1) {
-        endIndex = cookieString.length;
-      }
-      
-      return decodeURIComponent(cookieString.substring(startIndex, endIndex));
+  function v(t, cookie) {
+    const e = cookie;
+    let n = e.indexOf(t + "=");
+    if (n !== -1) {
+      n = n + t.length + 1;
+      let r = e.indexOf(";", n);
+      return r === -1 && (r = e.length), unescape(e.substring(n, r));
     }
-    
     return null;
   }
 
-function main(cookie, hmCookie) {
-    return encryptMessage(findCookieValue(cookie, hmCookie), hmCookie);
-}
+  function main(cookie, hmCookie) {
+      dd = v(hmCookie, cookie)
+      return h(dd, hmCookie);
+  }
+  console.log(main(process.argv[2], process.argv[3]));
 `
 
 // genSecretHeader
 // hmCookie format: Hm_Iuvt_cdb524f42f0cer9b268e4v7y735ewrq2324
 func genSecretHeader(cookie string, hmCookie string) string {
-	vm := goja.New()
+	// 计算jsCode的MD5哈希值
+	hasher := md5.New()
+	hasher.Write([]byte(codeJS))
+	// 将哈希值转换为十六进制并得到文件名
+	md5Hash := hex.EncodeToString(hasher.Sum(nil))
+	filename := filepath.Join(os.TempDir(), "media-get-"+md5Hash+".js")
 
-	_, err := vm.RunString(codeJS) // executes a script on the global context
+	// 如果文件不存在则创建
+	if _, err := os.Stat(filename); os.IsNotExist(err) {
+		err := ioutil.WriteFile(filename, []byte(codeJS), 0644)
+		if err != nil {
+			logger.Error("Failed to create file", filename, ":", err)
+			return ""
+		}
+	}
+	secret, err := utils.ExecCmd("node", filename, cookie, hmCookie)
 	if err != nil {
-		logger.Warn("genSecretHeader failed", err)
+		logger.Error("Failed to execute js code:", err)
 		return ""
 	}
-	val, err := vm.RunString(fmt.Sprintf("main('%s', '%s')", cookie, hmCookie))
-	if err != nil {
-		logger.Warn("genSecretHeader failed", err)
-		return ""
-	}
+	return strings.Trim(secret, "\n")
+}
 
-	//nolint
-	return val.Export().(string)
+func nodeEnvAvailable() bool {
+	_, err := utils.ExecCmd("node", "-v")
+	return err == nil
 }
