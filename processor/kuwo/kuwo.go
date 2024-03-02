@@ -13,7 +13,7 @@ import (
 
 const (
 	InfoAPI = "http://m.kuwo.cn/newh5/singles/songinfoandlrc?musicId=%d&httpsStatus=1&reqId=%s"
-	PlayAPI = "http://www.kuwo.cn/api/v1/www/music/playUrl?mid=%d&type=music&httpsStatus=1&reqId=%s"
+	PlayAPI = "http://www.kuwo.cn/api/v1/www/music/playUrl?mid=%d&type=music&httpsStatus=1&reqId=%s&plat=web_www"
 )
 
 type Core struct {
@@ -33,6 +33,9 @@ func (c *Core) GetSourceName() string {
 }
 
 func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error) {
+	if !nodeEnvAvailable() {
+		return nil, errors.New("node env is not available")
+	}
 	songID, err := getSongID(c.Opts.Url)
 	if err != nil {
 		return nil, err
