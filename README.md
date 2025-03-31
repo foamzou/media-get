@@ -99,17 +99,17 @@ make build
 ```
 
 ## 支持的网站
-Site | Source Name | Audio | Video | Search
-:------------ | :------------- | :------------- | :------------- | :-------------
-[b站](https://www.bilibili.com/) | bilibili | ✅ | ✅ | ✅
-[youtube](https://www.youtube.com/) |youtube | ✅ | ✅ | ✅
-[网易云音乐](https://music.163.com/) |netease | ✅ | ✅ | ✅
-[qq音乐](https://y.qq.com/) | qq |✅ | ⌛ | ✅
-[抖音](https://www.douyin.com/) | douyin |✅ | ✅  | ✅
-[咪咕音乐](https://music.migu.cn/) |migu | ✅ | ⌛ | ✅
-[酷狗](https://www.kugou.com/) |kugou | ✅ | ⌛ | ✅
-[酷我](https://www.kuwo.cn/) | kuwo |✅ | ⌛ | ✅
-[全民K歌](https://kg.qq.com/) | qmkg |✅ | ⌛ | ⌛
+Site | Source Name | Audio | Video | Search | Environment dependencies
+:------------ | :------------- | :------------- | :------------- | :------------- | :-------------
+[b站](https://www.bilibili.com/) | bilibili | ✅ | ✅ | ✅ | -
+[youtube](https://www.youtube.com/) |youtube | ✅ | ✅ | ✅| -
+[网易云音乐](https://music.163.com/) |netease | ✅ | ✅ | ✅ | -
+[qq音乐](https://y.qq.com/) | qq |✅ | ⌛ | ✅ | -
+[抖音](https://www.douyin.com/) | douyin |✅ | ✅  | ✅ | -
+[咪咕音乐](https://music.migu.cn/) |migu | ✅ | ⌛ | ✅ | -
+[酷狗](https://www.kugou.com/) |kugou | ✅ | ⌛ | ✅ | -
+[酷我](https://www.kuwo.cn/) | kuwo |✅ | ⌛ | ✅ | 需要先安装 Node.js
+[全民K歌](https://kg.qq.com/) | qmkg |✅ | ⌛ | ⌛ | -
 
 
 ## 致谢
