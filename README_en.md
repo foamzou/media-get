@@ -99,17 +99,17 @@ make build
 ```
 
 ## Support source
-Site | Source Name | Audio | Video | Search
-:------------ | :------------- | :------------- | :------------- | :------------- 
-[bilibili](https://www.bilibili.com/) | bilibili | ✅ | ✅ | ✅
-[youtube](https://www.youtube.com/) |youtube | ✅ | ✅ | ✅
-[netease](https://music.163.com/) |netease | ✅ | ✅ | ✅
-[qq music](https://y.qq.com/) | qq |✅ | ⌛ | ✅
-[douyin](https://www.douyin.com/) | douyin |✅ | ✅  | ✅
-[migu music](https://music.migu.cn/) |migu | ✅ | ⌛ | ✅
-[kugou](https://www.kugou.com/) |kugou | ✅ | ⌛ | ✅
-[kuwo](https://www.kuwo.cn/) | kuwo |✅ | ⌛ | ✅
-[qmkg](https://kg.qq.com/) | qmkg |✅ | ⌛ | ⌛
+Site | Source Name | Audio | Video | Search | Environment dependencies
+:------------ | :------------- | :------------- | :------------- | :------------- | :------------- 
+[bilibili](https://www.bilibili.com/) | bilibili | ✅ | ✅ | ✅ | -
+[youtube](https://www.youtube.com/) |youtube | ✅ | ✅ | ✅ | -
+[netease](https://music.163.com/) |netease | ✅ | ✅ | ✅ | -
+[qq music](https://y.qq.com/) | qq |✅ | ⌛ | ✅ | -
+[douyin](https://www.douyin.com/) | douyin |✅ | ✅  | ✅ | -
+[migu music](https://music.migu.cn/) |migu | ✅ | ⌛ | ✅ | -
+[kugou](https://www.kugou.com/) |kugou | ✅ | ⌛ | ✅ | -
+[kuwo](https://www.kuwo.cn/) | kuwo |✅ | ⌛ | ✅ | Requires Node.js
+[qmkg](https://kg.qq.com/) | qmkg |✅ | ⌛ | ⌛ | -
 
 
 ## Thanks
