@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func Test_h(t *testing.T) {
+func Test_GenSecretHeader(t *testing.T) {
 	type args struct {
 		t string
 		e string
@@ -26,7 +26,11 @@ func Test_h(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := genSecretHeader(tt.args.t, tt.args.e)
+			c := &crypto{
+				cookie: tt.args.t,
+				key:    tt.args.e,
+			}
+			got := c.GenSecretHeader()
 			if !strings.HasPrefix(got, tt.wantSub) {
 				t.Errorf("h() = %v, no prefix with %v", got, tt.wantSub)
 			}

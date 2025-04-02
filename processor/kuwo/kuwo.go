@@ -33,9 +33,6 @@ func (c *Core) GetSourceName() string {
 }
 
 func (c *Core) FetchMetaAndResourceInfo() (mediaMeta *meta.MediaMeta, err error) {
-	if !nodeEnvAvailable() {
-		return nil, errors.New("node env is not available")
-	}
 	songID, err := getSongID(c.Opts.Url)
 	if err != nil {
 		return nil, err
@@ -90,7 +87,12 @@ func (c *Core) getSongUrl(songID int) (songUrl string, err error) {
 		return "", err
 	}
 	cookieKey := utils.RegexSingleMatchIgnoreError(cookie, "(Hm_.+?)=", "Hm_Iuvt_cdb524f42f0cer9b268e4v7y735ewrq2324")
-	secret := genSecretHeader(cookie, cookieKey)
+
+	cp := &crypto{
+		cookie: cookie,
+		key:    cookieKey,
+	}
+	secret := cp.GenSecretHeader()
 
 	kuwoMetaJson, err := utils.HttpGet(consts.SourceNameKuwo, fmt.Sprintf(PlayAPI, songID, reqID), map[string]string{
 		"user-agent": consts.UAMac,
