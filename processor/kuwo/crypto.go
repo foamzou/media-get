@@ -8,6 +8,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/foamzou/audio-get/logger"
 )
 
 type crypto struct {
@@ -18,8 +20,7 @@ type crypto struct {
 // var hash = parseInt(numericKey.charAt(r) + numericKey.charAt(r * 2) + numericKey.charAt(r * 3) + numericKey.charAt(r * 4) + numericKey.charAt(r * 5));
 func (c *crypto) createKeyHash(key string) (float64, error) {
 	if len(key) == 0 {
-		println("Please enter a password with which to encrypt the message.")
-		return 0, fmt.Errorf("key is empty")
+		return 0, fmt.Errorf("please enter a password with which to encrypt the message")
 	}
 	r := len(key) / 5
 	digest := ""
@@ -33,16 +34,14 @@ func (c *crypto) createKeyHash(key string) (float64, error) {
 	}
 
 	if hash < 2 {
-		println("Algorithm cannot find a suitable hash. Please choose a different password." +
-			"\nPossible considerations are to choose a more complex or longer password.")
-		return 0, fmt.Errorf("multiplier is less than 2")
+		return 0, fmt.Errorf("algorithm cannot find a suitable hash. Please choose a different password. Possible considerations are to choose a more complex or longer password")
 	}
 	return hash, nil
 }
 
 func (c *crypto) encrypt(text string, key string) string {
 	if len(key) == 0 {
-		println("Please enter a password with which to encrypt the message.")
+		logger.Error("Please enter a password with which to encrypt the message.")
 		return ""
 	}
 
@@ -55,7 +54,7 @@ func (c *crypto) encrypt(text string, key string) string {
 	// hash
 	hash, err := c.createKeyHash(numericKey)
 	if err != nil {
-		println("Error creating key hash:", err)
+		logger.Error("Error creating key hash:", err)
 		return ""
 	}
 
@@ -121,7 +120,7 @@ func (c *crypto) calculateBaseNumber(baseNumber string, salt float64) float64 {
 	}
 	baseNumberFloat, err := strconv.ParseFloat(baseNumber, 64)
 	if err != nil {
-		fmt.Println("Error parsing base number:", err)
+		logger.Error("Error parsing base number:", err)
 		return 0
 	}
 	return baseNumberFloat
@@ -174,7 +173,7 @@ func (c *crypto) createRawHeader(key string, cookie string) string {
 		// Unescape using URL unescaping.
 		unescaped, err := url.QueryUnescape(sub)
 		if err != nil {
-			println("Error unescaping cookie value:", err)
+			logger.Error("Error unescaping cookie value:", err)
 			return ""
 		}
 		return unescaped
