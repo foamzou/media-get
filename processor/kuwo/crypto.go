@@ -15,9 +15,34 @@ type crypto struct {
 	key    string
 }
 
+// var hash = parseInt(numericKey.charAt(r) + numericKey.charAt(r * 2) + numericKey.charAt(r * 3) + numericKey.charAt(r * 4) + numericKey.charAt(r * 5));
+func (c *crypto) createKeyHash(key string) (float64, error) {
+	if len(key) == 0 {
+		println("Please enter a password with which to encrypt the message.")
+		return 0, fmt.Errorf("key is empty")
+	}
+	r := len(key) / 5
+	digest := ""
+	for i := 1; i <= 5 && r*i < len(key); i++ {
+		digest += string(key[r*i])
+	}
+
+	hash, err := strconv.ParseFloat(digest, 64)
+	if err != nil {
+		return 0, err
+	}
+
+	if hash < 2 {
+		println("Algorithm cannot find a suitable hash. Please choose a different password." +
+			"\nPossible considerations are to choose a more complex or longer password.")
+		return 0, fmt.Errorf("multiplier is less than 2")
+	}
+	return hash, nil
+}
+
 func (c *crypto) encrypt(text string, key string) string {
 	if len(key) == 0 {
-		fmt.Println("Please enter a password with which to encrypt the message.")
+		println("Please enter a password with which to encrypt the message.")
 		return ""
 	}
 
@@ -27,18 +52,10 @@ func (c *crypto) encrypt(text string, key string) string {
 		numericKey += strconv.Itoa(int(ch))
 	}
 
-	// multiplier
-	r := len(numericKey) / 5
-	multiplierStr := string(numericKey[r]) + string(numericKey[r*2]) + string(numericKey[r*3]) + string(numericKey[r*4]) + string(numericKey[r*5])
-	multiplier, err := strconv.ParseFloat(multiplierStr, 64)
+	// hash
+	hash, err := c.createKeyHash(numericKey)
 	if err != nil {
-		fmt.Println("Error parsing o:", err)
-		return ""
-	}
-
-	if multiplier < 2 {
-		fmt.Println("Algorithm cannot find a suitable hash. Please choose a different password." +
-			"\nPossible considerations are to choose a more complex or longer password.")
+		println("Error creating key hash:", err)
 		return ""
 	}
 
@@ -50,8 +67,7 @@ func (c *crypto) encrypt(text string, key string) string {
 
 	salt := c.createSalt()
 	baseNumber := c.calculateBaseNumber(numericKey, salt)
-	baseNumber = math.Mod(baseNumber*multiplier+addend, modulus)
-	// return fmt.Sprintf("%d,%d,%d,%d,%d", d, N2, l, c, o)
+	baseNumber = math.Mod(baseNumber*hash+addend, modulus)
 
 	encryptedResult := ""
 	// Process each character in the text.
@@ -70,10 +86,10 @@ func (c *crypto) encrypt(text string, key string) string {
 		encryptedResult += hexPart
 
 		// Update the base number again for the next character.
-		baseNumber = math.Mod(multiplier*baseNumber+addend, modulus)
+		baseNumber = math.Mod(hash*baseNumber+addend, modulus)
 	}
 
-	// Convert d to hex string and pad with zeros until it is 8 characters.
+	// Convert salt to hex string and pad with zeros until it is 8 characters.
 	dHex := fmt.Sprintf("%x", int(salt))
 	for len(dHex) < 8 {
 		dHex = "0" + dHex
@@ -98,7 +114,7 @@ func (c *crypto) calculateBaseNumber(baseNumber string, salt float64) float64 {
 		secondPart, _ := c.jsParseInt10(baseNumber[10:])
 		addedUp := firstPart + secondPart
 		if addedUp >= 1e21 {
-			baseNumber = fmt.Sprintf("%.14e", addedUp)
+			baseNumber = strconv.FormatFloat(addedUp, 'g', -1, 64)
 		} else {
 			baseNumber = fmt.Sprintf("%.0f", addedUp)
 		}
@@ -158,7 +174,8 @@ func (c *crypto) createRawHeader(key string, cookie string) string {
 		// Unescape using URL unescaping.
 		unescaped, err := url.QueryUnescape(sub)
 		if err != nil {
-			return sub
+			println("Error unescaping cookie value:", err)
+			return ""
 		}
 		return unescaped
 	}
