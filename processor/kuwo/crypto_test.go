@@ -15,14 +15,14 @@ func Test_GenSecretHeader(t *testing.T) {
 		args    args
 		wantSub string
 	}{
-		// {
-		// 	name: "Test h",
-		// 	args: args{
-		// 		t: "Hm_Iuvt_cdb524f42f0cer9b268e4v7y735ewrq2324=rExGYaCYBn7w7DhFRnQmW7ZAiwjGSQj5; path=/; expires=Thu, 15 Feb 2024 06:55:29 GMT",
-		// 		e: "Hm_Iuvt_cdb524f42f0cer9b268e4v7y735ewrq2324",
-		// 	},
-		// 	wantSub: "f1918b031ccd94b4a4e26bece59b4e6f8ccacdbf102a90f3a97fbf4af718095a",
-		// },
+		{
+			name: "Test h",
+			args: args{
+				t: "Hm_Iuvt_cdb524f42f0cer9b268e4v7y735ewrq2324=rExGYaCYBn7w7DhFRnQmW7ZAiwjGSQj5; path=/; expires=Thu, 15 Feb 2024 06:55:29 GMT",
+				e: "Hm_Iuvt_cdb524f42f0cer9b268e4v7y735ewrq2324",
+			},
+			wantSub: "f1918b031ccd94b4a4e26bece59b4e6f8ccacdbf102a90f3a97fbf4af718095a",
+		},
 		{
 			name: "Test h 2",
 			args: args{
