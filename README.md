@@ -108,7 +108,7 @@ Site | Source Name | Audio | Video | Search | Environment dependencies
 [抖音](https://www.douyin.com/) | douyin |✅ | ✅  | ✅ | -
 [咪咕音乐](https://music.migu.cn/) |migu | ✅ | ⌛ | ✅ | -
 [酷狗](https://www.kugou.com/) |kugou | ✅ | ⌛ | ✅ | -
-[酷我](https://www.kuwo.cn/) | kuwo |✅ | ⌛ | ✅ | 需要先安装 Node.js
+[酷我](https://www.kuwo.cn/) | kuwo |✅ | ⌛ | ✅ | -
 [全民K歌](https://kg.qq.com/) | qmkg |✅ | ⌛ | ⌛ | -
 
 
